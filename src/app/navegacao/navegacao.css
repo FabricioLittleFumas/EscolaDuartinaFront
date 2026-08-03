@@ -1,0 +1,15 @@
+:host ::ng-deep .p-menubar,:host ::ng-deep  .p-menubar-root-list > .p-menubar-item-active > .p-menubar-submenu, .p-menubar-submenu > .p-menubar-item-active > .p-menubar-submenu{
+    background-color: #b884b7;
+    font-family: 'Dosis', sans-serif;
+    text-transform: uppercase;
+    text-align: center !important;
+    letter-spacing: 0.08em;
+}
+:host ::ng-deep .p-menubar-item-label {
+    color: floralwhite ;
+}
+:host ::ng-deep .p-menubar-root-list > .p-menubar-item > .p-menubar-item-content > .p-menubar-item-link:hover,
+:host ::ng-deep .p-ripple:hover{
+    background-color: #663c65;
+    border-radius: 5px;
+}

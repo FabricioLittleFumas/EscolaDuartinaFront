@@ -47,3 +47,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+@font-face {
+  font-family: 'Dosis';
+  src: url('./assets/fonts/Dosis-Regular.otf') format('openType');
+  font-weight: normal;
+  font-style: normal;
+}
