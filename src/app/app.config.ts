@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     providePrimeNG({ 
       theme: { preset: Aura } ,
-      license: '' 
+      license: 'eyJpZCI6ImZlMmE0MjJlLWM4YTItNGJjZC04YWYwLTAxZmE3NDNlZTJkYyIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3ODU3MzQ1MTAsImV4cCI6MTgxNzI3MDUxMH0.j09smPvHnAgbiBLjaZ-iYnJBXekOFy-INedBT6W9Kw77mpEVEd7o6RLhjrTvqY7rcQATVoQIWZ2SwAONPU3FBQ' 
     })
   ],
   

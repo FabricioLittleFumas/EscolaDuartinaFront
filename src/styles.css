@@ -53,3 +53,12 @@ table {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Arimo';
+  src: url('./assets/fonts/Arimo-Regular.ttf') format('trueType');
+  font-weight: normal;
+  font-style: normal;
+}
+*{
+	color: #26272C;
+}

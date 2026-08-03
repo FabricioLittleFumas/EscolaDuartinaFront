@@ -6,17 +6,36 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { MenuItem } from 'primeng/api';
-
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navegacao',
-  imports: [MenubarModule,InputTextModule,RippleModule,BadgeModule,AvatarModule],
+  imports: [MenubarModule,RippleModule,BadgeModule,AvatarModule,DialogModule,ButtonModule,InputTextModule,FormsModule],
   templateUrl: './navegacao.html',
   styleUrl: './navegacao.css',
 })
 export class Navegacao implements OnInit{
+    displayModal: boolean = false;
+    value: any;
+
+  showDialog() {
+    this.displayModal = true;
+  }
+
+  closeDialog() {
+    this.displayModal = false;
+  }
+
+  confirmDialog() {
+    // Lógica de confirmação
+    console.log('Confirmado!');
+    this.displayModal = false;
+  }
   items: MenuItem[] | undefined;
     ngOnInit() {
+        
         this.items = [
             {
                 label: 'Sabbag',
@@ -25,7 +44,7 @@ export class Navegacao implements OnInit{
             {
                 label: 'Alunos',
                 icon: 'pi pi-search',
-                badge: '3',
+                // badge: '3',
                 items: [
                     {
                         label: 'Core',
@@ -49,10 +68,15 @@ export class Navegacao implements OnInit{
             },
              {
                 label: 'Entrar',
-            
+                command: () => {
+                    this.showDialog();
+                }
             },
              {
                 label: 'Cadastrar',
+                 command: () => {
+                    this.showDialog();
+                }
               
             }
         ];

@@ -1,0 +1,26 @@
+:host ::ng-deep .p-datatable-table{
+    background-color: #b884b7;
+    font-family: 'Arimo', sans-serif;
+    text-transform: capitalize;
+    text-align: center !important;
+    /* letter-spacing: 0.08em; */
+}
+
+::ng-deep .p-datatable-tbody > tr:nth-child(odd) {
+    background-color: #d0c3d3 !important;
+}
+.titulo{
+    text-align: center;
+    font-family: 'Arimo', sans-serif;
+    font-size: 1.75em;
+    margin-top: 45px;
+}
+.titulo::after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: #26272C;
+   margin: 0 auto;
+   margin-top: 7px;
+}
