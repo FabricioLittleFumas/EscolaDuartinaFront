@@ -9,9 +9,13 @@ import { TableModule } from 'primeng/table';
   styleUrl: './lista-alunos.css',
 })
 export class ListaAlunos implements OnInit {
-  products: any;
+  alunos: any;
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
+    this.alunos = [{
+      nome: 'aluno 1',
+      unidade: 'Municipal',
+    }]
   }
   
 }
