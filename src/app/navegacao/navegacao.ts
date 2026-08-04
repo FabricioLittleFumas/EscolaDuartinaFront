@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
@@ -9,33 +9,43 @@ import { MenuItem } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { ModalEntrar } from '../modal-entrar/modal-entrar';
+import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
+
 
 @Component({
-  selector: 'app-navegacao',
-  imports: [MenubarModule,RippleModule,BadgeModule,AvatarModule,DialogModule,ButtonModule,InputTextModule,FormsModule],
-  templateUrl: './navegacao.html',
-  styleUrl: './navegacao.css',
+    selector: 'app-navegacao',
+    imports: [MenubarModule, RippleModule, BadgeModule,
+        AvatarModule, DialogModule, ButtonModule, InputTextModule, FormsModule, ModalEntrar, ModalCadastro],
+    templateUrl: './navegacao.html',
+    styleUrl: './navegacao.css',
 })
-export class Navegacao implements OnInit{
-    displayModal: boolean = false;
+export class Navegacao implements OnInit, AfterViewInit {
+   @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
+   @ViewChild('modalEntrar') modalCadastro!: ModalCadastro;
     value: any;
+    items: MenuItem[] | undefined;
 
-  showDialog() {
-    this.displayModal = true;
-  }
+    constructor(private cdr: ChangeDetectorRef) {}
 
-  closeDialog() {
-    this.displayModal = false;
-  }
+    ngAfterViewInit() {
+        console.log('=== MODAL DISPONÍVEL ===');
+        console.log('ModalEntrar:', this.modalEntrar);
+        console.log('displayModal inicial:', this.modalEntrar.displayModal);
+        this.cdr.detectChanges();
+    }
 
-  confirmDialog() {
-    // Lógica de confirmação
-    console.log('Confirmado!');
-    this.displayModal = false;
-  }
-  items: MenuItem[] | undefined;
+    onLoginConfirm(loginData: {email: string, senha: string}) {
+        console.log('Login confirmado:', loginData);
+        // Aqui você pode processar o login
+        // Exemplo: chamar um serviço de autenticação
+    }
+
+    onLoginCancel() {
+        console.log('Login cancelado');
+    }
+
     ngOnInit() {
-        
         this.items = [
             {
                 label: 'Sabbag',
@@ -44,7 +54,6 @@ export class Navegacao implements OnInit{
             {
                 label: 'Alunos',
                 icon: 'pi pi-search',
-                // badge: '3',
                 items: [
                     {
                         label: 'Core',
@@ -66,20 +75,34 @@ export class Navegacao implements OnInit{
                     }
                 ]
             },
-             {
+            {
                 label: 'Entrar',
                 command: () => {
-                    this.showDialog();
+                    console.log("=== CLICOU EM ENTRAR ===");
+                    if (this.modalEntrar) {
+                        console.log("Modal encontrado, chamando showDialog()");
+                        this.modalEntrar.showDialog();
+                        console.log("displayModal após showDialog:", this.modalEntrar.displayModal);
+                        this.cdr.detectChanges(); // Forçar atualização
+                    } else {
+                        console.error("ERRO: Modal não encontrado!");
+                    }
                 }
             },
-             {
+            {
                 label: 'Cadastrar',
-                 command: () => {
-                    this.showDialog();
+                command: () => {
+                    console.log("=== CLICOU EM CADASTRAR ===");
+                    if (this.modalCadastro) {
+                        console.log("Modal encontrado, chamando showDialog()");
+                        this.modalCadastro.showDialogCadastro();
+                        console.log("displayModal após showDialog:", this.modalCadastro.displayModal);
+                        this.cdr.detectChanges(); // Forçar atualização
+                    } else {
+                        console.error("ERRO: Modal não encontrado!");
+                    }
                 }
-              
             }
         ];
     }
-
 }

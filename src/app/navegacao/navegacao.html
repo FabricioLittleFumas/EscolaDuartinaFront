@@ -1,24 +1,24 @@
-<p-dialog 
+<!-- <p-dialog 
     header="Entrar" 
     [(visible)]="displayModal" 
     [modal]="true" 
     [closable]="true"
     [style]="{ width: '450px' }">
     
-    <!-- Conteúdo do modal -->
+  
     <p>Email</p>
     <input type="text" pInputText [(ngModel)]="value" />
-      <!-- Conteúdo do modal -->
+    
     <p>senha</p>
     <input type="text" pInputText [(ngModel)]="value" />
 
     
-    <!-- Footer com botões -->
+   
     <ng-template pTemplate="footer">
         <p-button label="Cancelar" icon="pi pi-times" (click)="closeDialog()" class="p-button-text"></p-button>
         <p-button label="Confirmar" icon="pi pi-check" (click)="confirmDialog()" class="p-button-success"></p-button>
     </ng-template>
-</p-dialog>
+</p-dialog> -->
 
 <p-menubar [model]="items">
             <ng-template #start >
@@ -27,7 +27,19 @@
             <ng-template #end>
                 <div class="flex items-center gap-2">
                     <input type="text" pInputText placeholder="Pesquisar" class="w-36" />
-                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                     shape="circle"  (click)="modalEntrar.showDialog()" />
                 </div>
             </ng-template>
         </p-menubar>
+ <app-modal-entrar 
+      #modalEntrar
+      (confirm)="onLoginConfirm($event)" 
+      (cancel)="onLoginCancel()">
+    </app-modal-entrar>
+ <app-modal-cadastro 
+      #modalCadastro
+      (confirm)="onLoginConfirm($event)" 
+      (cancel)="onLoginCancel()">
+    </app-modal-cadastro>
+  
