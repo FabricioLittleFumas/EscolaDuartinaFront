@@ -5,13 +5,16 @@
                     <th>Nome</th>
                      <th>Data de nascimento</th>
                     <th>Unidade</th>
-                  
+                  <th>Editar</th>
+                  <th>Excluir</th>
                 </tr>
             </ng-template>
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.data | date:'dd/MM/yyyy'}}</td>
+                     <td>{{ aluno.unidade }}</td>
+                        <td>{{ aluno.data | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                 </tr>
             </ng-template>

@@ -22,7 +22,7 @@ import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
 })
 export class Navegacao implements OnInit, AfterViewInit {
    @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
-   @ViewChild('modalEntrar') modalCadastro!: ModalCadastro;
+   @ViewChild('modalCadastro') modalCadastro!: ModalCadastro; 
     value: any;
     items: MenuItem[] | undefined;
 

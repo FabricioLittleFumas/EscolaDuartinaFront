@@ -6,7 +6,7 @@
     letter-spacing: 0.08em;
 }
 :host ::ng-deep .p-menubar-item-label {
-    color: floralwhite ;
+    color: floralwhite !important;
 }
 :host ::ng-deep .p-menubar-root-list > .p-menubar-item > .p-menubar-item-content > .p-menubar-item-link:hover,
 :host ::ng-deep .p-ripple:hover{

@@ -1,0 +1,49 @@
+
+  :host ::ng-deep .p-dialog-title{
+    text-align: center;
+    font-family: 'Arimo', sans-serif;
+    font-size: 1.75em;
+    margin-top: 45px;
+    margin: 0 auto;
+    font-weight: normal;
+}
+ :host ::ng-deep .p-dialog-title::after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: #26272C;
+   margin: 0 auto;
+   margin-top: 7px;
+}
+:host ::ng-deep  .field[_ngcontent-ng-c2695852423] label[_ngcontent-ng-c2695852423],
+  :host ::ng-deep  .field[_ngcontent-ng-c2695852423] label[_ngcontent-ng-c2695852423]{
+      /* background-color: #b884b7; */
+    display: block;
+    font-family: 'Arimo', sans-serif !important;
+    text-transform: capitalize !important;
+    text-align: center !important;
+    margin-top: 15px;
+ }
+  :host ::ng-deep .p-inputtext{
+    width: 250px;
+    display: block;
+    margin: 0 auto;
+ }
+ button{
+  background-color: #D0C3D3;
+  border: none;
+  display: block;
+  margin: 0 auto;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+ }
+
+ button:hover{
+    cursor: pointer;
+    background-color: #B884B7;
+    transition: 0.5s;
+ }
