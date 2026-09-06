@@ -5,6 +5,7 @@
                     <th>Nome</th>
                      <th>Data de nascimento</th>
                     <th>Unidade</th>
+                     <th>Inserir</th>
                      <th>Visualizar</th>
                   <th>Editar</th>
                   <th>Excluir</th>
@@ -15,18 +16,15 @@
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.dataSaida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
+                     <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span></td>
                      <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span></td>
                         <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span></td>
-                     <td><span class="pi pi-trash"></span></td>
+                     <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"></span></td>
                 </tr>
             </ng-template>
         </p-table>
 
-        <app-modal-view-aluno
-         #modalViewAluno> 
-
-        </app-modal-view-aluno>
-        <app-modal-edit-aluno
-        #modalEditAluno>
-
-        </app-modal-edit-aluno>
+        <app-modal-view-aluno #modalViewAluno></app-modal-view-aluno>
+        <app-modal-edit-aluno #modalEditAluno></app-modal-edit-aluno>
+        <app-modal-exclude-aluno #modalExcludeAluno></app-modal-exclude-aluno>
+        <app-modal-insert-aluno #modalInsertAluno></app-modal-insert-aluno>

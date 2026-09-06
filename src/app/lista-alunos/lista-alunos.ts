@@ -7,12 +7,14 @@ import { ChangeDetectorRef } from '@angular/core';
 import { ModalViewAluno } from '../modal-view-aluno/modal-view-aluno';
 import { RouterLink } from "@angular/router";
 import { ModalEditAluno } from '../modal-edit-aluno/modal-edit-aluno';
+import { ModalExcludeAluno } from '../modal-exclude-aluno/modal-exclude-aluno';
+import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno],
+  imports: [TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
   templateUrl: './lista-alunos.html',
   providers: [AlunoService],
   styleUrl: './lista-alunos.css',
