@@ -1,19 +1,16 @@
-import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-
-
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-modal-entrar',
-  imports: [CommonModule, FormsModule, DialogModule, ButtonModule, InputTextModule],
-  templateUrl: './modal-entrar.html',
-  styleUrl: './modal-entrar.css',
+  standalone: true,
+  imports: [ButtonModule, DialogModule,FormsModule],
+  selector: 'app-modal-view-aluno',
+  styleUrl: './modal-view-aluno.css',
+  templateUrl: './modal-view-aluno.html',
 })
-export class ModalEntrar {
+export class ModalViewAluno {
   @Output() confirm = new EventEmitter<{email: string, senha: string}>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -23,8 +20,9 @@ export class ModalEntrar {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  showDialog() {
-    console.log("=== INICIANDO SHOW DIALOG ===");
+  showDialog(alunos: any) {
+    console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
+    console.log(alunos);
     this.displayModal = true;
     this.email = '';
     this.senha = '';
@@ -45,16 +43,5 @@ export class ModalEntrar {
     console.log("displayModal definido como:", this.displayModal);
     this.cdr.detectChanges();
     this.cancel.emit();
-  }
-
-  confirmDialog() {
-    if (this.email && this.senha) {
-      console.log("Confirmando login:", { email: this.email, senha: this.senha });
-      this.confirm.emit({ email: this.email, senha: this.senha });
-      this.displayModal = false;
-      this.cdr.detectChanges();
-    } else {
-      alert('Por favor, preencha todos os campos');
-    }
   }
 }

@@ -3,7 +3,7 @@
             <ng-template #header>
                 <tr>
                     <th>Nome</th>
-                    
+                     <th>Data de nascimento</th>
                     <th>Unidade</th>
                      <th>Visualizar</th>
                   <th>Editar</th>
@@ -13,11 +13,20 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
-                   
+                    <td>{{ aluno.dataSaida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
-                     <td><span class="pi pi-eye"></span></td>
-                        <td><span class="pi pi-search"></span></td>
+                     <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span></td>
+                        <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span></td>
                      <td><span class="pi pi-trash"></span></td>
                 </tr>
             </ng-template>
         </p-table>
+
+        <app-modal-view-aluno
+         #modalViewAluno> 
+
+        </app-modal-view-aluno>
+        <app-modal-edit-aluno
+        #modalEditAluno>
+
+        </app-modal-edit-aluno>
