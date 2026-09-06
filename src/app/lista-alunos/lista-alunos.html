@@ -1,9 +1,9 @@
 <h1 class="titulo">Lista de Alunos</h1>
-<p-table styleClass="p-datatable-striped"  [value]="alunos" [tableStyle]="{ 'min-width': '50rem' }" >
+<p-table styleClass="p-datatable-striped"  [value]="alunos" >
             <ng-template #header>
                 <tr>
                     <th>Nome</th>
-                     <th>Data de nascimento</th>
+                    
                     <th>Unidade</th>
                      <th>Visualizar</th>
                   <th>Editar</th>
@@ -13,7 +13,7 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.data | date:'dd/MM/yyyy'}}</td>
+                   
                      <td>{{ aluno.unidade }}</td>
                      <td><span class="pi pi-eye"></span></td>
                         <td><span class="pi pi-search"></span></td>

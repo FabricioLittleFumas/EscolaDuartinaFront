@@ -6,10 +6,13 @@ import { PrimeNG } from 'primeng/config';
 
 
 import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   
   providers: [
+    provideRouter(routes),
+    provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     providePrimeNG({ 
       theme: { preset: Aura } ,

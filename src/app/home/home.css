@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  padding: 20px;
+}
+
+/* Responsividade adicional */
+@media screen and (max-width: 640px) {
+  .grid > div {
+    height: 300px !important;
+  }
+}
+
+/* Para telas médias */
+@media screen and (min-width: 641px) and (max-width: 1024px) {
+  .grid > div {
+    height: 450px !important;
+  }
+}

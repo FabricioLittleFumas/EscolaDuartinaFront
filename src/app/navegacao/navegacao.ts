@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ModalEntrar } from '../modal-entrar/modal-entrar';
 import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class Navegacao implements OnInit, AfterViewInit {
     value: any;
     items: MenuItem[] | undefined;
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef, private router: Router) {}
 
     ngAfterViewInit() {
         console.log('=== MODAL DISPONÍVEL ===');
@@ -49,6 +50,7 @@ export class Navegacao implements OnInit, AfterViewInit {
         this.items = [
             {
                 label: 'Sabbag',
+                routerLink: ['home'],
                 icon: 'pi pi-home'
             },
             {

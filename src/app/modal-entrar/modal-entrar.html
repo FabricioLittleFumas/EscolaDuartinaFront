@@ -1,7 +1,8 @@
 <p-dialog 
       header="Entrar" 
       [(visible)]="displayModal" 
-      [modal]="true" 
+      [modal]="true"
+      [dismissableMask]="true"
       [closable]="true"
       [style]="{ width: '450px' }"
       (onHide)="closeDialog()">

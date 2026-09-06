@@ -13,7 +13,7 @@
     text-align: center;
     font-family: 'Arimo', sans-serif;
     font-size: 1.75em;
-    margin-top: 45px;
+    /* margin-top: 45px; */
 }
 .titulo::after{
     content: '';
