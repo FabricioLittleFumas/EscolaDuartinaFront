@@ -1,13 +1,13 @@
 export class Aluno {
     nome: string;
     unidade: string;
-    dataSaida: string;
+    data_saida: Date;
     id: number;
 
-    constructor(id: number, nome: string, unidade: string, dataSaida: string){
+    constructor(id: number, nome: string, unidade: string, data_saida: Date){
         this.id = id;
         this.nome = nome;
         this.unidade = unidade;
-        this.dataSaida =dataSaida;
+        this.data_saida = data_saida;
     }
 }

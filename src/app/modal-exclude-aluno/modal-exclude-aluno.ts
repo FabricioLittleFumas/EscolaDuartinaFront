@@ -22,7 +22,7 @@ export class ModalExcludeAluno {
   senha: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {
-     this.aluno = new Aluno(1,'','','');
+     this.aluno = new Aluno(1,'','', new Date());
   }
   confirmExclude(){
     this.confirm.emit(this.aluno);

@@ -17,7 +17,7 @@ export class ModalInsertAluno implements OnInit{
   alunoForm!: FormGroup;
   displayModal: boolean = false;
   nome: string = '';
-  dtNascimento: string = '';
+  data_saida: string = '';
   unidade: string = '';
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
@@ -29,7 +29,7 @@ export class ModalInsertAluno implements OnInit{
     inicializarFormulario(): void {
     this.alunoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
-      dtNascimento: ['', Validators.required],
+      data_saida: ['data_saida', Validators.required],
       unidade: ['', Validators.required]
     });
   }
@@ -58,8 +58,8 @@ export class ModalInsertAluno implements OnInit{
   }
   onSubmit(){
  const aluno: Aluno = this.alunoForm.value;
-      // console.log("insert aluno modal");
-      // console.log(aluno);
+      console.log("insert aluno modal");
+      console.log(aluno);
       this.emitAluno.emit(aluno);
   }
 }

@@ -14,10 +14,10 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.dataSaida | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
-                    <app-modal-insert-aluno #modalInsertAluno></app-modal-insert-aluno>
+                    <app-modal-insert-aluno #modalInsertAluno (insertAluno)="insertAluno($event)" ></app-modal-insert-aluno>
                     </td>
                      <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
                         <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>

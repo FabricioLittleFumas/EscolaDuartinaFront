@@ -9,7 +9,7 @@ import { RouterLink } from "@angular/router";
 import { ModalEditAluno } from '../modal-edit-aluno/modal-edit-aluno';
 import { ModalExcludeAluno } from '../modal-exclude-aluno/modal-exclude-aluno';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
-
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -23,6 +23,7 @@ export class ListaAlunos implements OnInit {
   @ViewChild('modalViewAluno') modalEntrar!: ModalViewAluno;
   @ViewChild('modalEditAluno') modalEdit!: ModalEditAluno;
  @ViewChild('modalExcludeAluno') modalExcludeAluno!: ModalExcludeAluno;
+ @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
 
   alunos: Aluno[] = [];
   constructor(private alunoService: AlunoService,private cdr: ChangeDetectorRef){
@@ -33,21 +34,27 @@ export class ListaAlunos implements OnInit {
   excluir(event: any){
     console.log("evento vindo do excluir aluno");
     console.log(event.id);
-    this.alunoService.deleteAluno(event.id).subscribe(() =>{
+    this.alunoService.deleteAluno(event.id).subscribe((next) =>{
       this.modalExcludeAluno.closeDialog();
       this.getAllAlunos();
       this.cdr.detectChanges();
     });
   }
 
-  insertAluno(event: any){
-    console.log("evento do inserir aluno");
-    console.log(event);
+  insertAluno(aluno: any){
+    console.log("alunoo do inserir aluno");
+    console.log(aluno);
+    
+    this.alunoService.createAluno(aluno).subscribe((next) =>{
+      this.cdr.detectChanges();
+      this.getAllAlunos();
+      this.modalInsertAluno.closeDialog();
+    })
   }
 
   getAllAlunos(){
-     this.alunoService.getAlunos().subscribe(aluno =>{
-    this.alunos = aluno;
+     this.alunoService.getAlunos().subscribe(next => {
+    this.alunos = next;
     this.cdr.detectChanges();
      console.log(this.alunos);
    })

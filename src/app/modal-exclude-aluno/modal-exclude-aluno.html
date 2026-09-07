@@ -8,7 +8,7 @@ header="Excluir"
 (onHide)="closeDialog()">
 <svg data-p-icon="user" [size]="80"></svg>
 <p>Nome: {{aluno.nome}}</p>
-<p>Data de saída: {{aluno.dataSaida | date:'dd/MM/yyyy'}}</p>
+<p>Data de saída: {{aluno.data_saida| date:'dd/MM/yyyy'}}</p>
 <p>Unidade de ensino: {{aluno.unidade}}</p>
 <div class="flx">
     <button pButton severity="secondary" type="submit" (click)="confirmExclude()">Confirmar</button>

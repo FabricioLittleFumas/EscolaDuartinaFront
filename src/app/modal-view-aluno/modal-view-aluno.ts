@@ -23,7 +23,7 @@ export class ModalViewAluno {
   senha: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {
-    this.aluno = new Aluno(1,'','','');
+    this.aluno = new Aluno(1,'','',new Date());
   }
 
   showDialog(alunos: any) {
