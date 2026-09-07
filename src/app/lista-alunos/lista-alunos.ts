@@ -15,25 +15,47 @@ import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
   standalone: true,
   selector: 'app-lista-alunos',
   imports: [TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
-  templateUrl: './lista-alunos.html',
+templateUrl: './lista-alunos.html',
   providers: [AlunoService],
   styleUrl: './lista-alunos.css',
 })
 export class ListaAlunos implements OnInit {
   @ViewChild('modalViewAluno') modalEntrar!: ModalViewAluno;
   @ViewChild('modalEditAluno') modalEdit!: ModalEditAluno;
+ @ViewChild('modalExcludeAluno') modalExcludeAluno!: ModalExcludeAluno;
 
   alunos: Aluno[] = [];
   constructor(private alunoService: AlunoService,private cdr: ChangeDetectorRef){
   }
-  
 
-  ngOnInit(): void {
-    this.alunoService.getAlunos().subscribe(aluno =>{
+
+
+  excluir(event: any){
+    console.log("evento vindo do excluir aluno");
+    console.log(event.id);
+    this.alunoService.deleteAluno(event.id).subscribe(() =>{
+      this.modalExcludeAluno.closeDialog();
+      this.getAllAlunos();
+      this.cdr.detectChanges();
+    });
+  }
+
+  insertAluno(event: any){
+    console.log("evento do inserir aluno");
+    console.log(event);
+  }
+
+  getAllAlunos(){
+     this.alunoService.getAlunos().subscribe(aluno =>{
     this.alunos = aluno;
     this.cdr.detectChanges();
      console.log(this.alunos);
    })
+  }
+
+  ngOnInit(): void {
+   this.getAllAlunos();
+   
   }
   
 }

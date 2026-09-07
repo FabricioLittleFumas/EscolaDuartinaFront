@@ -13,7 +13,7 @@ import { Search, User, Check } from '@primeicons/angular';
   templateUrl: './modal-exclude-aluno.html',
 })
 export class ModalExcludeAluno {
-  @Output() confirm = new EventEmitter<{email: string, senha: string}>();
+  @Output() confirm = new EventEmitter<Aluno>();
   @Output() cancel = new EventEmitter<void>();
   @Input('alunoExclude') aluno: Aluno;
 
@@ -23,6 +23,9 @@ export class ModalExcludeAluno {
 
   constructor(private cdr: ChangeDetectorRef) {
      this.aluno = new Aluno(1,'','','');
+  }
+  confirmExclude(){
+    this.confirm.emit(this.aluno);
   }
 
   showDialog(alunos: any) {

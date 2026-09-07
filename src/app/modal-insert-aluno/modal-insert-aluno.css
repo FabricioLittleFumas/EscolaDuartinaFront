@@ -51,7 +51,6 @@
  button:hover{
     cursor: pointer;
     background-color: #B884B7;
-    transition: 0.5s;
  }
      .flx{
         display: flex !important;

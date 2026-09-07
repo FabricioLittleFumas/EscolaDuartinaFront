@@ -33,6 +33,6 @@ export class AlunoService {
 
   // Deletar aluno
   deleteAluno(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}${id}`);
   }
 }

@@ -1,25 +1,38 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Aluno } from '../model/aluno';
 @Component({
   standalone: true,
-  imports: [ButtonModule,DialogModule,FormsModule],
+  imports: [ButtonModule,DialogModule,FormsModule, ReactiveFormsModule],
   selector: 'app-modal-insert-aluno',
   styleUrl: './modal-insert-aluno.css',
   templateUrl: './modal-insert-aluno.html',
 })
-export class ModalInsertAluno {
-  @Output() confirm = new EventEmitter<{email: string, senha: string}>();
+export class ModalInsertAluno implements OnInit{
+  @Output('insertAluno') emitAluno = new EventEmitter<Aluno>();
   @Output() cancel = new EventEmitter<void>();
-
+  alunoForm!: FormGroup;
   displayModal: boolean = false;
   nome: string = '';
   dtNascimento: string = '';
   unidade: string = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.inicializarFormulario();
+  }
+
+    inicializarFormulario(): void {
+    this.alunoForm = this.fb.group({
+      nome: ['', [Validators.required, Validators.minLength(3)]],
+      dtNascimento: ['', Validators.required],
+      unidade: ['', Validators.required]
+    });
+  }
 
   showDialog(alunos: any) {
     console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
@@ -42,5 +55,11 @@ export class ModalInsertAluno {
     console.log("displayModal definido como:", this.displayModal);
     this.cdr.detectChanges();
     this.cancel.emit();
+  }
+  onSubmit(){
+ const aluno: Aluno = this.alunoForm.value;
+      // console.log("insert aluno modal");
+      // console.log(aluno);
+      this.emitAluno.emit(aluno);
   }
 }

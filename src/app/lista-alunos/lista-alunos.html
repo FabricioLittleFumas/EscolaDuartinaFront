@@ -16,7 +16,9 @@
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.dataSaida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
-                     <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span></td>
+                     <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
+                    <app-modal-insert-aluno #modalInsertAluno></app-modal-insert-aluno>
+                    </td>
                      <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
                         <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>
                     </td>
@@ -24,11 +26,11 @@
                         <app-modal-edit-aluno #modalEditAluno></app-modal-edit-aluno>
                         </td>
                      <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
-                         <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno"></app-modal-exclude-aluno>
+                         <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno" (confirm)="excluir($event)"></app-modal-exclude-aluno>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
 
         
-        <app-modal-insert-aluno #modalInsertAluno></app-modal-insert-aluno>
+        
