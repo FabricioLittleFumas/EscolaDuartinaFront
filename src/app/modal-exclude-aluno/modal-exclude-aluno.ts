@@ -1,11 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
-
+import { Aluno } from '../model/aluno';
+import { DatePipe } from '@angular/common';
+import { Search, User, Check } from '@primeicons/angular';
 @Component({
   standalone:true,
-  imports: [ButtonModule,DialogModule,FormsModule],
+  imports: [ButtonModule,DialogModule,FormsModule,DatePipe,User],
   selector: 'app-modal-exclude-aluno',
   styleUrl: './modal-exclude-aluno.css',
   templateUrl: './modal-exclude-aluno.html',
@@ -13,34 +15,37 @@ import { FormsModule } from '@angular/forms';
 export class ModalExcludeAluno {
   @Output() confirm = new EventEmitter<{email: string, senha: string}>();
   @Output() cancel = new EventEmitter<void>();
+  @Input('alunoExclude') aluno: Aluno;
 
-  displayModal: boolean = false;
+  displayModals: boolean = false;
   email: string = '';
   senha: string = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {
+     this.aluno = new Aluno(1,'','','');
+  }
 
   showDialog(alunos: any) {
     console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
     console.log(alunos);
-    this.displayModal = true;
+    this.displayModals = true;
     this.email = '';
     this.senha = '';
-    console.log("displayModal definido como:", this.displayModal);
+    console.log("displayModals definido como:", this.displayModals);
     
     // FORÇAR DETECÇÃO DE MUDANÇAS
     this.cdr.detectChanges();
     
     // Verificar se o dialog está realmente aberto
     setTimeout(() => {
-      console.log("displayModal após setTimeout:", this.displayModal);
+      console.log("displayModals após setTimeout:", this.displayModals);
     }, 100);
   }
 
   closeDialog() {
     console.log("=== FECHANDO DIALOG ===");
-    this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
+    this.displayModals = false;
+    console.log("displayModals definido como:", this.displayModals);
     this.cdr.detectChanges();
     this.cancel.emit();
   }

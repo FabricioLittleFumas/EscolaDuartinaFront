@@ -15,8 +15,9 @@ export class ModalEditAluno {
   @Output() cancel = new EventEmitter<void>();
 
   displayModal: boolean = false;
-  email: string = '';
-  senha: string = '';
+    nome: string = '';
+  dtNascimento: string = '';
+  unidade: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -24,8 +25,6 @@ export class ModalEditAluno {
     console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
     console.log(alunos);
     this.displayModal = true;
-    this.email = '';
-    this.senha = '';
     console.log("displayModal definido como:", this.displayModal);
     
     // FORÇAR DETECÇÃO DE MUDANÇAS

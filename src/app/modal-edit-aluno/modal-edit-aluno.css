@@ -45,6 +45,7 @@
   border-radius: 5px;
   text-transform: uppercase;
   font-weight: bold;
+  font-family: 'Arimo', sans-serif;
  }
 
  button:hover{
@@ -52,3 +53,19 @@
     background-color: #B884B7;
     transition: 0.5s;
  }
+     .flx{
+        display: flex !important;
+        width: 60%;
+        margin: 0 auto;
+     }
+     .lbInfo,.ipInfo{
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        font-family: 'Arimo', sans-serif;
+     }
+     .ipInfo{
+        margin-bottom: 15px;
+        height: 25px;
+        width: 250px;
+     }

@@ -17,14 +17,18 @@
                     <td>{{ aluno.dataSaida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span></td>
-                     <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span></td>
-                        <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span></td>
-                     <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"></span></td>
+                     <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
+                        <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>
+                    </td>
+                        <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span>
+                        <app-modal-edit-aluno #modalEditAluno></app-modal-edit-aluno>
+                        </td>
+                     <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
+                         <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno"></app-modal-exclude-aluno>
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
 
-        <app-modal-view-aluno #modalViewAluno></app-modal-view-aluno>
-        <app-modal-edit-aluno #modalEditAluno></app-modal-edit-aluno>
-        <app-modal-exclude-aluno #modalExcludeAluno></app-modal-exclude-aluno>
+        
         <app-modal-insert-aluno #modalInsertAluno></app-modal-insert-aluno>

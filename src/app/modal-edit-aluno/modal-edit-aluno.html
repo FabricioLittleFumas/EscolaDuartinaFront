@@ -1,23 +1,36 @@
 <p-dialog 
-header="Entrar" 
+header="Editar" 
 [(visible)]="displayModal" 
 [modal]="true"
 [dismissableMask]="true"
 [closable]="true"
 [style]="{ width: '450px' }"
 (onHide)="closeDialog()">
-<p>modal-edit-aluno works!</p>
 
       <div class="p-fluid">
-        <div class="field mb-4">
-          <label for="email" class="font-bold">Email</label>
-          <input id="email" type="email" pInputText [(ngModel)]="email" placeholder="Digite seu email" />
+        <div>
+          <label for="nome" class="font-bold lbInfo">Nome</label>
+          <input id="nome" class="ipInfo" type="nome" pInputText 
+          [(ngModel)]="nome" placeholder="Digite seu nome" />
         </div>
         
-        <div class="field">
-          <label for="senha" class="font-bold">Senha</label>
-          <input id="senha" type="password" pInputText [(ngModel)]="senha" placeholder="Digite sua senha" />
-         <button> Entrar </button>
+        <div>
+          <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
+          <input id="DtNasc" class="ipInfo" type="password" pInputText 
+          [(ngModel)]="dtNascimento" placeholder="Data de nascimento" />
+        
+        </div>
+
+        <div>
+          <label for="unidade" class="font-bold lbInfo">Unidade</label>
+          <input id="unidade" class="ipInfo" type="password" pInputText 
+          [(ngModel)]="unidade" placeholder="Digite sua unidade Escolar" />
+         
+        </div>
+        <div class="flx">
+            <button pButton severity="secondary" type="submit">Atualizar</button>
+            <button pButton severity="secondary" type="submit" (click)="closeDialog()">Cancelar</button>
+
         </div>
       </div>
     </p-dialog>

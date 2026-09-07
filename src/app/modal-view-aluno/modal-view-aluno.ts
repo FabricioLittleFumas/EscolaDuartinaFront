@@ -1,11 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
+import { Aluno } from '../model/aluno';
+import { DatePipe } from '@angular/common';
+import { Search, User, Check } from '@primeicons/angular';
 
 @Component({
   standalone: true,
-  imports: [ButtonModule, DialogModule,FormsModule],
+  imports: [ButtonModule, DialogModule,FormsModule,DatePipe,User],
   selector: 'app-modal-view-aluno',
   styleUrl: './modal-view-aluno.css',
   templateUrl: './modal-view-aluno.html',
@@ -13,12 +16,15 @@ import { FormsModule } from '@angular/forms';
 export class ModalViewAluno {
   @Output() confirm = new EventEmitter<{email: string, senha: string}>();
   @Output() cancel = new EventEmitter<void>();
+  @Input() aluno: Aluno;
 
   displayModal: boolean = false;
   email: string = '';
   senha: string = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {
+    this.aluno = new Aluno(1,'','','');
+  }
 
   showDialog(alunos: any) {
     console.log("=== INICIANDO SHOW DIALOG === view aALUNO");

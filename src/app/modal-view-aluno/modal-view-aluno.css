@@ -52,3 +52,11 @@
     background-color: #B884B7;
     transition: 0.5s;
  }
+
+ :host ::ng-deep .p-dialog-content{
+    font-family: 'Arimo', sans-serif;
+    text-transform: capitalize !important;
+    text-align: center !important;
+    line-height: 1.6em;
+    /* letter-spacing: 0.08em; */
+}
