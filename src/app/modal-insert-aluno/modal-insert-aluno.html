@@ -6,7 +6,7 @@ header="Inserir Aluno"
 [dismissableMask]="true"
 [closable]="true"
 [style]="{ width: '450px' }"
-(onHide)="closeDialog()">
+(onHide)="closeDialog($event)">
 
       <div class="p-fluid">
         <div>
@@ -30,7 +30,7 @@ header="Inserir Aluno"
         </div>
         <div class="flx">
             <button pButton severity="secondary" type="submit">Inserir</button>
-            <button pButton severity="secondary" (click)="closeDialog()">Cancelar</button>
+            <button pButton severity="secondary" (click)="closeDialog($event)">Cancelar</button>
 
         </div>
       </div>

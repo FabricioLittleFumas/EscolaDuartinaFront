@@ -17,20 +17,21 @@
                     <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
-                    <app-modal-insert-aluno #modalInsertAluno (insertAluno)="insertAluno($event)" ></app-modal-insert-aluno>
+                  
                     </td>
                      <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
                         <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>
                     </td>
                         <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span>
-                        <app-modal-edit-aluno #modalEditAluno></app-modal-edit-aluno>
                         </td>
-                     <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
-                         <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno" (confirm)="excluir($event)"></app-modal-exclude-aluno>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+                        <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
+                            <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno" (confirm)="excluir($event)"></app-modal-exclude-aluno>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <app-modal-insert-aluno #modalInsertAluno (insertAluno)="insertAluno($event)" ></app-modal-insert-aluno>
+            <app-modal-edit-aluno #modalEditAluno (emitAlunoAtt)="emitAlunoAtt($event)"></app-modal-edit-aluno>
 
         
         

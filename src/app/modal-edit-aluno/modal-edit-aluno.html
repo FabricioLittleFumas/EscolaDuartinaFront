@@ -1,3 +1,4 @@
+<form [formGroup]="alunoForms" (ngSubmit)="onSubmit()" class="mt-4">
 <p-dialog 
 header="Editar" 
 [(visible)]="displayModal" 
@@ -10,27 +11,27 @@ header="Editar"
       <div class="p-fluid">
         <div>
           <label for="nome" class="font-bold lbInfo">Nome</label>
-          <input id="nome" class="ipInfo" type="nome" pInputText 
-          [(ngModel)]="nome" placeholder="Digite seu nome" />
+          <input id="nome" class="ipInfo" type="text" pInputText 
+          [(ngModel)]="aluno.nome" placeholder="Digite seu nome" formControlName="nome" />
         </div>
         
         <div>
           <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
-          <input id="DtNasc" class="ipInfo" type="password" pInputText 
-          [(ngModel)]="dtNascimento" placeholder="Data de nascimento" />
+          <input id="DtNasc" class="ipInfo" type="text" pInputText 
+          [(ngModel)]="aluno.data_saida" placeholder="Data de nascimento" formControlName="data_saida" />
         
         </div>
 
         <div>
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
-          <input id="unidade" class="ipInfo" type="password" pInputText 
-          [(ngModel)]="unidade" placeholder="Digite sua unidade Escolar" />
+          <input id="unidade" class="ipInfo" type="text" pInputText 
+          [(ngModel)]="aluno.unidade" placeholder="Digite sua unidade Escolar" formControlName="unidade" />
          
         </div>
         <div class="flx">
             <button pButton severity="secondary" type="submit">Atualizar</button>
-            <button pButton severity="secondary" type="submit" (click)="closeDialog()">Cancelar</button>
-
+            <button  type="reset" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
     </p-dialog>
+    </form>

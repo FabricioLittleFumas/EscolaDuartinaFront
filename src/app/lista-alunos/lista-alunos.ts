@@ -41,6 +41,17 @@ export class ListaAlunos implements OnInit {
     });
   }
 
+emitAlunoAtt(aluno: any){
+    console.log("alunoo do edit edit aluno");
+    console.log(aluno.id);
+    console.log(aluno);
+    
+    this.alunoService.updateAluno(aluno.id,aluno).subscribe((next) =>{
+      this.getAllAlunos();
+      this.cdr.detectChanges();
+      this.modalEdit.closeDialog();
+    })
+  }
   insertAluno(aluno: any){
     console.log("alunoo do inserir aluno");
     console.log(aluno);
@@ -48,7 +59,7 @@ export class ListaAlunos implements OnInit {
     this.alunoService.createAluno(aluno).subscribe((next) =>{
       this.cdr.detectChanges();
       this.getAllAlunos();
-      this.modalInsertAluno.closeDialog();
+      this.modalInsertAluno.closeDialogs();
     })
   }
 
