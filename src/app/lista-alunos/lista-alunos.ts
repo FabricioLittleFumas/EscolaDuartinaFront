@@ -65,8 +65,8 @@ emitAlunoAtt(aluno: any){
 
   getAllAlunos(){
      this.alunoService.getAlunos().subscribe(next => {
-    this.alunos = next;
-    this.cdr.detectChanges();
+     this.alunos = next;
+     this.cdr.detectChanges();
      console.log(this.alunos);
    })
   }

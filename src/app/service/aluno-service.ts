@@ -23,6 +23,11 @@ export class AlunoService {
 
   // Criar novo aluno
   createAluno(aluno: Aluno): Observable<Aluno> {
+
+    // Junta tudo no padrão yy--mm--dd
+    console.log("Data formatada");
+    console.log(aluno.data_saida);
+    // aluno.data_saida = dataFormatada;
     return this.http.post<Aluno>(this.apiUrl, aluno);
   }
 

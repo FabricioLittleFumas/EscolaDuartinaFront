@@ -1,12 +1,16 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from '../model/aluno';
+import { DatePickerModule } from 'primeng/datepicker';
+
+import { Calendar } from '@primeicons/angular';
 @Component({
   standalone: true,
-  imports: [ButtonModule,DialogModule,FormsModule, ReactiveFormsModule],
+  imports: [ButtonModule,DialogModule,FormsModule, 
+    ReactiveFormsModule, DatePickerModule],
   selector: 'app-modal-insert-aluno',
   styleUrl: './modal-insert-aluno.css',
   templateUrl: './modal-insert-aluno.html',
@@ -17,7 +21,8 @@ export class ModalInsertAluno implements OnInit{
   alunoForm!: FormGroup;
   displayModal: boolean = false;
   nome: string = '';
-  data_saida: string = '';
+  data_saida: Date | undefined;
+  date: Date | undefined;
   unidade: string = '';
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
@@ -29,6 +34,7 @@ export class ModalInsertAluno implements OnInit{
     inicializarFormulario(): void {
     this.alunoForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
+      dates: new FormControl<Date | null>(null),
       data_saida: ['data_saida', Validators.required],
       unidade: ['', Validators.required]
     });

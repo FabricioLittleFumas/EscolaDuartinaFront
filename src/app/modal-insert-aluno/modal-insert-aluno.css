@@ -30,11 +30,20 @@
     text-transform: capitalize !important;
     text-align: center !important;
  }
-  :host ::ng-deep .p-inputtext{
+  :host ::ng-deep .p-inputtext,
+    :host ::ng-deep.p-datepicker, 
+  :host ::ng-deep [_nghost-ng-c4105482902] .p-inputtext{
     width: 250px;
     display: block;
     margin: 0 auto;
- }
+    height: 25px;
+    border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+   border-radius: 0;
+   text-align: center;
+   color: #26272C;;
+   font-family: 'Arimo', sans-serif;
+   margin-bottom: 15px;
+   }
  button{
   background-color: #D0C3D3;
   border: none;
@@ -68,3 +77,8 @@
         height: 25px;
         width: 250px;
      }
+
+    :host ::ng-deep  .p-datepicker-calendar-container {
+        position: fixed;
+        background-color: #B884B7;
+}

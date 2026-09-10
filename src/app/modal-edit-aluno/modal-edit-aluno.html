@@ -17,9 +17,12 @@ header="Editar"
         
         <div>
           <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
-          <input id="DtNasc" class="ipInfo" type="text" pInputText 
-          [(ngModel)]="aluno.data_saida" placeholder="Data de nascimento" formControlName="data_saida" />
-        
+         
+           <p-datepicker 
+    formControlName="data_saida" 
+    dateFormat="dd/mm/yy" 
+    panelStyleClass="calendario-compacto">
+  </p-datepicker>
         </div>
 
         <div>

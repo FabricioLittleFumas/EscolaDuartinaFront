@@ -14,7 +14,7 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ aluno.data_saida | date:'dd/MM/yy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
                   

@@ -4,10 +4,10 @@ import { DialogModule } from 'primeng/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from '../model/aluno';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { DatePickerModule } from 'primeng/datepicker';
 @Component({
   standalone: true,
-  imports: [ButtonModule, DialogModule, FormsModule,ReactiveFormsModule],
+  imports: [ButtonModule, DialogModule, DatePickerModule, FormsModule,ReactiveFormsModule],
   selector: 'app-modal-edit-aluno',
   styleUrl: './modal-edit-aluno.css',
   templateUrl: './modal-edit-aluno.html',
@@ -19,6 +19,7 @@ export class ModalEditAluno implements OnInit{
   alunoForms!: FormGroup;
   displayModal: boolean = false;
     nome: string = '';
+
   dtNascimento: string = '';
   unidade: string = '';
 
@@ -36,7 +37,9 @@ export class ModalEditAluno implements OnInit{
     this.aluno = alunos;
     this.displayModal = true;
     console.log("displayModal definido como:", this.displayModal);
-    
+    this.alunoForms.patchValue({
+      data_saida: new Date(alunos.data_saida)
+    });
     // FORÇAR DETECÇÃO DE MUDANÇAS
     this.cdr.detectChanges();
     
@@ -58,8 +61,9 @@ export class ModalEditAluno implements OnInit{
       id: ['', Validators.required],
       nome: ['', [Validators.required, Validators.minLength(3)]],
       data_saida: ['data_saida', Validators.required],
-      unidade: ['', Validators.required]
+      unidade: ['', Validators.required],
     });
+   
   }
    onSubmit(){
     const aluno: Aluno = this.alunoForms.value;

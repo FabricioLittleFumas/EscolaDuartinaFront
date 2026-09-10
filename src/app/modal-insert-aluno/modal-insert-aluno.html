@@ -17,14 +17,13 @@ header="Inserir Aluno"
         
         <div>
           <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
-          <input id="DtNasc" class="ipInfo" type="text" pInputText 
-          [(ngModel)]="data_saida" placeholder="Data de nascimento" formControlName="data_saida" />
-        
+         
+  <p-datepicker  placeholder="Digite a data de sua matricula" panelStyleClass="calendario-compacto" [(ngModel)]="date" formControlName="data_saida" dateFormat="dd/mm/yy"></p-datepicker>
         </div>
 
         <div>
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
-          <input id="unidade" class="ipInfo" type="password" pInputText 
+          <input id="unidade" class="ipInfo" type="text" pInputText 
           [(ngModel)]="unidade" placeholder="Digite sua unidade Escolar" formControlName="unidade" />
          
         </div>
