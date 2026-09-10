@@ -18,6 +18,7 @@ export class ModalCadastro {
   displayModal: boolean = false;
   email: string = '';
   senha: string = '';
+  nome: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
 

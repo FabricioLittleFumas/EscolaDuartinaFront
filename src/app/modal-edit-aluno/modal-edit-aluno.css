@@ -84,3 +84,7 @@
    font-family: 'Arimo', sans-serif;
    margin-bottom: 15px;
    }
+       :host ::ng-deep  .p-datepicker-calendar-container {
+        position: fixed;
+        background-color: #B884B7;
+}

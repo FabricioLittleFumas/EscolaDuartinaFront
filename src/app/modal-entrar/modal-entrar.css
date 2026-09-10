@@ -52,3 +52,15 @@
     background-color: #B884B7;
     transition: 0.5s;
  }
+
+     .lbInfo,.ipInfo{
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        font-family: 'Arimo', sans-serif;
+     }
+     .ipInfo{
+        /* margin-bottom: 10px; */
+        height: 25px;
+        width: 250px;
+     }

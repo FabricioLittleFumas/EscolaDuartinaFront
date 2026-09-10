@@ -23,7 +23,7 @@
     font-family: 'Arimo', sans-serif !important;
     text-transform: capitalize !important;
     text-align: center !important;
-    margin-top: 15px;
+    /* margin-top: 15px; */
  }
   :host ::ng-deep .p-inputtext{
     width: 250px;
@@ -47,3 +47,15 @@
     background-color: #B884B7;
     transition: 0.5s;
  }
+
+    .lbInfo,.ipInfo{
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+        font-family: 'Arimo', sans-serif;
+     }
+     .ipInfo{
+        /* margin-bottom: 10px; */
+        height: 25px;
+        width: 250px;
+     }
