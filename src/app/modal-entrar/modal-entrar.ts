@@ -14,12 +14,12 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrl: './modal-entrar.css',
 })
 export class ModalEntrar {
-  @Output() confirm = new EventEmitter<{email: string, senha: string}>();
+  @Output() confirm = new EventEmitter<{email: string, password: string}>();
   @Output() cancel = new EventEmitter<void>();
 
   displayModal: boolean = false;
   email: string = '';
-  senha: string = '';
+  password: string = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -27,7 +27,7 @@ export class ModalEntrar {
     console.log("=== INICIANDO SHOW DIALOG ===");
     this.displayModal = true;
     this.email = '';
-    this.senha = '';
+    this.password = '';
     console.log("displayModal definido como:", this.displayModal);
     
     // FORÇAR DETECÇÃO DE MUDANÇAS
@@ -48,9 +48,9 @@ export class ModalEntrar {
   }
 
   confirmDialog() {
-    if (this.email && this.senha) {
-      console.log("Confirmando login:", { email: this.email, senha: this.senha });
-      this.confirm.emit({ email: this.email, senha: this.senha });
+    if (this.email && this.password) {
+      console.log("Confirmando login:", { email: this.email, password: this.password });
+      this.confirm.emit({ email: this.email, password: this.password });
       this.displayModal = false;
       this.cdr.detectChanges();
     } else {

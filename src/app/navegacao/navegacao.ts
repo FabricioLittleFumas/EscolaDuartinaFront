@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ModalEntrar } from '../modal-entrar/modal-entrar';
 import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
 import { Route, Router } from '@angular/router';
+import { UsuarioService } from '../service/usuario-service';
+import { Usuario } from '../model/usuario';
 
 
 @Component({
@@ -24,10 +26,12 @@ import { Route, Router } from '@angular/router';
 export class Navegacao implements OnInit, AfterViewInit {
    @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
    @ViewChild('modalCadastro') modalCadastro!: ModalCadastro; 
+
+   
     value: any;
     items: MenuItem[] | undefined;
 
-    constructor(private cdr: ChangeDetectorRef, private router: Router) {}
+    constructor(private usuarioService: UsuarioService, private cdr: ChangeDetectorRef, private router: Router) {}
 
     ngAfterViewInit() {
         console.log('=== MODAL DISPONÍVEL ===');
@@ -36,12 +40,26 @@ export class Navegacao implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
     }
 
-    onLoginConfirm(loginData: {email: string, senha: string}) {
+    onLoginConfirm(loginData: {email: string, password: string}) {
         console.log('Login confirmado:', loginData);
         // Aqui você pode processar o login
         // Exemplo: chamar um serviço de autenticação
     }
+    onLoginConfirmCadastro(loginData: {name: string, email: string, password: string}) {
+        console.log('Cadastro confirmado:', loginData);
+        console.log('Cheguei aqio:', loginData);
+        // Aqui você pode processar o login
+        // Exemplo: chamar um serviço de autenticação
 
+        //vericar o email antes de persistir
+        this.usuarioService.createAluno(new Usuario(loginData.name, loginData.email,loginData.password, ['USER'])).subscribe(
+            (next) => {
+                console.log('dentro do next');
+                console.log(next);
+            }
+        );
+    }
+    
     onLoginCancel() {
         console.log('Login cancelado');
     }

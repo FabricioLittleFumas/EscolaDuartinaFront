@@ -56,7 +56,7 @@ export class ModalInsertAluno implements OnInit{
   }
 
   closeDialog(e : any) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("=== FECHANDO DIALOG ===");
     this.displayModal = false;
     console.log("displayModal definido como:", this.displayModal);
