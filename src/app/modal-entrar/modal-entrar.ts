@@ -1,27 +1,33 @@
-import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Usuario } from '../model/usuario';
 
 
 
 @Component({
   selector: 'app-modal-entrar',
-  imports: [CommonModule, FormsModule, DialogModule, ButtonModule, InputTextModule],
+  imports: [CommonModule,ReactiveFormsModule, FormsModule, DialogModule, ButtonModule, InputTextModule],
   templateUrl: './modal-entrar.html',
   styleUrl: './modal-entrar.css',
 })
-export class ModalEntrar {
+export class ModalEntrar implements OnInit{
+  @Output('loginUsuario') emitUsuario = new EventEmitter<Usuario>();
   @Output() confirm = new EventEmitter<{email: string, password: string}>();
   @Output() cancel = new EventEmitter<void>();
 
+  loginForm!: FormGroup;
   displayModal: boolean = false;
   email: string = '';
   password: string = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
+  ngOnInit(): void {
+    this.inicializarFormulario();
+  }
 
   showDialog() {
     console.log("=== INICIANDO SHOW DIALOG ===");
@@ -47,6 +53,13 @@ export class ModalEntrar {
     this.cancel.emit();
   }
 
+     onSubmit(){
+     const usuario: Usuario = this.loginForm.value;
+          console.log("insert usuario modal");
+          console.log(usuario);
+          this.emitUsuario.emit(usuario);
+      }
+
   confirmDialog() {
     if (this.email && this.password) {
       console.log("Confirmando login:", { email: this.email, password: this.password });
@@ -56,5 +69,11 @@ export class ModalEntrar {
     } else {
       alert('Por favor, preencha todos os campos');
     }
+  }
+   inicializarFormulario(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', Validators.required]
+    });
   }
 }

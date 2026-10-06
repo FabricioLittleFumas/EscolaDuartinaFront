@@ -14,6 +14,7 @@ import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
 import { Route, Router } from '@angular/router';
 import { UsuarioService } from '../service/usuario-service';
 import { Usuario } from '../model/usuario';
+import { LoginUsuario } from '../model/login-usuario';
 
 
 @Component({
@@ -42,8 +43,11 @@ export class Navegacao implements OnInit, AfterViewInit {
 
     onLoginConfirm(loginData: {email: string, password: string}) {
         console.log('Login confirmado:', loginData);
-        // Aqui você pode processar o login
-        // Exemplo: chamar um serviço de autenticação
+        
+        this.usuarioService.loginUsuario(new LoginUsuario(loginData.email, loginData.password)).
+        subscribe(token => {
+             localStorage.setItem('auth_token', token?.token);
+        });
     }
     onLoginConfirmCadastro(loginData: {name: string, email: string, password: string}) {
         console.log('Cadastro confirmado:', loginData);
@@ -52,7 +56,7 @@ export class Navegacao implements OnInit, AfterViewInit {
         // Exemplo: chamar um serviço de autenticação
 
         //vericar o email antes de persistir
-        this.usuarioService.createAluno(new Usuario(loginData.name, loginData.email,loginData.password, ['USER'])).subscribe(
+        this.usuarioService.createUsuario(new Usuario(loginData.name, loginData.email,loginData.password, ['USER'])).subscribe(
             (next) => {
                 console.log('dentro do next');
                 console.log(next);
