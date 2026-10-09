@@ -10,13 +10,15 @@ import { ModalEditAluno } from '../modal-edit-aluno/modal-edit-aluno';
 import { ModalExcludeAluno } from '../modal-exclude-aluno/modal-exclude-aluno';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 import { HttpHeaders } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
+  imports: [ToastModule, TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
-  providers: [AlunoService],
+  providers: [AlunoService, MessageService],
   styleUrl: './lista-alunos.css',
 })
 export class ListaAlunos implements OnInit {
@@ -26,7 +28,9 @@ export class ListaAlunos implements OnInit {
  @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
 
   alunos: Aluno[] = [];
-  constructor(private alunoService: AlunoService,private cdr: ChangeDetectorRef){
+  constructor(private alunoService: AlunoService,
+    private cdr: ChangeDetectorRef
+  , private messageService: MessageService){
   }
 
 
@@ -38,6 +42,7 @@ export class ListaAlunos implements OnInit {
       this.modalExcludeAluno.closeDialog();
       this.getAllAlunos();
       this.cdr.detectChanges();
+      this.mostrarToast("success","Sucesso ao excluir aluno.", "Sucesso");
     });
   }
 
@@ -50,17 +55,28 @@ emitAlunoAtt(aluno: any){
       this.getAllAlunos();
       this.cdr.detectChanges();
       this.modalEdit.closeDialog();
-    })
+      this.mostrarToast("success","Sucesso ao atualizar aluno.", "Sucesso");
+    },
+    (error) =>{
+        this.mostrarToast("error",error.error.message, "Erro");
+    }
+  )
   }
   insertAluno(aluno: any){
     console.log("alunoo do inserir aluno");
     console.log(aluno);
-    
     this.alunoService.createAluno(aluno).subscribe((next) =>{
       this.cdr.detectChanges();
       this.getAllAlunos();
       this.modalInsertAluno.closeDialogs();
-    })
+      this.mostrarToast("success","Sucesso ao inserir aluno.", "Sucesso");
+    },
+    (error) => {
+      console.log("aconteceu um erro ao inserir aluno");
+      console.log(error);
+      this.mostrarToast("error",error.error.message, "Erro");
+    }
+  )
   }
 
   getAllAlunos(){
@@ -73,7 +89,14 @@ emitAlunoAtt(aluno: any){
 
   ngOnInit(): void {
    this.getAllAlunos();
-   
+  }
+  mostrarToast(severidade: string, detalhe: string, sumario: string ){
+  this.messageService.add({ 
+      severity: severidade, 
+      summary: sumario, 
+      detail: detalhe,
+      sticky: false
+    });
   }
   
 }

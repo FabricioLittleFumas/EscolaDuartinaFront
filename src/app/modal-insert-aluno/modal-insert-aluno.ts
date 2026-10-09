@@ -76,5 +76,6 @@ export class ModalInsertAluno implements OnInit{
       console.log("insert aluno modal");
       console.log(aluno);
       this.emitAluno.emit(aluno);
+      this.alunoForm.reset();
   }
 }

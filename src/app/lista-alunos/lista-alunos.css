@@ -9,6 +9,9 @@
 ::ng-deep .p-datatable-tbody > tr:nth-child(odd) {
     background-color: #d0c3d3 !important;
 }
+:host ::ng-deep .p-toast-message-text{
+    font-family: 'Arimo', sans-serif;
+}
 .titulo{
     text-align: center;
     font-family: 'Arimo', sans-serif;
