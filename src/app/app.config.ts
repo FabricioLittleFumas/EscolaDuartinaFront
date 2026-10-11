@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
@@ -10,9 +10,23 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Interceptador } from './interceptador';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('auth_token');
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: tokenGetter,
+          allowedDomains: ['localhost:4200'],          // Domínios que receberão o token automaticamente
+          disallowedRoutes: ['localhost:4200/auth/login'] // Rotas que não devem enviar o token
+        }
+      })
+    ),
     provideRouter(routes),
     provideAnimations(),
     provideBrowserGlobalErrorListeners(),

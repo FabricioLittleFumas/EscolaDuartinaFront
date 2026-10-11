@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navegacao } from './navegacao/navegacao';
+import { Aluno } from './model/aluno';
 
 
 
@@ -10,7 +11,7 @@ import { Navegacao } from './navegacao/navegacao';
   standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet,Navegacao],
-  templateUrl: './app.html',
+templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {

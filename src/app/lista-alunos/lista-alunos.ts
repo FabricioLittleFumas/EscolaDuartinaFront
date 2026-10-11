@@ -12,11 +12,12 @@ import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 import { HttpHeaders } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../auth-service';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [ToastModule, TableModule, CommonModule, ModalViewAluno, RouterLink, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
+  imports: [ToastModule, TableModule, CommonModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
   providers: [AlunoService, MessageService],
   styleUrl: './lista-alunos.css',
@@ -28,7 +29,10 @@ export class ListaAlunos implements OnInit {
  @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
 
   alunos: Aluno[] = [];
-  constructor(private alunoService: AlunoService,
+  hasAutority: boolean | undefined;
+  constructor(
+    private authService: AuthService,
+    private alunoService: AlunoService,
     private cdr: ChangeDetectorRef
   , private messageService: MessageService){
   }
@@ -89,6 +93,7 @@ emitAlunoAtt(aluno: any){
 
   ngOnInit(): void {
    this.getAllAlunos();
+   this.hasAutority = this.authService.temAuthority('USER');
   }
   mostrarToast(severidade: string, detalhe: string, sumario: string ){
   this.messageService.add({ 

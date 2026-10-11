@@ -15,6 +15,7 @@ import { Route, Router } from '@angular/router';
 import { UsuarioService } from '../service/usuario-service';
 import { Usuario } from '../model/usuario';
 import { LoginUsuario } from '../model/login-usuario';
+import { AuthService } from '../auth-service';
 
 
 @Component({
@@ -25,14 +26,17 @@ import { LoginUsuario } from '../model/login-usuario';
     styleUrl: './navegacao.css',
 })
 export class Navegacao implements OnInit, AfterViewInit {
-   @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
-   @ViewChild('modalCadastro') modalCadastro!: ModalCadastro; 
+    @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
+    @ViewChild('modalCadastro') modalCadastro!: ModalCadastro;
 
-   
+    roleUSER: boolean | undefined;
     value: any;
     items: MenuItem[] | undefined;
 
-    constructor(private usuarioService: UsuarioService, private cdr: ChangeDetectorRef, private router: Router) {}
+    constructor(private authService: AuthService,
+        private usuarioService: UsuarioService,
+        private cdr: ChangeDetectorRef,
+        private router: Router) { }
 
     ngAfterViewInit() {
         console.log('=== MODAL DISPONÍVEL ===');
@@ -41,46 +45,48 @@ export class Navegacao implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
     }
 
-    onLoginConfirm(loginData: {email: string, password: string}) {
+    onLoginConfirm(loginData: { email: string, password: string }) {
         console.log('Login confirmado:', loginData);
-        
+
         this.usuarioService.loginUsuario(new LoginUsuario(loginData.email, loginData.password)).
-        subscribe(token => {
-             localStorage.setItem('auth_token', token?.token);
-        });
+            subscribe(token => {
+                localStorage.setItem('auth_token', token?.token);
+                this.carregaMenu();
+            });
     }
-    onLoginConfirmCadastro(loginData: {name: string, email: string, password: string}) {
+    onLoginConfirmCadastro(loginData: { name: string, email: string, password: string }) {
         console.log('Cadastro confirmado:', loginData);
         console.log('Cheguei aqio:', loginData);
         // Aqui você pode processar o login
         // Exemplo: chamar um serviço de autenticação
 
         //vericar o email antes de persistir
-        this.usuarioService.createUsuario(new Usuario(loginData.name, loginData.email,loginData.password, ['USER'])).subscribe(
+        this.usuarioService.createUsuario(new Usuario(loginData.name, loginData.email, loginData.password, ['USER'])).subscribe(
             (next) => {
                 console.log('dentro do next');
                 console.log(next);
             }
         );
     }
-    
+
     onLoginCancel() {
         console.log('Login cancelado');
     }
-
-    ngOnInit() {
+    carregaMenu() {
+        const isUser = this.authService.temAuthority('USER');
         this.items = [
             {
                 label: 'Sabbag',
                 routerLink: ['home'],
-                icon: 'pi pi-home'
+                icon: 'pi pi-home',
+                visible: isUser,
             },
             {
                 label: 'Alunos',
                 icon: 'pi pi-search',
                 items: [
                     {
-                        label: 'Core',
+                        label: 'Inserir',
                         icon: 'pi pi-bolt',
                         shortcut: '⌘+S'
                     },
@@ -128,5 +134,10 @@ export class Navegacao implements OnInit, AfterViewInit {
                 }
             }
         ];
+    }
+
+    ngOnInit() {
+
+        this.carregaMenu();
     }
 }

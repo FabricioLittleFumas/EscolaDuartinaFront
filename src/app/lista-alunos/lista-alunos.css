@@ -27,3 +27,8 @@
    margin: 0 auto;
    margin-top: 7px;
 }
+:host ::ng-deep .pi{
+    display: table !important;
+    margin: 0 auto;
+    cursor: pointer;
+}

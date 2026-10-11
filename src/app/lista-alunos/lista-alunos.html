@@ -5,10 +5,10 @@
                     <th>Nome</th>
                      <th>Data de nascimento</th>
                     <th>Unidade</th>
-                     <th>Inserir</th>
+                     <th >Inserir</th>
                      <th>Visualizar</th>
-                  <th>Editar</th>
-                  <th>Excluir</th>
+                  <th *ngIf="hasAutority">Editar</th>
+                  <th *ngIf="hasAutority">Excluir</th>
                 </tr>
             </ng-template>
             <ng-template #body let-aluno>
@@ -16,15 +16,15 @@
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.data_saida | date:'dd/MM/yy'}}</td>
                      <td>{{ aluno.unidade }}</td>
-                     <td><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
+                     <td ><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
                   
                     </td>
-                     <td><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
+                     <td ><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
                         <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>
                     </td>
-                        <td><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span>
+                        <td *ngIf="hasAutority"><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span>
                         </td>
-                        <td><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
+                        <td *ngIf="hasAutority"><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
                             <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno" (confirm)="excluir($event)"></app-modal-exclude-aluno>
                         </td>
                     </tr>
