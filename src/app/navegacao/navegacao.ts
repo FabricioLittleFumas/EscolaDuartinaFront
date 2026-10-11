@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
@@ -11,133 +10,112 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { ModalEntrar } from '../modal-entrar/modal-entrar';
 import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsuarioService } from '../service/usuario-service';
 import { Usuario } from '../model/usuario';
 import { LoginUsuario } from '../model/login-usuario';
 import { AuthService } from '../auth-service';
+import { TokenService } from '../service/token-service';
 
 
 @Component({
-    selector: 'app-navegacao',
-    imports: [MenubarModule, RippleModule, BadgeModule,
-        AvatarModule, DialogModule, ButtonModule, InputTextModule, FormsModule, ModalEntrar, ModalCadastro],
-    templateUrl: './navegacao.html',
-    styleUrl: './navegacao.css',
+  selector: 'app-navegacao',
+  imports: [MenubarModule, RippleModule, BadgeModule,
+    AvatarModule, DialogModule, ButtonModule, InputTextModule, FormsModule, ModalEntrar, ModalCadastro],
+  templateUrl: './navegacao.html',
+  styleUrl: './navegacao.css',
 })
 export class Navegacao implements OnInit, AfterViewInit {
-    @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
-    @ViewChild('modalCadastro') modalCadastro!: ModalCadastro;
 
-    roleUSER: boolean | undefined;
-    value: any;
-    items: MenuItem[] | undefined;
+  @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
+  @ViewChild('modalCadastro') modalCadastro!: ModalCadastro;
 
-    constructor(private authService: AuthService,
-        private usuarioService: UsuarioService,
-        private cdr: ChangeDetectorRef,
-        private router: Router) { }
+  roleUSER: boolean | undefined;
+  value: any;
+  items: MenuItem[] | undefined;
 
-    ngAfterViewInit() {
-        console.log('=== MODAL DISPONÍVEL ===');
-        console.log('ModalEntrar:', this.modalEntrar);
-        console.log('displayModal inicial:', this.modalEntrar.displayModal);
+  constructor(
+    private authService: AuthService,
+    private usuarioService: UsuarioService,
+    private tokenService: TokenService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {}
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
+
+  onLoginConfirm(loginData: { email: string, password: string }) {
+    this.usuarioService
+      .loginUsuario(new LoginUsuario(loginData.email, loginData.password))
+      .subscribe((response: any) => {
+        // Backend agora retorna { accessToken, refreshToken }
+        this.tokenService.setTokens({
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken
+        });
         this.cdr.detectChanges();
-    }
-
-    onLoginConfirm(loginData: { email: string, password: string }) {
-        console.log('Login confirmado:', loginData);
-
-        this.usuarioService.loginUsuario(new LoginUsuario(loginData.email, loginData.password)).
-            subscribe(token => {
-                localStorage.setItem('auth_token', token?.token);
-                this.carregaMenu();
-            });
-    }
-    onLoginConfirmCadastro(loginData: { name: string, email: string, password: string }) {
-        console.log('Cadastro confirmado:', loginData);
-        console.log('Cheguei aqio:', loginData);
-        // Aqui você pode processar o login
-        // Exemplo: chamar um serviço de autenticação
-
-        //vericar o email antes de persistir
-        this.usuarioService.createUsuario(new Usuario(loginData.name, loginData.email, loginData.password, ['USER'])).subscribe(
-            (next) => {
-                console.log('dentro do next');
-                console.log(next);
-            }
-        );
-    }
-
-    onLoginCancel() {
-        console.log('Login cancelado');
-    }
-    carregaMenu() {
-        const isUser = this.authService.temAuthority('USER');
-        this.items = [
-            {
-                label: 'Sabbag',
-                routerLink: ['home'],
-                icon: 'pi pi-home',
-                visible: isUser,
-            },
-            {
-                label: 'Alunos',
-                icon: 'pi pi-search',
-                items: [
-                    {
-                        label: 'Inserir',
-                        icon: 'pi pi-bolt',
-                        shortcut: '⌘+S'
-                    },
-                    {
-                        label: 'Blocks',
-                        icon: 'pi pi-server',
-                        shortcut: '⌘+B'
-                    },
-                    {
-                        separator: true
-                    },
-                    {
-                        label: 'UI Kit',
-                        icon: 'pi pi-pencil',
-                        shortcut: '⌘+U'
-                    }
-                ]
-            },
-            {
-                label: 'Entrar',
-                command: () => {
-                    console.log("=== CLICOU EM ENTRAR ===");
-                    if (this.modalEntrar) {
-                        console.log("Modal encontrado, chamando showDialog()");
-                        this.modalEntrar.showDialog();
-                        console.log("displayModal após showDialog:", this.modalEntrar.displayModal);
-                        this.cdr.detectChanges(); // Forçar atualização
-                    } else {
-                        console.error("ERRO: Modal não encontrado!");
-                    }
-                }
-            },
-            {
-                label: 'Cadastrar',
-                command: () => {
-                    console.log("=== CLICOU EM CADASTRAR ===");
-                    if (this.modalCadastro) {
-                        console.log("Modal encontrado, chamando showDialog()");
-                        this.modalCadastro.showDialogCadastro();
-                        console.log("displayModal após showDialog:", this.modalCadastro.displayModal);
-                        this.cdr.detectChanges(); // Forçar atualização
-                    } else {
-                        console.error("ERRO: Modal não encontrado!");
-                    }
-                }
-            }
-        ];
-    }
-
-    ngOnInit() {
-
         this.carregaMenu();
-    }
+      });
+  }
+
+  onLoginConfirmCadastro(loginData: { name: string, email: string, password: string }) {
+    this.usuarioService
+      .createUsuario(new Usuario(loginData.name, loginData.email, loginData.password, ['USER']))
+      .subscribe((next) => {
+        console.log('Usuário criado:', next);
+      });
+  }
+
+  onLoginCancel() {
+    console.log('Login cancelado');
+  }
+
+  carregaMenu() {
+    const isUser = this.authService.temAuthority('USER');
+    this.items = [
+      {
+        label: 'Sabbag',
+        routerLink: ['home'],
+        icon: 'pi pi-home',
+      },
+      {
+        label: 'Alunos',
+        icon: 'pi pi-search',
+        items: [
+          { label: 'Inserir', icon: 'pi pi-bolt', shortcut: '⌘+S' },
+          { label: 'Blocks', icon: 'pi pi-server', shortcut: '⌘+B' },
+          { separator: true },
+          { label: 'UI Kit', icon: 'pi pi-pencil', shortcut: '⌘+U' }
+        ]
+      },
+      {
+        label: 'Entrar',
+        command: () => {
+          if (this.modalEntrar) this.modalEntrar.showDialog();
+        }
+      },
+      {
+        label: 'Cadastrar',
+        command: () => {
+          if (this.modalCadastro) this.modalCadastro.showDialogCadastro();
+        }
+      },
+      {
+        label: 'Sair',
+        visible: isUser,
+        command: () => {
+          this.tokenService.clearTokens();
+          this.carregaMenu();
+          this.cdr.detectChanges();
+          this.router.navigateByUrl("/");
+        }
+      }
+    ];
+  }
+
+  ngOnInit() {
+    this.carregaMenu();
+  }
 }

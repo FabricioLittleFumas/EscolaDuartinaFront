@@ -11,6 +11,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Interceptador } from './interceptador';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './service/auth-interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token');
@@ -37,7 +38,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: Interceptador,
+      useClass: AuthInterceptor,
       multi: true
     }
   ],

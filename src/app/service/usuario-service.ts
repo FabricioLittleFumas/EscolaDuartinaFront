@@ -20,8 +20,12 @@ private apiUrl = 'http://localhost:8081/APIEscolaDuartina/usuario/saveUser';
       return this.http.post<Usuario>(this.apiUrl, usuario);
     }
 
-    loginUsuario(login: LoginUsuario){
-      return this.http.post<any>('http://localhost:8081/APIEscolaDuartina/autentica/authenticate', login);
-    }
+   
+    loginUsuario(login: LoginUsuario) {
+     return this.http.post<any>(
+    'http://localhost:8081/APIEscolaDuartina/autentica/authenticate',
+    login
+  );
+}
 }
 
