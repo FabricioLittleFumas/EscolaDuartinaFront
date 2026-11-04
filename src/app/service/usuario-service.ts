@@ -9,6 +9,7 @@ import { LoginUsuario } from '../model/login-usuario';
 })
 export class UsuarioService {
 private apiUrl = 'http://localhost:8081/APIEscolaDuartina/usuario/saveUser';
+// private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/usuario/saveUser';
 
   constructor(private http: HttpClient) { }
 

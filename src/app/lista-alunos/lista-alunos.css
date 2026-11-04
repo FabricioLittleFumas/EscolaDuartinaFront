@@ -32,3 +32,57 @@
     margin: 0 auto;
     cursor: pointer;
 }
+
+
+
+/* Paginador no tema do projeto */
+:host ::ng-deep .p-paginator {
+  background-color: #d0c3d3 !important;
+  border: none;
+  font-family: 'Arimo', sans-serif;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page,
+:host ::ng-deep .p-paginator .p-paginator-next,
+:host ::ng-deep .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-paginator .p-paginator-first,
+:host ::ng-deep .p-paginator .p-paginator-last {
+  color: floralwhite;
+  background: transparent;
+  border: none;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:hover,
+:host ::ng-deep .p-paginator .p-paginator-next:hover,
+:host ::ng-deep .p-paginator .p-paginator-prev:hover {
+  background-color: #d0c3d3 !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background-color: #d0c3d3 !important;
+  color: floralwhite;
+  font-weight: bold;
+}
+
+:host ::ng-deep .p-paginator .p-dropdown {
+  background-color: #d0c3d3;
+  border: none;
+  color:#d0c3d3 !important;
+  font-family: 'Arimo', sans-serif;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-current {
+  color: floralwhite;
+  font-family: 'Arimo', sans-serif;
+  font-size: 0.9em;
+}
+
+
+
+
+
+
+

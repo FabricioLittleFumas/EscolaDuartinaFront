@@ -8,6 +8,7 @@ import { Aluno } from '../model/aluno';
 })
 export class AlunoService {
   private apiUrl = 'http://localhost:8081/APIEscolaDuartina/alunos/';
+  // private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/alunos/';
 
   constructor(private http: HttpClient) { }
 

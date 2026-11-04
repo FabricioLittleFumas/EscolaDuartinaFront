@@ -1,9 +1,21 @@
 <h1 class="titulo">Lista de Alunos</h1>
-<p-table styleClass="p-datatable-striped"  [value]="alunos" >
+<!-- <p-table styleClass="p-datatable-striped"  [value]="alunos" > -->
+   <div class="tabela-wrapper">
+   <p-table 
+  styleClass="p-datatable-striped" 
+  [value]="alunos"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[5, 10, 20, 50]"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} alunos"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [tableStyle]="{ 'min-width': '700px' }"
+>
             <ng-template #header>
                 <tr>
                     <th>Nome</th>
-                     <th>Data de nascimento</th>
+                     <th>Data de matrícula</th>
                     <th>Unidade</th>
                      <th >Inserir</th>
                      <th>Visualizar</th>
@@ -14,7 +26,7 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.data_saida | date:'dd/MM/yy'}}</td>
+                    <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td ><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
                   
@@ -30,6 +42,7 @@
                     </tr>
                 </ng-template>
             </p-table>
+            </div>
             <app-modal-insert-aluno #modalInsertAluno (insertAluno)="insertAluno($event)" ></app-modal-insert-aluno>
             <app-modal-edit-aluno #modalEditAluno (emitAlunoAtt)="emitAlunoAtt($event)"></app-modal-edit-aluno>
 

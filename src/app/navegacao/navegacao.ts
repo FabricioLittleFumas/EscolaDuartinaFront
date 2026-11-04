@@ -46,19 +46,20 @@ export class Navegacao implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  onLoginConfirm(loginData: { email: string, password: string }) {
-    this.usuarioService
-      .loginUsuario(new LoginUsuario(loginData.email, loginData.password))
-      .subscribe((response: any) => {
-        // Backend agora retorna { accessToken, refreshToken }
-        this.tokenService.setTokens({
-          accessToken: response.accessToken,
-          refreshToken: response.refreshToken
-        });
-        this.cdr.detectChanges();
-        this.carregaMenu();
+ onLoginConfirm(loginData: { email: string, password: string }) {
+  this.usuarioService
+    .loginUsuario(new LoginUsuario(loginData.email, loginData.password))
+    .subscribe((response: any) => {
+      this.tokenService.setTokens({
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken
       });
-  }
+
+      this.authService.notificarLogin();  // ✅ avisa todos os inscritos
+      this.carregaMenu();
+      this.cdr.detectChanges();
+    });
+}
 
   onLoginConfirmCadastro(loginData: { name: string, email: string, password: string }) {
     this.usuarioService
@@ -92,24 +93,27 @@ export class Navegacao implements OnInit, AfterViewInit {
       },
       {
         label: 'Entrar',
+        visible: !isUser,
         command: () => {
           if (this.modalEntrar) this.modalEntrar.showDialog();
         }
       },
       {
         label: 'Cadastrar',
+        visible: !isUser,
         command: () => {
           if (this.modalCadastro) this.modalCadastro.showDialogCadastro();
         }
       },
       {
         label: 'Sair',
-        visible: isUser,
-        command: () => {
-          this.tokenService.clearTokens();
-          this.carregaMenu();
-          this.cdr.detectChanges();
-          this.router.navigateByUrl("/");
+  visible: isUser,
+  command: () => {
+    this.tokenService.clearTokens();
+    this.authService.notificarLogout();  // ✅ avisa todos os inscritos
+    this.carregaMenu();
+    this.cdr.detectChanges();
+    this.router.navigateByUrl("/");
         }
       }
     ];

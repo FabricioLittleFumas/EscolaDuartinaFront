@@ -13,13 +13,14 @@ import { HttpHeaders } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../auth-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
   imports: [ToastModule, TableModule, CommonModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
-  providers: [AlunoService, MessageService],
+  providers: [MessageService],
   styleUrl: './lista-alunos.css',
 })
 export class ListaAlunos implements OnInit {
@@ -27,7 +28,7 @@ export class ListaAlunos implements OnInit {
   @ViewChild('modalEditAluno') modalEdit!: ModalEditAluno;
  @ViewChild('modalExcludeAluno') modalExcludeAluno!: ModalExcludeAluno;
  @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
-
+  private authSub!: Subscription;
   alunos: Aluno[] = [];
   hasAutority: boolean | undefined;
   constructor(
@@ -94,6 +95,11 @@ emitAlunoAtt(aluno: any){
   ngOnInit(): void {
    this.getAllAlunos();
    this.hasAutority = this.authService.temAuthority('USER');
+   this.authSub = this.authService.authState$.subscribe(() => {
+      this.hasAutority = this.authService.temAuthority('USER');
+      this.getAllAlunos();   // recarrega a lista
+      this.cdr.detectChanges();
+    });
   }
   mostrarToast(severidade: string, detalhe: string, sumario: string ){
   this.messageService.add({ 

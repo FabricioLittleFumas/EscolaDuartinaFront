@@ -13,6 +13,7 @@ export interface TokenResponse {
 export class TokenService {
 
   private apiUrl = 'http://localhost:8081/APIEscolaDuartina/autentica';
+  // private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/autentica';
 
   private accessTokenSubject = new BehaviorSubject<string | null>(null);
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);

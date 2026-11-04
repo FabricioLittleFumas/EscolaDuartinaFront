@@ -11,6 +11,7 @@ import { catchError, switchMap, filter, take } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 import { TokenService } from './token-service';
+import { AuthService } from '../auth-service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   constructor(
+    private authService:  AuthService,
     private tokenService: TokenService,
     private router: Router
   ) {}
@@ -55,6 +57,7 @@ export class AuthInterceptor implements HttpInterceptor {
         switchMap((tokens) => {
           this.tokenService.isRefreshingToken = false;
           this.refreshTokenSubject.next(tokens.accessToken);
+          this.authService.notificarLogin();
           return next.handle(this.addToken(req, tokens.accessToken));
         }),
         catchError(err => {

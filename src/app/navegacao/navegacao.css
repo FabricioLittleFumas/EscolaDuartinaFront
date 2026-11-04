@@ -3,6 +3,7 @@
     font-family: 'Dosis', sans-serif;
     text-transform: uppercase;
     text-align: center !important;
+    z-index: 1000;
     letter-spacing: 0.08em;
 }
 :host ::ng-deep .p-menubar-item-label {

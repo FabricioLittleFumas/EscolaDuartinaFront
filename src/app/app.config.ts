@@ -9,7 +9,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { Interceptador } from './interceptador';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './service/auth-interceptor';
 
