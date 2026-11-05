@@ -17,7 +17,7 @@
                     <th>Nome</th>
                      <th>Data de matrícula</th>
                     <th>Unidade</th>
-                     <th >Inserir</th>
+                     <th *ngIf="hasAutority">Inserir</th>
                      <th>Visualizar</th>
                   <th *ngIf="hasAutority">Editar</th>
                   <th *ngIf="hasAutority">Excluir</th>
@@ -28,7 +28,7 @@
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
-                     <td ><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
+                     <td *ngIf="hasAutority"><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
                   
                     </td>
                      <td ><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>

@@ -3,11 +3,13 @@
             </ng-template>
            
             <ng-template #end>
+        
                 <div class="flex items-center gap-2">
-                    <input type="text" pInputText placeholder="Pesquisar" class="w-36" />
+                    <input (ngModelChange)="onBuscar($event)" type="text" [(ngModel)]="termoBusca" pInputText placeholder="Pesquisar" class="w-36" />
                     <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
                      shape="circle"  (click)="modalEntrar.showDialog()" />
                 </div>
+           
             </ng-template>
         </p-menubar>
  <app-modal-entrar 
@@ -20,4 +22,6 @@
       (confirm)="onLoginConfirmCadastro($event)" 
       (cancel)="onLoginCancel()">
 </app-modal-cadastro>
+   <p-toast />
+    <app-modal-insert-aluno #modalInsertAluno (insertAluno)="insertAluno($event)" ></app-modal-insert-aluno>
   

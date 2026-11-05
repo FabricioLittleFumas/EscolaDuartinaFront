@@ -11,7 +11,7 @@ import { Aluno } from './model/aluno';
   standalone: true,
   selector: 'app-root',
   imports: [RouterOutlet,Navegacao],
-templateUrl: './app.html',
+  templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {

@@ -79,6 +79,12 @@
   font-family: 'Arimo', sans-serif;
   font-size: 0.9em;
 }
+:host ::ng-deep .p-datatable-thead > tr > th, .p-datatable-sort-icon, .p-datatable-sort-badge{
+  text-align: center;
+}
+:host ::ng-deep  .p-datatable-tbody > tr > td{
+  text-align: center;
+}
 
 
 

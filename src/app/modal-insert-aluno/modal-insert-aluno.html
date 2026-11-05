@@ -25,11 +25,11 @@ header="Inserir Aluno"
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
           <input id="unidade" class="ipInfo" type="text" pInputText 
           [(ngModel)]="unidade" placeholder="Digite sua unidade Escolar" formControlName="unidade" />
-         
+
         </div>
         <div class="flx">
             <button pButton severity="secondary" type="submit">Inserir</button>
-            <button pButton severity="secondary" (click)="closeDialog($event)">Cancelar</button>
+            <button pButton type="button" severity="secondary" (click)="closeDialog($event)">Cancelar</button>
 
         </div>
       </div>
