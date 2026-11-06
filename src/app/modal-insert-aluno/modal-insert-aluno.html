@@ -23,11 +23,9 @@ header="Inserir Aluno"
 
         <div>
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
-          <select id="unidade" class="ipInfo" formControlName="unidade">
-            <option value="" disabled>Selecione a unidade</option>
-            <option value="MUNICIPAL">MUNICIPAL</option>
-            <option value="ESTADUAL">ESTADUAL</option>
-          </select>
+          <p-select inputId="unidade" class="ipInfo" [options]="unidades"
+            optionLabel="label" optionValue="value" formControlName="unidade"
+            placeholder="a unidade" />
 
         </div>
         <div class="flx">

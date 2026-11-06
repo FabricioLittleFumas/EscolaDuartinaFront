@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { AlunoService } from '../service/aluno-service';
@@ -23,12 +23,13 @@ templateUrl: './lista-alunos.html',
   providers: [MessageService],
   styleUrl: './lista-alunos.css',
 })
-export class ListaAlunos implements OnInit {
+export class ListaAlunos implements OnInit, OnDestroy {
   @ViewChild('modalViewAluno') modalEntrar!: ModalViewAluno;
   @ViewChild('modalEditAluno') modalEdit!: ModalEditAluno;
  @ViewChild('modalExcludeAluno') modalExcludeAluno!: ModalExcludeAluno;
  @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
   private authSub!: Subscription;
+  private alunosSub!: Subscription;
   alunos: Aluno[] = [];
   hasAutority: boolean | undefined;
   constructor(
@@ -85,21 +86,25 @@ emitAlunoAtt(aluno: any){
   }
 
   getAllAlunos(){
-     this.alunoService.getAlunos().subscribe(next => {
-     this.alunos = next;
-     this.cdr.detectChanges();
-     console.log(this.alunos);
-   })
+     this.alunoService.recarregarLista();
   }
 
   ngOnInit(): void {
-   this.getAllAlunos();
+   this.alunosSub = this.alunoService.alunos$.subscribe(alunos => {
+      this.alunos = alunos;
+      this.cdr.detectChanges();
+   });
    this.hasAutority = this.authService.temAuthority('USER');
    this.authSub = this.authService.authState$.subscribe(() => {
       this.hasAutority = this.authService.temAuthority('USER');
       this.getAllAlunos();   // recarrega a lista
       this.cdr.detectChanges();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.authSub?.unsubscribe();
+    this.alunosSub?.unsubscribe();
   }
   mostrarToast(severidade: string, detalhe: string, sumario: string ){
   this.messageService.add({ 

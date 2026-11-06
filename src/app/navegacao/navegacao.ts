@@ -16,7 +16,6 @@ import { Usuario } from '../model/usuario';
 import { LoginUsuario } from '../model/login-usuario';
 import { AuthService } from '../auth-service';
 import { TokenService } from '../service/token-service';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
@@ -39,8 +38,6 @@ export class Navegacao implements OnInit, AfterViewInit {
   @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
 
   termoBusca: string = '';
-  private buscaSubject = new Subject<string>();
-  private destroy$ = new Subject<void>();
   roleUSER: boolean | undefined;
   value: any;
   items: MenuItem[] | undefined;
@@ -148,31 +145,10 @@ export class Navegacao implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.carregaMenu();
-
-    this.buscaSubject.pipe(
-      debounceTime(300),          // espera 300ms sem digitar
-      distinctUntilChanged(),     // ignora se o valor não mudou
-      takeUntil(this.destroy$)
-    ).subscribe(valor => {
-      this.executarBusca(valor);
-    });
-  }
-   onBuscar(valor: string) {
-    this.buscaSubject.next(valor);
   }
 
-  executarBusca(valor: string) {
-    console.log('Busca real com:', valor);
-    // exemplo: navegar pra rota de busca
-    // this.router.navigate(['/home'], { queryParams: { q: valor } });
-    
-    // ou chamar service:
-    // this.alunoService.buscarPorNome(valor).subscribe(...)
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  onBuscar(valor: string) {
+    this.alunoService.definirTermoBusca(valor);
   }
 
   mostrarToast(severidade: string, detalhe: string, sumario: string ){

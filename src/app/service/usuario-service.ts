@@ -3,12 +3,13 @@ import { Injectable, Service } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Usuario } from '../model/usuario';
 import { LoginUsuario } from '../model/login-usuario';
+import { API_BASE_URL } from './api-base-url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-private apiUrl = 'http://localhost:8081/APIEscolaDuartina/usuario/saveUser';
+private apiUrl = `${API_BASE_URL}/usuario/saveUser`;
 // private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/usuario/saveUser';
 
   constructor(private http: HttpClient) { }
@@ -24,7 +25,7 @@ private apiUrl = 'http://localhost:8081/APIEscolaDuartina/usuario/saveUser';
    
     loginUsuario(login: LoginUsuario) {
      return this.http.post<any>(
-    'http://localhost:8081/APIEscolaDuartina/autentica/authenticate',
+    `${API_BASE_URL}/autentica/authenticate`,
     login
   );
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { API_BASE_URL } from './api-base-url';
 
 export interface TokenResponse {
   accessToken: string;
@@ -12,7 +13,7 @@ export interface TokenResponse {
 @Injectable({ providedIn: 'root' })
 export class TokenService {
 
-  private apiUrl = 'http://localhost:8081/APIEscolaDuartina/autentica';
+  private apiUrl = `${API_BASE_URL}/autentica`;
   // private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/autentica';
 
   private accessTokenSubject = new BehaviorSubject<string | null>(null);

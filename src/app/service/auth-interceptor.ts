@@ -25,8 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Adiciona token em tudo, menos nas rotas de autenticação
-    if (!req.url.includes('/autentica/')) {
+    const publicAlunoRead = this.isPublicAlunoRead(req);
+
+    // A listagem de alunos é pública: não envie um access token antigo e inválido.
+    if (publicAlunoRead) {
+      req = req.clone({ headers: req.headers.delete('Authorization') });
+    } else if (!req.url.includes('/autentica/')) {
       const token = this.tokenService.accessToken;
       if (token) {
         req = this.addToken(req, token);
@@ -36,16 +40,31 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
+          if (publicAlunoRead) {
+            return throwError(() => error);
+          }
+
           if (req.url.includes('/autentica/refresh')) {
             this.tokenService.clearTokens();
+            this.authService.notificarLogout();
             this.router.navigate(['/']);
             return throwError(() => error);
           }
+
+          // Só renova uma sessão quando há refresh token disponível.
+          if (!this.tokenService.accessToken || !this.tokenService.refreshToken) {
+            return throwError(() => error);
+          }
+
           return this.handle401Error(req, next);
         }
         return throwError(() => error);
       })
     );
+  }
+
+  private isPublicAlunoRead(req: HttpRequest<unknown>): boolean {
+    return req.method === 'GET' && /\/alunos(?:\/|$)/.test(req.url.split('?')[0]);
   }
 
   private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
