@@ -3,7 +3,6 @@ import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { PrimeNG } from 'primeng/config';
-import { CalendarModule } from 'primeng/calendar';
 
 
 import { routes } from './app.routes';

@@ -23,8 +23,11 @@ header="Inserir Aluno"
 
         <div>
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
-          <input id="unidade" class="ipInfo" type="text" pInputText 
-          [(ngModel)]="unidade" placeholder="Digite sua unidade Escolar" formControlName="unidade" />
+          <select id="unidade" class="ipInfo" formControlName="unidade">
+            <option value="" disabled>Selecione a unidade</option>
+            <option value="MUNICIPAL">MUNICIPAL</option>
+            <option value="ESTADUAL">ESTADUAL</option>
+          </select>
 
         </div>
         <div class="flx">
