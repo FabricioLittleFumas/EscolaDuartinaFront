@@ -1,8 +1,27 @@
 .autorizacao-container { max-width: 960px; margin: 2rem auto; padding: 1.5rem; }
 h1 { text-align: center; margin-bottom: 1.5rem; }
-table { width: 100%; border-collapse: collapse; background: #fff; }
-th, td { padding: .85rem 1rem; border-bottom: 1px solid #ddd; text-align: left; }
+table { font-family: 'Arimo', sans-serif; width: 100%; border-collapse: collapse; background: #fff; }
+th, td {text-align: center ;padding: .85rem 1rem; border-bottom: 1px solid #ddd; text-align: left; }
 th { background: #b884b7; color: #fff; }
-.check-cell { text-align: center; }
+.check-cell { text-align: center; margin: 0 auto; }
 input[type='checkbox'] { width: 1.15rem; height: 1.15rem; cursor: pointer; }
 .erro { color: #b42318; }
+.titulo{
+    text-align: center;
+    font-family: 'Arimo', sans-serif;
+    font-size: 1.75em;
+    /* margin-top: 45px; */
+}
+.titulo::after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: #26272C;
+   margin: 0 auto;
+   margin-top: 7px;
+}
+ th{
+    text-align: center;
+    font-weight: bold;
+}

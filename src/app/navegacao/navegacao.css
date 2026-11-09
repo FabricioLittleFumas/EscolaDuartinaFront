@@ -14,13 +14,24 @@
     background-color: #663c65;
     border-radius: 5px;
 }
+:host ::ng-deep .p-menubar,
+:host ::ng-deep .p-menubar-root-list,
+:host ::ng-deep .p-menubar-item,
+:host ::ng-deep .p-menubar-item-content,
+:host ::ng-deep .p-menubar-item-link {
+    overflow: visible !important;
+}
+:host ::ng-deep .p-menubar {
+    position: relative;
+    z-index: 10000;
+}
 :host ::ng-deep .p-menubar-item-link:has(.badge-autorizacao) {
     position: relative;
 }
 :host ::ng-deep .badge-autorizacao {
     position: absolute;
-    top: -0.45rem;
-    right: -0.35rem;
+    top: -0.55rem;
+    right: -0.45rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -35,4 +46,18 @@
     font-size: 0.68rem;
     font-weight: 700;
     line-height: 1;
+    z-index: 10001;
+    transform: scale(1.125);
+    transform-origin: top right;
+}
+
+@media (max-width: 960px) {
+    :host ::ng-deep .p-menubar-root-list > .p-menubar-item:not(:last-child),
+    :host ::ng-deep .p-menubar-submenu > .p-menubar-item:not(:last-child) {
+        border-bottom: 1px solid #b884b7 !important;
+    }
+
+    :host ::ng-deep .p-menubar-item-separator {
+        border-top: 1px solid #b884b7 !important;
+    }
 }
