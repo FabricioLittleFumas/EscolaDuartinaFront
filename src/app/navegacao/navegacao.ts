@@ -21,7 +21,7 @@ import { MessageService } from 'primeng/api';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 import { AlunoService } from '../service/aluno-service';
 import { Aluno } from '../model/aluno';
-import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { Subject, Subscription, debounceTime, distinctUntilChanged, interval, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -41,6 +41,9 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
   termoBusca: string = '';
   private buscaSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
+  private authSubscription?: Subscription;
+  private quantidadePendentesSubscription?: Subscription;
+  quantidadePendentes = 0;
   roleUSER: boolean | undefined;
   value: any;
   items: MenuItem[] | undefined;
@@ -85,6 +88,9 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       .createUsuario(new Usuario(loginData.name, loginData.email, loginData.password, ['USER']))
       .subscribe((next) => {
         this.mostrarToast("success","Sucesso ao efetuar cadastro.", "Sucesso");
+        if (this.authService.temAuthority('ADMIN')) {
+          this.usuarioService.atualizarQuantidadePendentes();
+        }
         console.log('Usuário criado:', next);
       },
     error =>{
@@ -98,6 +104,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
 
   carregaMenu() {
     const isUser = this.authService.temAuthority('USER');
+    const isAdmin = this.authService.temAuthority('ADMIN');
     this.items = [
       {
         label: 'Sabbag',
@@ -133,6 +140,14 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       {
+        label: 'Autorização',
+        icon: 'pi pi-user-edit',
+        routerLink: ['/autorizacao-usuario'],
+        visible: isAdmin,
+        badge: isAdmin && this.quantidadePendentes > 0 ? String(this.quantidadePendentes) : undefined,
+        badgeStyleClass: 'badge-autorizacao'
+      },
+      {
         label: 'Sair',
   visible: isUser,
   command: () => {
@@ -148,6 +163,24 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.carregaMenu();
+    this.quantidadePendentesSubscription = this.usuarioService.quantidadePendentes$.subscribe(quantidade => {
+      this.quantidadePendentes = quantidade;
+      if (this.authService.temAuthority('ADMIN')) this.carregaMenu();
+      this.cdr.detectChanges();
+    });
+    this.authSubscription = this.authService.authState$.subscribe(() => {
+      this.carregaMenu();
+      if (this.authService.temAuthority('ADMIN')) {
+        this.usuarioService.atualizarQuantidadePendentes();
+      } else {
+        this.usuarioService.definirQuantidadePendentes(0);
+      }
+    });
+    interval(3000).pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.authService.temAuthority('ADMIN')) {
+        this.usuarioService.atualizarQuantidadePendentes();
+      }
+    });
     this.buscaSubject.pipe(
       debounceTime(250),
       distinctUntilChanged(),
@@ -162,6 +195,8 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.authSubscription?.unsubscribe();
+    this.quantidadePendentesSubscription?.unsubscribe();
   }
 
   mostrarToast(severidade: string, detalhe: string, sumario: string ){

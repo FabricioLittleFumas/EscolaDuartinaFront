@@ -1,0 +1,45 @@
+:host ::ng-deep .p-dialog-title {
+  margin: 0 auto;
+  font-family: 'Arimo', sans-serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: center;
+}
+
+:host ::ng-deep .p-dialog-title::after {
+  display: block;
+  width: 35px;
+  height: 2px;
+  margin: 7px auto 0;
+  background: #26272c;
+  content: '';
+}
+
+:host ::ng-deep .p-dialog-content {
+  font-family: 'Arimo', sans-serif;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.acoes {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem auto .5rem;
+}
+
+.acoes button {
+  min-width: 110px;
+  padding: .65rem 1rem;
+  border: 0;
+  border-radius: 5px;
+  background: #d0c3d3;
+  font-family: 'Arimo', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.acoes button:hover:not(:disabled) { background: #b884b7; }
+.acoes button:disabled { cursor: wait; opacity: .65; }
+.erro { color: #b42318; }

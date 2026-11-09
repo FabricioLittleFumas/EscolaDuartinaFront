@@ -14,3 +14,25 @@
     background-color: #663c65;
     border-radius: 5px;
 }
+:host ::ng-deep .p-menubar-item-link:has(.badge-autorizacao) {
+    position: relative;
+}
+:host ::ng-deep .badge-autorizacao {
+    position: absolute;
+    top: -0.45rem;
+    right: -0.35rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.25rem;
+    border: 2px solid #b884b7;
+    border-radius: 999px;
+    background: #dc3545;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+}

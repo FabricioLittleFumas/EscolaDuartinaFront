@@ -1,0 +1,8 @@
+.autorizacao-container { max-width: 960px; margin: 2rem auto; padding: 1.5rem; }
+h1 { text-align: center; margin-bottom: 1.5rem; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: .85rem 1rem; border-bottom: 1px solid #ddd; text-align: left; }
+th { background: #b884b7; color: #fff; }
+.check-cell { text-align: center; }
+input[type='checkbox'] { width: 1.15rem; height: 1.15rem; cursor: pointer; }
+.erro { color: #b42318; }

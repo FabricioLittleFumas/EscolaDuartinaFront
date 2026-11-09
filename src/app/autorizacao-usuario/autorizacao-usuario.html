@@ -1,0 +1,24 @@
+<main class="autorizacao-container">
+  <h1>Autorização de usuários</h1>
+  <p *ngIf="carregando">Carregando usuários...</p>
+  <p class="erro" *ngIf="erro" role="alert">{{ erro }}</p>
+
+  <table *ngIf="!carregando && usuarios.length">
+    <thead>
+      <tr><th>Nome</th><th>Solicitar liberação</th><th>E-mail</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.name }}</td>
+        <td class="check-cell">
+          <input type="checkbox" [checked]="false"
+                 [attr.aria-label]="'Autorizar cadastro de ' + usuario.name"
+                 (change)="solicitarAprovacao(usuario, $event)" />
+        </td>
+        <td>{{ usuario.email }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="!carregando && !erro && usuarios.length === 0">Nenhum usuário pendente para aprovação.</p>
+</main>
+<app-aprovacao-usuario (aceitar)="aprovarUsuario($event)"></app-aprovacao-usuario>

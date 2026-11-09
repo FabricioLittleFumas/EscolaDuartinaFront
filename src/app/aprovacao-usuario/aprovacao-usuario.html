@@ -1,0 +1,22 @@
+<p-dialog
+  header="Aprovação de acesso"
+  [(visible)]="displayModal"
+  [modal]="true"
+  [dismissableMask]="true"
+  [closable]="true"
+  [style]="{ width: '450px' }">
+  <ng-container *ngIf="usuario">
+    <p>Confirma a liberação de acesso para este usuário?</p>
+    <p><strong>Nome:</strong> {{ usuario.name }}</p>
+    <p><strong>E-mail:</strong> {{ usuario.email }}</p>
+    <p class="erro" *ngIf="erro" role="alert">{{ erro }}</p>
+    <div class="acoes">
+      <button pButton type="button" (click)="confirmarAprovacao()" [disabled]="salvando">
+        Aceitar
+      </button>
+      <button pButton severity="secondary" type="button" (click)="closeDialog()" [disabled]="salvando">
+        Cancelar
+      </button>
+    </div>
+  </ng-container>
+</p-dialog>
