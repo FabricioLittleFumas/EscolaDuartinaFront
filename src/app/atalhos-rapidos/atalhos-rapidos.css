@@ -1,0 +1,27 @@
+:host { display: block; margin-top: 1.75rem; }
+
+.cabecalho-atalhos { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin: 0 0 1rem; }
+.sobretitulo { color: #8a638d; font: 700 .72rem 'Arimo', sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+h2 { margin: .25rem 0 0; color: #29232d; font: 700 1.55rem 'Dosis', sans-serif; }
+.cabecalho-atalhos p { margin: 0; color: #706976; font: 400 .88rem 'Arimo', sans-serif; }
+.grade-atalhos { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.cartao-atalho { display: flex; align-items: center; gap: .85rem; min-height: 92px; padding: 1rem; border: 1px solid #ece4ed; border-radius: 16px; background: #fff; color: inherit; text-decoration: none; box-shadow: 0 5px 18px rgba(45,32,49,.04); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.cartao-atalho:hover, .cartao-atalho:focus-visible { transform: translateY(-3px); border-color: #c79bc8; box-shadow: 0 12px 25px rgba(82,47,83,.1); outline: none; }
+.cartao-atalho:focus-visible { outline: 3px solid rgba(184,132,183,.35); outline-offset: 3px; }
+.cartao-atalho > span:first-child { display: grid; flex: 0 0 2.8rem; width: 2.8rem; height: 2.8rem; place-items: center; border-radius: 13px; color: #fff; font-size: 1.1rem; }
+.icone-alunos { background: #b884b7; }
+.icone-logs { background: #7185b8; }
+.icone-autorizacao { background: #d68a45; }
+.texto-cartao { display: grid; flex: 1; gap: .28rem; }
+.texto-cartao strong { color: #342d38; font: 700 .95rem 'Arimo', sans-serif; }
+.texto-cartao small { color: #77717d; font: 400 .78rem/1.4 'Arimo', sans-serif; }
+.seta { color: #a17aa3; font-size: .85rem; }
+
+@media (max-width: 560px) {
+  .cabecalho-atalhos { align-items: start; flex-direction: column; }
+  .grade-atalhos { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cartao-atalho { transition: none; }
+}

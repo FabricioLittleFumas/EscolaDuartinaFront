@@ -1,0 +1,55 @@
+:host { display: block; }
+
+.boas-vindas {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+  min-height: 390px;
+  overflow: hidden;
+  padding: clamp(1.7rem, 4vw, 4rem);
+  border: 1px solid #392b3e;
+  border-radius: 28px;
+  background: radial-gradient(ellipse at 83% 14%, rgba(184,132,183,.2), transparent 35%), linear-gradient(120deg, #211a27 0%, #302335 58%, #3a2b3d 100%);
+  box-shadow: 0 22px 55px rgba(38,27,43,.18);
+  box-sizing: border-box;
+}
+
+.boas-vindas::before { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.15) .7px, transparent .7px); background-size: 18px 18px; content: ''; opacity: .12; pointer-events: none; }
+.texto-boas-vindas { position: relative; z-index: 1; max-width: 650px; }
+.sobretitulo { display: inline-flex; align-items: center; gap: .55rem; color: #e3c9e4; font: 700 .72rem 'Arimo', sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+.sobretitulo > i { color: #e8b963; }
+.ponto { width: 4px; height: 4px; margin: 0 .15rem; border-radius: 50%; background: #b7d5ad; }
+h1 { margin: 1.2rem 0 .9rem; color: #fffaf2; font: 700 clamp(2rem, 4vw, 3.45rem)/1.04 'Dosis', sans-serif; letter-spacing: -.025em; }
+h1 em { color: #d6b5d7; font-style: normal; }
+.texto-boas-vindas > p { max-width: 510px; margin: 0; color: #d3cbd5; font: 400 .98rem/1.7 'Arimo', sans-serif; }
+.indicador-alunos { display: inline-flex; align-items: center; gap: .75rem; margin: 1.4rem 0 0; padding: .55rem .9rem .55rem .55rem; border: 1px solid rgba(255,255,255,.13); border-radius: 14px; background: rgba(255,255,255,.08); }
+.icone-indicador { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 11px; background: #e8b963; color: #2d2230; font-size: 1.05rem; }
+.valor-indicador { display: grid; gap: .12rem; }
+.valor-indicador strong { color: #fffaf2; font: 700 1.1rem 'Arimo', sans-serif; }
+.valor-indicador small { color: #d3cbd5; font: 400 .75rem 'Arimo', sans-serif; }
+.acao-principal { display: inline-flex; align-items: center; gap: .65rem; min-height: 46px; margin: 1.2rem 0 0 .55rem; padding: 0 1rem; border-radius: 12px; background: #b884b7; color: #fff !important; font: 700 .88rem 'Arimo', sans-serif; text-decoration: none; transition: background .18s ease, transform .18s ease; }
+.acao-principal:hover, .acao-principal:focus-visible { transform: translateY(-2px); background: #a36aa3; outline: 3px solid rgba(232,185,99,.4); outline-offset: 3px; }
+.imagem-destaque { position: relative; min-height: 290px; overflow: visible; border: 1px solid rgba(255,255,255,.2); border-radius: 23px; background: #ede3ec; box-shadow: 0 18px 42px rgba(10,7,12,.26); transform: rotate(1.5deg); }
+.ilustracao-escola { display: block; width: 100%; height: 100%; min-height: 290px; object-fit: cover; border-radius: inherit; }
+.legenda-imagem { position: absolute; right: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .45rem; padding: .65rem .8rem; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; background: rgba(255,250,242,.92); color: #382d3a; font: 700 .72rem 'Arimo', sans-serif; box-shadow: 0 5px 16px rgba(37,27,41,.14); }
+.legenda-imagem i { color: #aa688b; }
+.selo-imagem { position: absolute; top: 1.15rem; left: -1.25rem; display: flex; align-items: center; gap: .45rem; padding: .7rem .9rem; border-radius: 12px; background: #d9e8d2; color: #344532; font: 700 .72rem 'Arimo', sans-serif; box-shadow: 0 9px 22px rgba(26,21,29,.18); transform: rotate(-5deg); }
+.selo-imagem i { color: #68815f; }
+
+@media (max-width: 860px) {
+  .boas-vindas { grid-template-columns: minmax(0, 1fr) minmax(240px, .75fr); gap: 1.5rem; min-height: 330px; }
+  .imagem-destaque, .ilustracao-escola { min-height: 240px; }
+}
+
+@media (max-width: 650px) {
+  .boas-vindas { grid-template-columns: 1fr; min-height: 0; padding: 1.5rem; }
+  .imagem-destaque { min-height: 210px; margin: .5rem .25rem .3rem 1rem; }
+  .ilustracao-escola { min-height: 210px; }
+  .selo-imagem { left: -.75rem; }
+  h1 { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .acao-principal { margin-left: .25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) { .acao-principal { transition: none; } }

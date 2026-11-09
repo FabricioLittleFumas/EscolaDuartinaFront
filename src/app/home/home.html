@@ -1,10 +1,8 @@
-<div class="grid">
-  <div class="col-12 sm:col-9 flex align-items-start justify-content-center">
-    <app-lista-alunos></app-lista-alunos>
-  </div>
+<main class="pagina-inicial">
+  <app-resumo-escola></app-resumo-escola>
+  <app-atalhos-rapidos></app-atalhos-rapidos>
 
-  <div class="col-12 sm:col-3 flex align-items-start justify-content-center"
-       style="background-color: #FF9800;">
-    <h2 style="color: white; font-family: 'Dosis', sans-serif;">Sidebar (3 colunas)</h2>
-  </div>
-</div>
+  <section id="lista-alunos" class="secao-alunos" aria-label="Consulta de alunos">
+    <app-lista-alunos></app-lista-alunos>
+  </section>
+</main>

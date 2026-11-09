@@ -1,0 +1,29 @@
+<section class="atalhos" aria-labelledby="titulo-atalhos">
+  <div class="cabecalho-atalhos">
+    <div>
+      <span class="sobretitulo">Comece por aqui</span>
+      <h2 id="titulo-atalhos">Acesso rápido</h2>
+    </div>
+    <p>Suas áreas mais usadas, a um clique.</p>
+  </div>
+
+  <div class="grade-atalhos">
+    <a class="cartao-atalho" routerLink="/home" fragment="lista-alunos">
+      <span class="icone-alunos"><i class="pi pi-users" aria-hidden="true"></i></span>
+      <span class="texto-cartao"><strong>Alunos</strong><small>Consulte e encontre cadastros</small></span>
+      <i class="pi pi-arrow-up-right seta" aria-hidden="true"></i>
+    </a>
+
+    <a class="cartao-atalho" routerLink="/log-system">
+      <span class="icone-logs"><i class="pi pi-history" aria-hidden="true"></i></span>
+      <span class="texto-cartao"><strong>Atividade do sistema</strong><small>Veja o histórico de ações</small></span>
+      <i class="pi pi-arrow-up-right seta" aria-hidden="true"></i>
+    </a>
+
+    <a *ngIf="isAdmin" class="cartao-atalho" routerLink="/autorizacao-usuario">
+      <span class="icone-autorizacao"><i class="pi pi-user-edit" aria-hidden="true"></i></span>
+      <span class="texto-cartao"><strong>Autorizações</strong><small>Revise solicitações pendentes</small></span>
+      <i class="pi pi-arrow-up-right seta" aria-hidden="true"></i>
+    </a>
+  </div>
+</section>

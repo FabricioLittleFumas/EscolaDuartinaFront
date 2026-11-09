@@ -1,22 +1,16 @@
 :host {
   display: block;
   width: 100%;
+}
+
+.pagina-inicial {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 2rem);
   box-sizing: border-box;
 }
 
-.grid {
-  margin: 0;   /* ✅ remove margem negativa do PrimeFlex */
-}
-
-@media screen and (max-width: 640px) {
-  .grid > div {
-    height: 300px !important;
-    margin-bottom: 1rem;
-  }
-}
-
-@media screen and (min-width: 641px) and (max-width: 1024px) {
-  .grid > div {
-    height: 450px !important;
-  }
+.secao-alunos {
+  scroll-margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }

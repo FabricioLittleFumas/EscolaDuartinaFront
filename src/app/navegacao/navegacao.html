@@ -6,8 +6,8 @@
         
                 <div class="flex items-center gap-2">
                     <input (ngModelChange)="onBuscar($event)" type="text" [(ngModel)]="termoBusca" pInputText placeholder="Pesquisar" class="w-36" />
-                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                     shape="circle"  (click)="modalEntrar.showDialog()" />
+                    <p-avatar label="ED" shape="circle" aria-label="Abrir acesso à conta"
+                     (click)="modalEntrar.showDialog()" />
                 </div>
            
             </ng-template>
