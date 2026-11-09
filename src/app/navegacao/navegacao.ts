@@ -148,6 +148,12 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
         badgeStyleClass: 'badge-autorizacao'
       },
       {
+        label: 'Logs do sistema',
+        icon: 'pi pi-history',
+        routerLink: ['/log-system'],
+        visible: true
+      },
+      {
         label: 'Sair',
   visible: isUser,
   command: () => {

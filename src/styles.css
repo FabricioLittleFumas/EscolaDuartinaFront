@@ -64,3 +64,15 @@ table {
 	
 }
 
+/* Texto da paginação iguala fonte e cor às linhas das tabelas PrimeNG. */
+.p-datatable-table,
+.p-datatable-tbody > tr > td,
+.p-paginator,
+.p-paginator button,
+.p-paginator .p-paginator-current,
+.p-paginator .p-select-label,
+.p-paginator .p-dropdown-label {
+	font-family: 'Arimo', sans-serif;
+	color: #26272C;
+}
+

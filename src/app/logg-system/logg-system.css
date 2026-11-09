@@ -1,0 +1,99 @@
+.logs-container { max-width: 1100px; margin: 2rem auto; padding: 1.25rem; }
+.tabela-wrapper { position: relative; min-height: 180px; overflow-x: auto; }
+.vazio { text-align: center; color: #666; }
+.acao { min-width: 28rem; white-space: pre-wrap; overflow-wrap: anywhere; text-align: left !important; }
+.erro { color: #b42318; text-align: center; }
+
+:host ::ng-deep .p-datatable-table {
+  background-color: #b884b7;
+  font-family: 'Arimo', sans-serif;
+  text-transform: capitalize;
+  text-align: center !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: #d0c3d3 !important;
+}
+
+:host ::ng-deep .p-paginator {
+  background-color: #d0c3d3 !important;
+  border: none;
+  font-family: 'Arimo', sans-serif;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page,
+:host ::ng-deep .p-paginator .p-paginator-next,
+:host ::ng-deep .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-paginator .p-paginator-first,
+:host ::ng-deep .p-paginator .p-paginator-last {
+  color: #26272C !important;
+  background: transparent;
+  border: none;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 6px;
+  font-family: 'Arimo', sans-serif;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:hover,
+:host ::ng-deep .p-paginator .p-paginator-next:hover,
+:host ::ng-deep .p-paginator .p-paginator-prev:hover,
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background-color: #b884b7 !important;
+  color: #26272C !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight { font-weight: bold; }
+
+:host ::ng-deep .p-paginator .p-select,
+:host ::ng-deep .p-paginator .p-select-label,
+:host ::ng-deep .p-paginator .p-dropdown-label {
+  background-color: #d0c3d3;
+  border: none;
+  color: #26272C !important;
+  font-family: 'Arimo', sans-serif;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-current {
+  color: #26272C !important;
+  font-family: 'Arimo', sans-serif;
+  font-size: .9em;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable-sort-icon,
+:host ::ng-deep .p-datatable-sort-badge,
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  text-align: center;
+}
+
+.titulo {
+  text-align: center;
+  font-family: 'Arimo', sans-serif;
+  font-size: 1.75em;
+  margin: 0 0 1.25rem;
+}
+
+.titulo::after {
+  content: '';
+  display: block;
+  width: 35px;
+  height: 2px;
+  background-color: #26272C;
+  margin: 7px auto 0;
+}
+.titulo{
+    text-align: center;
+    font-family: 'Arimo', sans-serif;
+    font-size: 1.75em;
+    /* margin-top: 45px; */
+}
+.titulo::after{
+    content: '';
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: #26272C;
+   margin: 0 auto;
+   margin-top: 7px;
+}

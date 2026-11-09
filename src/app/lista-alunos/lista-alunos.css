@@ -52,12 +52,13 @@
 :host ::ng-deep .p-paginator .p-paginator-prev,
 :host ::ng-deep .p-paginator .p-paginator-first,
 :host ::ng-deep .p-paginator .p-paginator-last {
-  color: floralwhite;
+  color: #26272C !important;
   background: transparent;
   border: none;
   min-width: 2.5rem;
   height: 2.5rem;
   border-radius: 6px;
+  font-family: 'Arimo', sans-serif;
 }
 
 :host ::ng-deep .p-paginator .p-paginator-page:hover,
@@ -68,19 +69,21 @@
 
 :host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
   background-color: #d0c3d3 !important;
-  color: floralwhite;
+  color: #26272C !important;
   font-weight: bold;
 }
 
+:host ::ng-deep .p-paginator .p-select,
+:host ::ng-deep .p-paginator .p-select-label,
 :host ::ng-deep .p-paginator .p-dropdown {
   background-color: #d0c3d3;
   border: none;
-  color:#d0c3d3 !important;
+  color: #26272C !important;
   font-family: 'Arimo', sans-serif;
 }
 
 :host ::ng-deep .p-paginator .p-paginator-current {
-  color: floralwhite;
+  color: #26272C !important;
   font-family: 'Arimo', sans-serif;
   font-size: 0.9em;
 }
