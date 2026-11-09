@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
@@ -21,6 +21,7 @@ import { MessageService } from 'primeng/api';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 import { AlunoService } from '../service/aluno-service';
 import { Aluno } from '../model/aluno';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -31,13 +32,15 @@ import { Aluno } from '../model/aluno';
   providers: [MessageService],
   styleUrl: './navegacao.css',
 })
-export class Navegacao implements OnInit, AfterViewInit {
+export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('modalEntrar') modalEntrar!: ModalEntrar;
   @ViewChild('modalCadastro') modalCadastro!: ModalCadastro;
   @ViewChild('modalInsertAluno') modalInsertAluno!: ModalInsertAluno;
 
   termoBusca: string = '';
+  private buscaSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
   roleUSER: boolean | undefined;
   value: any;
   items: MenuItem[] | undefined;
@@ -145,10 +148,20 @@ export class Navegacao implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.carregaMenu();
+    this.buscaSubject.pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(termo => this.alunoService.definirTermoBusca(termo));
   }
 
   onBuscar(valor: string) {
-    this.alunoService.definirTermoBusca(valor);
+    this.buscaSubject.next(valor);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   mostrarToast(severidade: string, detalhe: string, sumario: string ){

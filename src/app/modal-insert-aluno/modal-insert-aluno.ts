@@ -5,13 +5,12 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from '../model/aluno';
 import { DatePickerModule } from 'primeng/datepicker';
-import { SelectModule } from 'primeng/select';
 
 import { Calendar } from '@primeicons/angular';
 @Component({
   standalone: true,
   imports: [ButtonModule,DialogModule,FormsModule, 
-    ReactiveFormsModule, DatePickerModule, SelectModule],
+    ReactiveFormsModule, DatePickerModule],
   selector: 'app-modal-insert-aluno',
   styleUrl: './modal-insert-aluno.css',
   templateUrl: './modal-insert-aluno.html',
@@ -25,10 +24,6 @@ export class ModalInsertAluno implements OnInit{
   data_saida: Date | undefined;
   date: Date | undefined;
   unidade: string = '';
-  unidades = [
-    { label: 'MUNICIPAL', value: 'MUNICIPAL' },
-    { label: 'ESTADUAL', value: 'ESTADUAL' }
-  ];
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
 

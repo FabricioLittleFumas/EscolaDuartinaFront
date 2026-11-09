@@ -6,6 +6,11 @@
     /* letter-spacing: 0.08em; */
 }
 
+.tabela-wrapper {
+  position: relative;
+  min-height: 180px;
+}
+
 ::ng-deep .p-datatable-tbody > tr:nth-child(odd) {
     background-color: #d0c3d3 !important;
 }

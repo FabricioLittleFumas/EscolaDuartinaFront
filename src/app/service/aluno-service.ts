@@ -1,9 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize, shareReplay, switchMap } from 'rxjs/operators';
 import { Aluno } from '../model/aluno';
 import { API_BASE_URL } from './api-base-url';
+
+export interface PaginaAlunos {
+  content: Aluno[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+}
+
+interface ConsultaAlunos {
+  page: number;
+  size: number;
+  sort: string;
+  direction: string;
+  nome: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +29,47 @@ import { API_BASE_URL } from './api-base-url';
 export class AlunoService {
   private apiUrl = `${API_BASE_URL}/alunos`;
   // private apiUrl = 'http://10.0.2.2:8081/APIEscolaDuartina/alunos/';
-  private termoBuscaSubject = new BehaviorSubject<string>('');
-  private recarregarSubject = new Subject<void>();
+  private consultaSubject = new BehaviorSubject<ConsultaAlunos>({
+    page: 0,
+    size: 10,
+    sort: 'nome',
+    direction: 'ASC',
+    nome: ''
+  });
+  private loadingSubject = new BehaviorSubject<boolean>(true);
+  private requestId = 0;
 
-  readonly alunos$ = combineLatest([
-    this.termoBuscaSubject.pipe(debounceTime(250), distinctUntilChanged()),
-    this.recarregarSubject.pipe(startWith(undefined))
-  ]).pipe(
-    switchMap(([termo]) => {
-      const nome = termo.trim();
-      const consulta = nome ? this.buscarPorNome(nome) : this.getAlunos();
-      return consulta.pipe(
+  readonly loading$ = this.loadingSubject.asObservable();
+
+  readonly paginaAlunos$ = this.consultaSubject.pipe(
+    switchMap(consulta => {
+      const requestId = ++this.requestId;
+      this.loadingSubject.next(true);
+      return this.http.get<PaginaAlunos>(`${this.apiUrl}/paginado`, {
+        params: {
+          page: consulta.page,
+          size: consulta.size,
+          sort: consulta.sort,
+          direction: consulta.direction,
+          nome: consulta.nome
+        }
+      }).pipe(
         catchError(error => {
-          console.error('Falha ao carregar alunos:', error);
-          return of([] as Aluno[]);
+          console.error('Falha ao carregar página de alunos:', error);
+          return of({
+            content: [],
+            page: consulta.page,
+            size: consulta.size,
+            totalElements: 0,
+            totalPages: 0,
+            first: true,
+            last: true
+          } as PaginaAlunos);
+        }),
+        finalize(() => {
+          if (requestId === this.requestId) {
+            this.loadingSubject.next(false);
+          }
         })
       );
     }),
@@ -45,11 +90,30 @@ export class AlunoService {
   }
 
   definirTermoBusca(termo: string): void {
-    this.termoBuscaSubject.next(termo ?? '');
+    const atual = this.consultaSubject.value;
+    const novoTermo = (termo ?? '').trim();
+    if (novoTermo !== atual.nome) {
+      this.consultaSubject.next({ ...atual, page: 0, nome: novoTermo });
+    }
+  }
+
+  definirPagina(page: number, size: number, sort?: string, direction?: string): void {
+    const atual = this.consultaSubject.value;
+    const proxima: ConsultaAlunos = {
+      ...atual,
+      page: Math.max(0, page),
+      size: Math.min(Math.max(1, size), 100),
+      sort: sort || atual.sort,
+      direction: direction || atual.direction
+    };
+
+    if (JSON.stringify(proxima) !== JSON.stringify(atual)) {
+      this.consultaSubject.next(proxima);
+    }
   }
 
   recarregarLista(): void {
-    this.recarregarSubject.next();
+    this.consultaSubject.next({ ...this.consultaSubject.value });
   }
 
   // Buscar aluno por ID

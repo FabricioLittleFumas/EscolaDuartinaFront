@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { SortIcon, TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { AlunoService } from '../service/aluno-service';
 import { Aluno } from '../model/aluno';
@@ -14,11 +14,12 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../auth-service';
 import { Subscription } from 'rxjs';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [ToastModule, TableModule, CommonModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
+  imports: [ToastModule, TableModule, SortIcon, CommonModule, NgxLoadingModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
   providers: [MessageService],
   styleUrl: './lista-alunos.css',
@@ -31,12 +32,19 @@ export class ListaAlunos implements OnInit, OnDestroy {
   private authSub!: Subscription;
   private alunosSub!: Subscription;
   alunos: Aluno[] = [];
+  totalRecords = 0;
+  pageSize = 10;
+  first = 0;
   hasAutority: boolean | undefined;
   constructor(
     private authService: AuthService,
     private alunoService: AlunoService,
     private cdr: ChangeDetectorRef
   , private messageService: MessageService){
+  }
+
+  get loading$() {
+    return this.alunoService.loading$;
   }
 
 
@@ -50,6 +58,21 @@ export class ListaAlunos implements OnInit, OnDestroy {
       this.cdr.detectChanges();
       this.mostrarToast("success","Sucesso ao excluir aluno.", "Sucesso");
     });
+  }
+
+  onLazyLoad(event: any): void {
+    const rows = event.rows ?? this.pageSize;
+    const first = event.first ?? 0;
+    const sortField = Array.isArray(event.sortField) ? event.sortField[0] : event.sortField;
+
+    this.first = first;
+    this.pageSize = rows;
+    this.alunoService.definirPagina(
+      Math.floor(first / rows),
+      rows,
+      sortField,
+      event.sortOrder === -1 ? 'DESC' : event.sortOrder === 1 ? 'ASC' : undefined
+    );
   }
 
 emitAlunoAtt(aluno: any){
@@ -90,14 +113,16 @@ emitAlunoAtt(aluno: any){
   }
 
   ngOnInit(): void {
-   this.alunosSub = this.alunoService.alunos$.subscribe(alunos => {
-      this.alunos = alunos;
+   this.alunosSub = this.alunoService.paginaAlunos$.subscribe(pagina => {
+      this.alunos = pagina.content;
+      this.totalRecords = pagina.totalElements;
+      this.pageSize = pagina.size;
+      this.first = pagina.page * pagina.size;
       this.cdr.detectChanges();
    });
    this.hasAutority = this.authService.temAuthority('USER');
    this.authSub = this.authService.authState$.subscribe(() => {
       this.hasAutority = this.authService.temAuthority('USER');
-      this.getAllAlunos();   // recarrega a lista
       this.cdr.detectChanges();
     });
   }

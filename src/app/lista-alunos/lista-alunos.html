@@ -1,11 +1,19 @@
 <h1 class="titulo">Lista de Alunos</h1>
 <!-- <p-table styleClass="p-datatable-striped"  [value]="alunos" > -->
    <div class="tabela-wrapper">
+   <ngx-loading
+    [show]="(loading$ | async) ?? false"
+    [config]="{ fullScreenBackdrop: false, backdropBackgroundColour: 'rgba(255, 255, 255, 0.72)', primaryColour: '#b884b7', secondaryColour: '#d0c3d3', tertiaryColour: '#b884b7' }">
+   </ngx-loading>
    <p-table 
   styleClass="p-datatable-striped" 
   [value]="alunos"
+  [lazy]="true"
+  [first]="first"
   [paginator]="true"
-  [rows]="10"
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  (onLazyLoad)="onLazyLoad($event)"
   [rowsPerPageOptions]="[5, 10, 20, 50]"
   [showCurrentPageReport]="true"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} alunos"
@@ -14,9 +22,9 @@
 >
             <ng-template #header>
                 <tr>
-                    <th>Nome</th>
-                     <th>Data de matrícula</th>
-                    <th>Unidade</th>
+                    <th pSortableColumn="nome">Nome <p-sort-icon field="nome" /></th>
+                     <th pSortableColumn="data_saida">Data de matrícula <p-sort-icon field="data_saida" /></th>
+                    <th pSortableColumn="unidade">Unidade <p-sort-icon field="unidade" /></th>
                      <th *ngIf="hasAutority">Inserir</th>
                      <th>Visualizar</th>
                   <th *ngIf="hasAutority">Editar</th>
