@@ -9,6 +9,13 @@
 }
 
 :host ::ng-deep .p-menubar { position: relative; z-index: 10000; padding: .65rem 1rem; border: 0; border-radius: 0; box-shadow: 0 4px 18px rgba(25,18,28,.18); }
+:host ::ng-deep .p-menubar { display: flex; gap: clamp(1rem, 2.2vw, 2rem); min-height: 76px; padding-inline: max(1rem, calc((100vw - 1320px) / 2)); }
+:host ::ng-deep .p-menubar-start { flex: 0 0 auto; }
+.marca-escola { display: inline-flex; align-items: center; gap: .7rem; color: #fffaf2; text-decoration: none; }
+.marca-icone { display: grid; width: 2.65rem; height: 2.65rem; place-items: center; border: 1px solid #ffffff30; border-radius: 13px; background: #ffffff12; color: #e8b963; font-size: 1.15rem; }
+.marca-texto { display: grid; gap: .1rem; text-align: left; text-transform: none; letter-spacing: normal; }
+.marca-texto strong { color: #fffaf2; font: 700 1.03rem/1.1 'Dosis', sans-serif; }
+.marca-texto small { color: #d4c8d6; font: 400 .68rem/1.2 'Arimo', sans-serif; }
 :host ::ng-deep .p-menubar-item-label { color: #fffaf2 !important; }
 :host ::ng-deep .p-menubar-item-icon,
 :host ::ng-deep .p-menubar-submenu-icon { color: #d6b5d7 !important; }
@@ -31,6 +38,7 @@
 :host ::ng-deep .p-menubar-item-link:has(.badge-autorizacao) { position: relative; }
 
 :host ::ng-deep .p-menubar-end .flex { gap: .75rem; }
+:host ::ng-deep .p-menubar-root-list { gap: .2rem; }
 :host ::ng-deep .p-menubar-end input.p-inputtext { width: min(220px, 30vw); border: 1px solid rgba(255,255,255,.2); border-radius: 999px; background: rgba(255,255,255,.1); color: #fffaf2; font: 400 .9rem 'Arimo', sans-serif; transition: background .2s, border .2s, box-shadow .2s; }
 :host ::ng-deep .p-menubar-end input.p-inputtext::placeholder { color: #d4c8d6; }
 :host ::ng-deep .p-menubar-end input.p-inputtext:focus { border-color: #e8b963; background: rgba(255,255,255,.16); box-shadow: 0 0 0 3px rgba(232,185,99,.18); }
@@ -40,6 +48,10 @@
 :host ::ng-deep .badge-autorizacao { position: absolute; top: -.55rem; right: -.45rem; display: inline-flex; align-items: center; justify-content: center; min-width: 1.15rem; height: 1.15rem; padding: 0 .25rem; border: 2px solid #211a27; border-radius: 999px; background: #dc3545; color: #fff; font: 700 .68rem/1 Arial, sans-serif; z-index: 10001; transform: scale(1.125); transform-origin: top right; }
 
 @media (max-width: 960px) {
+  :host ::ng-deep .p-menubar { min-height: 68px; padding-inline: 1rem; }
+  :host ::ng-deep .p-menubar-start { margin-right: auto; }
+  :host ::ng-deep .p-menubar-end { order: 1; }
+  :host ::ng-deep .p-menubar-button { order: 2; }
   :host ::ng-deep .p-menubar-root-list { padding: .55rem; border: 1px solid #49354c; border-radius: 0 0 14px 14px; background: #211a27 !important; box-shadow: 0 14px 28px rgba(15,10,18,.3); }
   :host ::ng-deep .p-menubar-root-list > .p-menubar-item:not(:last-child),
   :host ::ng-deep .p-menubar-submenu > .p-menubar-item:not(:last-child) { border-bottom: 1px solid #58465e !important; }
@@ -49,6 +61,14 @@
   :host ::ng-deep .p-menubar-root-list .p-menubar-item-icon,
   :host ::ng-deep .p-menubar-root-list .p-menubar-submenu-icon { color: #e8b963 !important; }
   :host ::ng-deep .p-menubar-end { margin-left: auto; }
+}
+
+@media (max-width: 560px) {
+  .marca-icone { width: 2.35rem; height: 2.35rem; }
+  .marca-texto strong { font-size: .92rem; }
+  .marca-texto small { font-size: .62rem; }
+  :host ::ng-deep .p-menubar { gap: .55rem; }
+  :host ::ng-deep .p-menubar-end input.p-inputtext { width: 2.5rem; padding-inline: .7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) { :host ::ng-deep .p-menubar-item-link, :host ::ng-deep .p-menubar-end .p-avatar { transition: none; } }

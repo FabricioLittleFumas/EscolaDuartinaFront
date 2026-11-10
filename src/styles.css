@@ -5,6 +5,19 @@
 */
 @import 'primeicons/primeicons.css';
 
+:root {
+  color-scheme: light;
+  --escola-ameixa: #624166;
+  --escola-tinta: #302335;
+  --escola-creme: #fffaf2;
+  --escola-dourado: #e8b963;
+  --escola-salvia: #d9e8d2;
+  --escola-fundo: #faf8f4;
+}
+
+html { scroll-behavior: smooth; }
+body { min-width: 320px; background: var(--escola-fundo); color: #302335; font-family: 'Arimo', sans-serif; line-height: 1.5; }
+
 .somente-leitor {
   position: absolute;
   width: 1px;
@@ -68,11 +81,6 @@ table {
   font-weight: normal;
   font-style: normal;
 }
-*{
-	color: #26272C;
-	
-}
-
 /* Texto da paginação iguala fonte e cor às linhas das tabelas PrimeNG. */
 .p-datatable-table,
 .p-datatable-tbody > tr > td,

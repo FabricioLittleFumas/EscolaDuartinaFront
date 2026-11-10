@@ -15,7 +15,7 @@
   padding: clamp(1rem, 3vw, 3rem) clamp(1rem, 4vw, 3.5rem) 3rem;
 }
 
-.landing-page.incorporada { padding-top: clamp(1rem, 3vw, 2.5rem); padding-bottom: 0; }
+.landing-page.incorporada { padding-top: clamp(2.5rem, 5vw, 4.5rem); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
 
 .voltar, .acao {
   display: inline-flex;
@@ -42,6 +42,8 @@
 .origens { grid-area: 2 / 2 / 3 / 7; --fundo-cartao: #dce8d5; }
 .patrono { grid-area: 1 / 7 / 2 / 12; margin-top: 2rem; --fundo-cartao: #ede3ec; }
 .comunidade { grid-area: 2 / 7 / 3 / 13; --fundo-cartao: #f4e5c8; }
+
+.landing-page.incorporada .apresentacao { align-self: center; padding-right: clamp(0rem, 3vw, 2.25rem); }
 
 .sobretitulo, .marco {
   color: var(--ameixa);
@@ -89,7 +91,7 @@ h3 { font-size: 1.35rem; line-height: 1.15; }
   align-items: start;
   min-height: clamp(215px, 25vw, 312px);
   overflow: hidden;
-  border-radius: clamp(1rem, 2vw, 1.5rem);
+  border-radius: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem) .45rem;
   background: var(--fundo-cartao);
   box-shadow: 0 12px 28px #30233512;
 }
@@ -161,6 +163,7 @@ h3 { font-size: 1.35rem; line-height: 1.15; }
   .abertura { grid-template-columns: 1fr; }
   .abertura > * { grid-area: auto; }
   .patrono { margin-top: 0; }
+  .landing-page.incorporada { padding-block: 2.5rem; }
   .cartao { min-height: clamp(220px, 55vw, 295px); }
   .impacto { grid-template-columns: 1fr; }
 }

@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalEntrar } from '../modal-entrar/modal-entrar';
 import { ModalCadastro } from '../modal-cadastro/modal-cadastro';
 import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { UsuarioService } from '../service/usuario-service';
 import { Usuario } from '../model/usuario';
 import { LoginUsuario } from '../model/login-usuario';
@@ -27,7 +28,7 @@ import { Subject, Subscription, debounceTime, distinctUntilChanged, interval, ta
 @Component({
   selector: 'app-navegacao',
   imports: [ModalInsertAluno, ToastModule,MenubarModule, RippleModule, BadgeModule,
-    AvatarModule, DialogModule, ButtonModule, InputTextModule, FormsModule, ModalEntrar, ModalCadastro],
+    AvatarModule, DialogModule, ButtonModule, InputTextModule, FormsModule, RouterLink, ModalEntrar, ModalCadastro],
   templateUrl: './navegacao.html',
   providers: [MessageService],
   styleUrl: './navegacao.css',
@@ -110,22 +111,28 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
     const isAdmin = this.authService.temAuthority('ADMIN');
     this.items = [
       {
-        label: 'Sabbag',
-        routerLink: ['home'],
+        label: 'Início',
+        routerLink: ['/home'],
         icon: 'pi pi-home',
       },
       {
+        label: 'Nossa escola',
+        icon: 'pi pi-heart',
+        routerLink: ['/home'],
+        fragment: 'historia-escola',
+      },
+      {
         label: 'Alunos',
-        icon: 'pi pi-search',
+        icon: 'pi pi-users',
+        routerLink: ['/home'],
+        fragment: 'lista-alunos',
         items: [
-          { label: 'Inserir',
+          { label: 'Cadastrar aluno',
             command: () => {
           if (this.modalInsertAluno) this.modalInsertAluno.showDialog(new Aluno(1,'','',new Date()))}
           ,
-             visible: isUser, icon: 'pi pi-bolt', shortcut: '⌘+S' },
-          { label: 'Blocks', icon: 'pi pi-server', shortcut: '⌘+B' },
-          { separator: true },
-          { label: 'UI Kit', icon: 'pi pi-pencil', shortcut: '⌘+U' }
+             visible: isUser, icon: 'pi pi-user-plus' },
+          { label: 'Consultar alunos', routerLink: ['/home'], fragment: 'lista-alunos', icon: 'pi pi-search' },
         ]
       },
       {
