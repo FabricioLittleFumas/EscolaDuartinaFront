@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth-service';
 import { ListaAlunos } from '../lista-alunos/lista-alunos';
@@ -15,15 +15,21 @@ import { LandingPage } from '../landing-page/landing-page';
   templateUrl: './home.html',
 })
 export class Home implements OnInit, OnDestroy {
-  isAuthenticated = false;
+  hasUserAccess = false;
   isAdmin = false;
   private authSubscription?: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.atualizarAutorizacao();
-    this.authSubscription = this.authService.authState$.subscribe(() => this.atualizarAutorizacao());
+    this.authSubscription = this.authService.authState$.subscribe(() => {
+      this.atualizarAutorizacao();
+      this.cdr.markForCheck();
+    });
   }
 
   ngOnDestroy(): void {
@@ -31,7 +37,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   private atualizarAutorizacao(): void {
-    this.isAuthenticated = this.authService.isLoggedIn();
-    this.isAdmin = this.isAuthenticated && this.authService.temAuthority('ADMIN');
+    this.hasUserAccess = this.authService.isLoggedIn() && this.authService.temAuthority('USER');
+    this.isAdmin = this.authService.isLoggedIn() && this.authService.temAuthority('ADMIN');
   }
 }

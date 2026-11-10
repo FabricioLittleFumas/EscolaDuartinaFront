@@ -17,7 +17,9 @@
         }
       </span>
     </div>
-    <a class="acao-principal" routerLink="/home" fragment="lista-alunos">Explorar alunos <i class="pi pi-arrow-up-right" aria-hidden="true"></i></a>
+    @if (isAuthenticated()) {
+      <a class="acao-principal" routerLink="/home" fragment="lista-alunos">Explorar alunos <i class="pi pi-arrow-up-right" aria-hidden="true"></i></a>
+    }
     <a class="acao-historia" routerLink="/home" fragment="historia-escola">Conheça a escola <i class="pi pi-arrow-down" aria-hidden="true"></i></a>
   </div>
   <div class="imagem-destaque">

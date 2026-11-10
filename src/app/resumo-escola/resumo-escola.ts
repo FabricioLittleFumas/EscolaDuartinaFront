@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { criarContagemAnimada } from '../contagem-animada';
+import { AuthService } from '../auth-service';
 import { AlunoService } from '../service/aluno-service';
 import { IlustracaoEscola } from './ilustracao-escola';
 
@@ -14,6 +15,10 @@ import { IlustracaoEscola } from './ilustracao-escola';
   styleUrl: './resumo-escola.css'
 })
 export class ResumoEscola {
+  private readonly authService = inject(AuthService);
+  readonly isAuthenticated = toSignal(this.authService.authState$, {
+    initialValue: this.authService.isLoggedIn(),
+  });
   private readonly contador = viewChild.required<ElementRef<HTMLElement>>('contador');
   readonly totalAlunos = toSignal(inject(AlunoService).paginaAlunos$.pipe(map(pagina => pagina.totalElements)), {
     initialValue: null,

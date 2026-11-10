@@ -114,16 +114,18 @@ emitAlunoAtt(aluno: any){
   }
 
   ngOnInit(): void {
-   this.alunosSub = this.alunoService.paginaAlunos$.subscribe(pagina => {
+   this.authSub = this.authService.authState$.subscribe(() => {
+      this.hasAutority = this.authService.temAuthority('USER');
+      if (this.authService.isLoggedIn() && this.hasAutority) {
+        this.alunoService.recarregarLista();
+      }
+      this.cdr.detectChanges();
+    });
+    this.alunosSub = this.alunoService.paginaAlunos$.subscribe(pagina => {
       this.alunos = pagina.content;
       this.totalRecords = pagina.totalElements;
       this.pageSize = pagina.size;
       this.first = pagina.page * pagina.size;
-      this.cdr.detectChanges();
-   });
-   this.hasAutority = this.authService.temAuthority('USER');
-   this.authSub = this.authService.authState$.subscribe(() => {
-      this.hasAutority = this.authService.temAuthority('USER');
       this.cdr.detectChanges();
     });
   }

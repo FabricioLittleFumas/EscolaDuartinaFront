@@ -83,7 +83,10 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       this.cdr.detectChanges();
     }
   , error =>{
-     this.mostrarToast("error","Usuário ou senha inválida", "Erro");
+     const mensagem = error.status === 403
+       ? error.error?.message ?? 'Seu cadastro está aguardando a aprovação de um administrador.'
+       : 'Usuário ou senha inválida';
+     this.mostrarToast("error", mensagem, "Erro");
   });
 }
 

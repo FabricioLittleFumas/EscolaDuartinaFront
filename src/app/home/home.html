@@ -2,7 +2,7 @@
   @if (isAdmin) {
     <app-atalhos-rapidos></app-atalhos-rapidos>
   }
-    @if (isAuthenticated) {
+    @if (hasUserAccess) {
     <section id="lista-alunos" class="secao-alunos" aria-label="Consulta de alunos">
       <app-lista-alunos></app-lista-alunos>
     </section>
