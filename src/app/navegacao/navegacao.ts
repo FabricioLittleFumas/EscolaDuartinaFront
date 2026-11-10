@@ -109,6 +109,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
   carregaMenu() {
     const isUser = this.authService.temAuthority('USER');
     const isAdmin = this.authService.temAuthority('ADMIN');
+    const isAuthenticated = this.authService.isLoggedIn();
     this.items = [
       {
         label: 'Início',
@@ -123,6 +124,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       },
       {
         label: 'Alunos',
+        visible: isAuthenticated,
         icon: 'pi pi-users',
         routerLink: ['/home'],
         fragment: 'lista-alunos',
@@ -132,19 +134,19 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
           if (this.modalInsertAluno) this.modalInsertAluno.showDialog(new Aluno(1,'','',new Date()))}
           ,
              visible: isUser, icon: 'pi pi-user-plus' },
-          { label: 'Consultar alunos', routerLink: ['/home'], fragment: 'lista-alunos', icon: 'pi pi-search' },
+          { label: 'Consultar alunos', routerLink: ['/home'], fragment: 'lista-alunos', visible: isAuthenticated, icon: 'pi pi-search' },
         ]
       },
       {
         label: 'Entrar',
-        visible: !isUser,
+        visible: !isAuthenticated,
         command: () => {
           if (this.modalEntrar) this.modalEntrar.showDialog();
         }
       },
       {
         label: 'Cadastrar',
-        visible: !isUser,
+        visible: !isAuthenticated,
         command: () => {
           if (this.modalCadastro) this.modalCadastro.showDialogCadastro();
         }
@@ -165,7 +167,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       },
       {
         label: 'Sair',
-  visible: isUser,
+  visible: isAuthenticated,
   command: () => {
     this.tokenService.clearTokens();
     this.authService.notificarLogout();  // ✅ avisa todos os inscritos
@@ -231,7 +233,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
     this.alunoService.createAluno(aluno).subscribe((next) =>{
       this.cdr.detectChanges();
       // this.getAllAlunos();
-      this.modalInsertAluno.closeDialogs();
+      this.modalInsertAluno.closeAfterSave();
       this.mostrarToast("success","Sucesso ao inserir aluno.", "Sucesso");
     },
     (error) => {

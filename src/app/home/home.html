@@ -1,9 +1,14 @@
 <div class="pagina-inicial">
+  @if (isAdmin) {
+    <app-atalhos-rapidos></app-atalhos-rapidos>
+  }
+    @if (isAuthenticated) {
+    <section id="lista-alunos" class="secao-alunos" aria-label="Consulta de alunos">
+      <app-lista-alunos></app-lista-alunos>
+    </section>
+  }
   <app-resumo-escola></app-resumo-escola>
   <app-landing-page id="historia-escola" [incorporada]="true"></app-landing-page>
 
-  <section id="lista-alunos" class="secao-alunos" aria-label="Consulta de alunos">
-    <app-lista-alunos></app-lista-alunos>
-  </section>
-  <app-atalhos-rapidos></app-atalhos-rapidos>
+
 </div>

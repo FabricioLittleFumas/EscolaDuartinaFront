@@ -27,7 +27,7 @@ private apiUrl = `${API_BASE_URL}/usuario/saveUser`;
   
       // Junta tudo no padrão yy--mm--dd
 
-      // usuario.data_saida = dataFormatada;
+      // usuario.data_nascimento = dataFormatada;
       return this.http.post<Usuario>(this.apiUrl, usuario);
     }
 

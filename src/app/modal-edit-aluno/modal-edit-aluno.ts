@@ -38,7 +38,11 @@ export class ModalEditAluno implements OnInit{
     this.displayModal = true;
     console.log("displayModal definido como:", this.displayModal);
     this.alunoForms.patchValue({
-      data_saida: new Date(alunos.data_saida)
+      id: alunos.id,
+      rm: alunos.rm ?? null,
+      nome: alunos.nome,
+      data_nascimento: new Date(alunos.data_nascimento),
+      unidade: alunos.unidade
     });
     // FORÇAR DETECÇÃO DE MUDANÇAS
     this.cdr.detectChanges();
@@ -56,11 +60,18 @@ export class ModalEditAluno implements OnInit{
     // this.cdr.detectChanges();
     this.cancel.emit();
   }
+
+  closeAfterSave(): void {
+    this.displayModal = false;
+    this.cdr.detectChanges();
+  }
+
    inicializarFormulario(): void {
     this.alunoForms = this.fb.group({
       id: ['', Validators.required],
+      rm: [null, [Validators.required, Validators.min(1)]],
       nome: ['', [Validators.required, Validators.minLength(3)]],
-      data_saida: ['data_saida', Validators.required],
+      data_nascimento: [null, Validators.required],
       unidade: ['', Validators.required],
     });
    

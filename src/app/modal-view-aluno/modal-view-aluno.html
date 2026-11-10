@@ -7,8 +7,9 @@ header="Aluno"
 [style]="{ width: '450px' }"
 (onHide)="closeDialog()">
 <svg data-p-icon="user" [size]="80"></svg>
+<p>RM: {{aluno.rm ?? '—'}}</p>
 <p>Nome: {{aluno.nome}}</p>
-<p>Data de saída: {{aluno.data_saida | date:'dd/MM/yyyy'}}</p>
+<p>Data de nascimento: {{aluno.data_nascimento | date:'dd/MM/yyyy'}}</p>
 <p>Unidade de ensino: {{aluno.unidade}}</p>
 
   

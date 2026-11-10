@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, finalize, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Aluno } from '../model/aluno';
 import { API_BASE_URL } from './api-base-url';
 
@@ -22,6 +22,8 @@ interface ConsultaAlunos {
   direction: string;
   nome: string;
 }
+
+type AlunoApi = Partial<Aluno> & { registro_matricula?: number | null };
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,10 @@ export class AlunoService {
           nome: consulta.nome
         }
       }).pipe(
+        map(pagina => ({
+          ...pagina,
+          content: pagina.content.map(aluno => this.normalizarAluno(aluno as AlunoApi))
+        })),
         catchError(error => {
           console.error('Falha ao carregar página de alunos:', error);
           return of({
@@ -80,13 +86,15 @@ export class AlunoService {
 
   // Buscar todos os alunos
   getAlunos(): Observable<Aluno[]> {
-    return this.http.get<Aluno[]>(this.apiUrl);
+    return this.http.get<AlunoApi[]>(this.apiUrl).pipe(
+      map(alunos => alunos.map(aluno => this.normalizarAluno(aluno)))
+    );
   }
 
   buscarPorNome(nome: string): Observable<Aluno[]> {
-    return this.http.get<Aluno[]>(`${this.apiUrl}/buscar`, {
+    return this.http.get<AlunoApi[]>(`${this.apiUrl}/buscar`, {
       params: { nome: nome.trim() }
-    });
+    }).pipe(map(alunos => alunos.map(aluno => this.normalizarAluno(aluno))));
   }
 
   definirTermoBusca(termo: string): void {
@@ -118,7 +126,9 @@ export class AlunoService {
 
   // Buscar aluno por ID
   getAlunoById(id: number): Observable<Aluno> {
-    return this.http.get<Aluno>(`${this.apiUrl}/${id}`);
+    return this.http.get<AlunoApi>(`${this.apiUrl}/${id}`).pipe(
+      map(aluno => this.normalizarAluno(aluno))
+    );
   }
 
   // Criar novo aluno
@@ -126,8 +136,8 @@ export class AlunoService {
 
     // Junta tudo no padrão yy--mm--dd
     console.log("Data formatada");
-    console.log(aluno.data_saida);
-    // aluno.data_saida = dataFormatada;
+    console.log(aluno.data_nascimento);
+    // aluno.data_nascimento = dataFormatada;
     return this.http.post<Aluno>(this.apiUrl, aluno);
   }
 
@@ -139,5 +149,13 @@ export class AlunoService {
   // Deletar aluno
   deleteAluno(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  private normalizarAluno(aluno: AlunoApi): Aluno {
+    return {
+      ...aluno,
+      // RM é o registro de matrícula, nunca o ID técnico do aluno.
+      rm: aluno.rm ?? aluno.registro_matricula ?? null
+    } as Aluno;
   }
 }

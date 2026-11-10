@@ -22,8 +22,9 @@
 >
             <ng-template #header>
                 <tr>
+                    <th pSortableColumn="rm">RM <p-sort-icon field="rm" /></th>
                     <th pSortableColumn="nome">Nome <p-sort-icon field="nome" /></th>
-                     <th pSortableColumn="data_saida">Data de matrícula <p-sort-icon field="data_saida" /></th>
+                     <th pSortableColumn="data_nascimento">Data de nascimento <p-sort-icon field="data_nascimento" /></th>
                     <th pSortableColumn="unidade">Unidade <p-sort-icon field="unidade" /></th>
                      <th *ngIf="hasAutority">Inserir</th>
                      <th>Visualizar</th>
@@ -33,8 +34,9 @@
             </ng-template>
             <ng-template #body let-aluno>
                 <tr>
+                    <td>{{ aluno.rm ?? '—' }}</td>
                     <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ aluno.data_nascimento | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td *ngIf="hasAutority">
                       <button pButton type="button" severity="secondary" class="acao-aluno" (click)="modalInsertAluno.showDialog(aluno)" [attr.aria-label]="'Abrir ações de ' + aluno.nome">

@@ -10,16 +10,21 @@ header="Editar"
 
       <div class="p-fluid">
         <div>
+          <label for="rm" class="font-bold lbInfo">RM</label>
+          <input id="rm" class="ipInfo" type="number" min="1" step="1" pInputText formControlName="rm" placeholder="Digite o RM do aluno" />
+        </div>
+        <div>
           <label for="nome" class="font-bold lbInfo">Nome</label>
           <input id="nome" class="ipInfo" type="text" pInputText 
           [(ngModel)]="aluno.nome" placeholder="Digite seu nome" formControlName="nome" />
         </div>
         
         <div>
-          <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
+          <label for="data_nascimento" class="font-bold lbInfo">Data de nascimento</label>
          
            <p-datepicker 
-    formControlName="data_saida" 
+    inputId="data_nascimento"
+    formControlName="data_nascimento" 
     dateFormat="dd/mm/yy" 
     panelStyleClass="calendario-compacto">
   </p-datepicker>

@@ -82,9 +82,9 @@ emitAlunoAtt(aluno: any){
     console.log(aluno);
     
     this.alunoService.updateAluno(aluno.id,aluno).subscribe((next) =>{
+      this.modalEdit.closeAfterSave();
       this.getAllAlunos();
       this.cdr.detectChanges();
-      this.modalEdit.closeDialog();
       this.mostrarToast("success","Sucesso ao atualizar aluno.", "Sucesso");
     },
     (error) =>{
@@ -96,9 +96,9 @@ emitAlunoAtt(aluno: any){
     console.log("alunoo do inserir aluno");
     console.log(aluno);
     this.alunoService.createAluno(aluno).subscribe((next) =>{
+      this.modalInsertAluno.closeAfterSave();
       this.cdr.detectChanges();
       this.getAllAlunos();
-      this.modalInsertAluno.closeDialogs();
       this.mostrarToast("success","Sucesso ao inserir aluno.", "Sucesso");
     },
     (error) => {

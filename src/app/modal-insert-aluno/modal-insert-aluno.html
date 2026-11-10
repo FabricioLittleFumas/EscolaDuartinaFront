@@ -10,15 +10,19 @@ header="Inserir Aluno"
 
       <div class="p-fluid">
         <div>
+          <label for="rm" class="font-bold lbInfo">RM</label>
+          <input id="rm" class="ipInfo" type="number" min="1" step="1" pInputText formControlName="rm" placeholder="Digite o RM do aluno" />
+        </div>
+        <div>
           <label for="nome" class="font-bold lbInfo">Nome</label>
           <input id="nome" class="ipInfo" type="nome" pInputText 
           [(ngModel)]="nome" placeholder="Digite seu nome" formControlName="nome" />
         </div>
         
         <div>
-          <label for="DtNasc" class="font-bold lbInfo">Data de nascimento</label>
+          <label for="data_nascimento" class="font-bold lbInfo">Data de nascimento</label>
          
-  <p-datepicker  placeholder="Digite a data de sua matricula" panelStyleClass="calendario-compacto" [(ngModel)]="date" formControlName="data_saida" dateFormat="dd/mm/yy"></p-datepicker>
+  <p-datepicker inputId="data_nascimento" placeholder="Digite a data de nascimento" panelStyleClass="calendario-compacto" [(ngModel)]="date" formControlName="data_nascimento" dateFormat="dd/mm/yy"></p-datepicker>
         </div>
 
         <div>

@@ -15,13 +15,13 @@ export class AuthService {
   authState$ = this.authStateSubject.asObservable();
 
   constructor(private tokenService: TokenService) {
-    // Estado inicial: já logado se tem token válido
-    this.authStateSubject.next(this.temAuthority('USER'));
+    // Estado inicial: qualquer perfil com token válido está autenticado.
+    this.authStateSubject.next(this.isLoggedIn());
   }
 
   // Chame depois de setTokens()
   notificarLogin(): void {
-    this.authStateSubject.next(this.temAuthority('USER'));
+    this.authStateSubject.next(this.isLoggedIn());
   }
 
   // Chame depois de clearTokens()
@@ -49,6 +49,18 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.tokenService.isAuthenticated();
+    const token = this.tokenService.accessToken;
+    if (!token) return false;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.exp && Date.now() >= payload.exp * 1000) {
+        this.tokenService.clearTokens();
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

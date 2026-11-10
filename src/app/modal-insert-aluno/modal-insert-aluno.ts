@@ -21,7 +21,7 @@ export class ModalInsertAluno implements OnInit{
   alunoForm!: FormGroup;
   displayModal: boolean = false;
   nome: string = '';
-  data_saida: Date | undefined;
+  data_nascimento: Date | undefined;
   date: Date | undefined;
   unidade: string = '';
 
@@ -33,9 +33,10 @@ export class ModalInsertAluno implements OnInit{
 
     inicializarFormulario(): void {
     this.alunoForm = this.fb.group({
+      rm: [null, [Validators.required, Validators.min(1)]],
       nome: ['', [Validators.required, Validators.minLength(3)]],
       dates: new FormControl<Date | null>(null),
-      data_saida: ['data_saida', Validators.required],
+      data_nascimento: [null, Validators.required],
       unidade: ['', Validators.required]
     });
   }
@@ -63,19 +64,17 @@ export class ModalInsertAluno implements OnInit{
     this.cdr.detectChanges();
     this.cancel.emit();
   }
-    closeDialogs() {
 
-    console.log("=== FECHANDO DIALOG ===");
+  closeAfterSave(): void {
     this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
+    this.alunoForm.reset();
     this.cdr.detectChanges();
-    this.cancel.emit();
   }
+
   onSubmit(){
  const aluno: Aluno = this.alunoForm.value;
       console.log("insert aluno modal");
       console.log(aluno);
       this.emitAluno.emit(aluno);
-      this.alunoForm.reset();
   }
 }
