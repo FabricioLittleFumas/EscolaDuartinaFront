@@ -35,27 +35,11 @@
     display: block;
     margin: 0 auto;
  }
- button{
-  background-color: #D0C3D3;
-  border: none;
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-family: 'Arimo', sans-serif;
- }
-
- button:hover{
-    cursor: pointer;
-    background-color: #B884B7;
-    
- }
      .flx{
         display: flex !important;
-        width: 60%;
+        justify-content: center;
+        gap: .75rem;
+        width: 100%;
         margin: 0 auto;
      }
      .lbInfo,.ipInfo{

@@ -36,15 +36,26 @@
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.data_saida | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
-                     <td *ngIf="hasAutority"><span class="pi pi-search" (click)="modalInsertAluno.showDialog(aluno)"></span>
-                  
+                     <td *ngIf="hasAutority">
+                      <button pButton type="button" severity="secondary" class="acao-aluno" (click)="modalInsertAluno.showDialog(aluno)" [attr.aria-label]="'Abrir ações de ' + aluno.nome">
+                        <i class="pi pi-search" aria-hidden="true"></i>
+                      </button>
                     </td>
-                     <td ><span class="pi pi-eye" (click)="modalViewAluno.showDialog(aluno)"></span>
+                     <td>
+                      <button pButton type="button" severity="secondary" class="acao-aluno" (click)="modalViewAluno.showDialog(aluno)" [attr.aria-label]="'Visualizar ' + aluno.nome">
+                        <i class="pi pi-eye" aria-hidden="true"></i>
+                      </button>
                         <app-modal-view-aluno #modalViewAluno [aluno]="aluno"></app-modal-view-aluno>
                     </td>
-                        <td *ngIf="hasAutority"><span class="pi pi-search"(click)="modalEditAluno.showDialog(aluno)"></span>
+                        <td *ngIf="hasAutority">
+                          <button pButton type="button" severity="secondary" class="acao-aluno" (click)="modalEditAluno.showDialog(aluno)" [attr.aria-label]="'Editar ' + aluno.nome">
+                            <i class="pi pi-pencil" aria-hidden="true"></i>
+                          </button>
                         </td>
-                        <td *ngIf="hasAutority"><span class="pi pi-trash" (click)="modalExcludeAluno.showDialog(aluno)"> </span>
+                        <td *ngIf="hasAutority">
+                          <button pButton type="button" severity="secondary" class="acao-aluno" (click)="modalExcludeAluno.showDialog(aluno)" [attr.aria-label]="'Excluir ' + aluno.nome">
+                            <i class="pi pi-trash" aria-hidden="true"></i>
+                          </button>
                             <app-modal-exclude-aluno #modalExcludeAluno [alunoExclude]="aluno" (confirm)="excluir($event)"></app-modal-exclude-aluno>
                         </td>
                     </tr>

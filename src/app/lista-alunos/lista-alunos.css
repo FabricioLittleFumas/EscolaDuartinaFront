@@ -32,11 +32,8 @@
    margin: 0 auto;
    margin-top: 7px;
 }
-:host ::ng-deep .pi{
-    display: table !important;
-    margin: 0 auto;
-    cursor: pointer;
-}
+.acao-aluno { width: 2.4rem; min-width: 2.4rem; height: 2.4rem; justify-content: center; padding: .55rem !important; }
+.acao-aluno .pi { display: inline-block !important; margin: 0 !important; }
 
 
 
@@ -52,26 +49,47 @@
 :host ::ng-deep .p-paginator .p-paginator-prev,
 :host ::ng-deep .p-paginator .p-paginator-first,
 :host ::ng-deep .p-paginator .p-paginator-last {
-  color: #26272C !important;
-  background: transparent;
-  border: none;
+  color: var(--escola-ameixa) !important;
+  background: var(--botao-secundario) !important;
+  border: 1px solid transparent !important;
   min-width: 2.5rem;
   height: 2.5rem;
-  border-radius: 6px;
+  border-radius: .7rem;
   font-family: 'Arimo', sans-serif;
+  font-size: .875rem;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
 }
 
 :host ::ng-deep .p-paginator .p-paginator-page:hover,
 :host ::ng-deep .p-paginator .p-paginator-next:hover,
-:host ::ng-deep .p-paginator .p-paginator-prev:hover {
-  background-color: #d0c3d3 !important;
+:host ::ng-deep .p-paginator .p-paginator-prev:hover,
+:host ::ng-deep .p-paginator .p-paginator-first:hover,
+:host ::ng-deep .p-paginator .p-paginator-last:hover {
+  background: var(--botao-secundario-hover) !important;
+  border-color: #c7b3c9 !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page:active,
+:host ::ng-deep .p-paginator .p-paginator-next:active,
+:host ::ng-deep .p-paginator .p-paginator-prev:active,
+:host ::ng-deep .p-paginator .p-paginator-first:active,
+:host ::ng-deep .p-paginator .p-paginator-last:active {
+  background: var(--botao-secundario-pressionado) !important;
+  transform: translateY(1px) scale(.98);
 }
 
 :host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
-  background-color: #d0c3d3 !important;
-  color: #26272C !important;
+  background: var(--escola-ameixa) !important;
+  border-color: var(--escola-ameixa) !important;
+  color: var(--escola-creme) !important;
   font-weight: bold;
 }
+
+:host ::ng-deep .p-paginator button:focus-visible {
+  outline: 3px solid rgba(232, 185, 99, .72) !important;
+  outline-offset: 2px;
+}
+:host ::ng-deep .p-paginator button:disabled { cursor: not-allowed; opacity: .6; }
 
 :host ::ng-deep .p-paginator .p-select,
 :host ::ng-deep .p-paginator .p-select-label,

@@ -30,23 +30,8 @@
     display: block;
     margin: 0 auto;
  }
- button{
-  background-color: #D0C3D3;
-  border: none;
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-weight: bold;
- }
-
- button:hover{
-    cursor: pointer;
-    background-color: #B884B7;
-    transition: 0.5s;
- }
+.acoes-formulario { display: flex; justify-content: center; gap: .75rem; margin-top: 1rem; }
+.acoes-formulario button { margin: 0; }
 
     .lbInfo,.ipInfo{
         display: block;

@@ -10,6 +10,11 @@
   --escola-ameixa: #624166;
   --escola-tinta: #302335;
   --escola-creme: #fffaf2;
+  --botao-hover: #49354c;
+  --botao-pressionado: #302335;
+  --botao-secundario: #f1e8f1;
+  --botao-secundario-hover: #e6d7e7;
+  --botao-secundario-pressionado: #d9c8da;
   --escola-dourado: #e8b963;
   --escola-salvia: #d9e8d2;
   --escola-fundo: #faf8f4;
@@ -17,6 +22,66 @@
 
 html { scroll-behavior: smooth; }
 body { min-width: 320px; background: var(--escola-fundo); color: #302335; font-family: 'Arimo', sans-serif; line-height: 1.5; }
+
+/* Ações consistentes em formulários, diálogos e componentes PrimeNG. */
+.p-button {
+  border: 1px solid var(--escola-ameixa) !important;
+  border-radius: .7rem !important;
+  padding: .65rem 1rem !important;
+  color: var(--escola-creme) !important;
+  font-family: 'Arimo', sans-serif !important;
+  font-size: .875rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-transform: none !important;
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease !important;
+}
+
+.p-button:not(:disabled):not(.p-button-text):not(.p-button-secondary) {
+  background: var(--escola-ameixa) !important;
+}
+
+.p-button:not(:disabled):not(.p-button-text):not(.p-button-secondary):hover {
+  border-color: var(--botao-hover) !important;
+  background: var(--botao-hover) !important;
+}
+
+.p-button:not(:disabled):not(.p-button-text):not(.p-button-secondary):active {
+  border-color: var(--botao-pressionado) !important;
+  background: var(--botao-pressionado) !important;
+  transform: translateY(1px) scale(.98);
+}
+
+.p-button.p-button-text,
+.p-button.p-button-secondary {
+  border-color: #d9cbd9 !important;
+  background: var(--botao-secundario) !important;
+  color: var(--escola-ameixa) !important;
+}
+
+.p-button.p-button-text:not(:disabled):hover,
+.p-button.p-button-secondary:not(:disabled):hover {
+  border-color: #c7b3c9 !important;
+  background: var(--botao-secundario-hover) !important;
+}
+
+.p-button.p-button-text:not(:disabled):active,
+.p-button.p-button-secondary:not(:disabled):active {
+  border-color: #bda6bf !important;
+  background: var(--botao-secundario-pressionado) !important;
+  transform: translateY(1px) scale(.98);
+}
+
+.p-button:focus-visible {
+  outline: 3px solid rgba(232, 185, 99, .72) !important;
+  outline-offset: 3px !important;
+}
+
+.p-button:disabled {
+  cursor: not-allowed !important;
+  opacity: .6;
+}
 
 .somente-leitor {
   position: absolute;

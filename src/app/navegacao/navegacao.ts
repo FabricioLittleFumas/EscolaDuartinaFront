@@ -161,7 +161,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
         label: 'Logs do sistema',
         icon: 'pi pi-history',
         routerLink: ['/log-system'],
-        visible: true
+        visible: isAdmin
       },
       {
         label: 'Sair',

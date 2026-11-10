@@ -15,11 +15,12 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from '../auth-service';
 import { Subscription } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [ToastModule, TableModule, SortIcon, CommonModule, NgxLoadingModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
+  imports: [ToastModule, TableModule, SortIcon, ButtonModule, CommonModule, NgxLoadingModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
   providers: [MessageService],
   styleUrl: './lista-alunos.css',

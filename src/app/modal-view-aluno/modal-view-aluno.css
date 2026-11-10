@@ -35,24 +35,6 @@
     display: block;
     margin: 0 auto;
  }
- button{
-  background-color: #D0C3D3;
-  border: none;
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  font-weight: bold;
- }
-
- button:hover{
-    cursor: pointer;
-    background-color: #B884B7;
-    transition: 0.5s;
- }
-
  :host ::ng-deep .p-dialog-content{
     font-family: 'Arimo', sans-serif;
     text-transform: capitalize !important;

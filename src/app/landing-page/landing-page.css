@@ -78,10 +78,12 @@ h3 { font-size: 1.35rem; line-height: 1.15; }
   background: var(--ameixa);
   color: var(--creme);
   cursor: pointer;
-  font-family: inherit;
+  font: 700 .875rem/1.2 'Arimo', sans-serif;
+  transition: background .16s ease, transform .16s ease;
 }
 
 .acao:hover { background: var(--tinta); }
+.acao:active { transform: translateY(1px); background: #211a27; }
 .landing-page :is(a, button):focus-visible { outline: 3px solid var(--ameixa); outline-offset: 4px; }
 
 .cartao {

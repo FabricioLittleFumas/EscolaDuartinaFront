@@ -11,8 +11,8 @@ header="Excluir"
 <p>Data de saída: {{aluno.data_saida| date:'dd/MM/yyyy'}}</p>
 <p>Unidade de ensino: {{aluno.unidade}}</p>
 <div class="flx">
-    <button pButton severity="secondary" type="submit" (click)="confirmExclude()">Confirmar</button>
-    <button pButton severity="secondary" type="submit" (click)="closeDialog()">Cancelar</button>
+    <button pButton type="button" (click)="confirmExclude()">Confirmar</button>
+    <button pButton severity="secondary" type="button" (click)="closeDialog()">Cancelar</button>
 
 </div>
   

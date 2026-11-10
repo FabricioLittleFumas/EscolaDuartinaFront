@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-4">
+<form [formGroup]="loginForm" (ngSubmit)="confirmDialog()" class="mt-4">
 <p-dialog 
       header="Entrar" 
       [(visible)]="displayModal" 
@@ -17,14 +17,11 @@
         <div class="field">
           <label for="senha" class="font-bold lbInfo">Senha</label>
           <input formControlName="password" id="password" class="ipInfo" type="password" pInputText [(ngModel)]="password" placeholder="Digite sua senha" />
-         <button (click)="confirmDialog()" > Entrar </button>
+        </div>
+        <div class="acoes-formulario">
+          <button pButton type="submit">Entrar</button>
+          <button pButton type="button" severity="secondary" (click)="closeDialog()">Cancelar</button>
         </div>
       </div>
-      
-       <!-- Footer com botões -->
-      <ng-template pTemplate="footer">
-        <button label="Cancelar" icon="pi pi-times" (click)="closeDialog()" class="p-button-text"></button>
-        <button label="Confirmar" icon="pi pi-check" (click)="confirmDialog()" class="p-button-success"></button>
-      </ng-template>
     </p-dialog>    
   </form>
