@@ -26,22 +26,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const publicAlunoRead = this.isPublicAlunoRead(req);
-
-    // A listagem de alunos é pública: não envie um access token antigo e inválido.
-    if (publicAlunoRead) {
-      req = req.clone({ headers: req.headers.delete('Authorization') });
-    } else if (!req.url.includes('/autentica/')) {
-      const token = this.tokenService.accessToken;
-      if (token) {
-        req = this.addToken(req, token);
-      }
+    const token = this.tokenService.accessToken;
+    if (token && !req.url.includes('/autentica/')) {
+      req = this.addToken(req, token);
     }
 
     return next.handle(req).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           if (publicAlunoRead) {
-            return throwError(() => error);
+            return req.headers.has('Authorization')
+              ? next.handle(req.clone({ headers: req.headers.delete('Authorization') }))
+              : throwError(() => error);
           }
 
           if (req.url.includes('/autentica/refresh')) {

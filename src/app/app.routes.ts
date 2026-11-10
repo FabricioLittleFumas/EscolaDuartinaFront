@@ -7,6 +7,11 @@ import { LoggSystem } from './logg-system/logg-system';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Home },
+  {
+    path: 'historia',
+    title: 'História da EMEF José Sabbag | Duartina',
+    loadComponent: () => import('./landing-page/landing-page').then(({ LandingPage }) => LandingPage),
+  },
   { path: 'autorizacao-usuario', component: AutorizacaoUsuario },
   { path: 'log-system', component: LoggSystem },
   // { path: 'lista', component: ListaAlunos }

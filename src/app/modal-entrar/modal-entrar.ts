@@ -55,14 +55,11 @@ export class ModalEntrar implements OnInit{
 
      onSubmit(){
      const usuario: Usuario = this.loginForm.value;
-          console.log("insert usuario modal");
-          console.log(usuario);
           this.emitUsuario.emit(usuario);
       }
 
   confirmDialog() {
     if (this.email && this.password) {
-      console.log("Confirmando login:", { email: this.email, password: this.password });
       this.confirm.emit({ email: this.email, password: this.password });
       this.displayModal = false;
       this.cdr.detectChanges();

@@ -1,0 +1,98 @@
+<div class="landing-page" [class.incorporada]="incorporada()">
+  @if (!incorporada()) {
+    <a class="voltar" routerLink="/home">
+      <i class="pi pi-arrow-left" aria-hidden="true"></i> Voltar ao início
+    </a>
+  }
+
+  <section class="abertura" aria-labelledby="titulo-escola">
+    <header class="apresentacao">
+      <p class="sobretitulo"><i class="pi pi-map-marker" aria-hidden="true"></i> Duartina, São Paulo</p>
+      @if (incorporada()) {
+        <h2 class="titulo-escola" id="titulo-escola">EMEF <span>José Sabbag</span></h2>
+      } @else {
+        <h1 class="titulo-escola" id="titulo-escola">EMEF <span>José Sabbag</span></h1>
+      }
+      <p class="introducao">A escola nasceu para atender os filhos de trabalhadores da Fazenda São José. Hoje, faz parte da rede municipal de ensino e reúne estudantes e famílias em projetos que chegam à comunidade.</p>
+      <button class="acao" type="button" (click)="trajetoria.scrollIntoView(); trajetoria.focus({ preventScroll: true })">
+        Conheça a trajetória <i class="pi pi-arrow-down" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <figure class="cartao origens">
+      <img src="assets/illustrations/sabbag-origens.svg" alt="" width="560" height="360">
+      <figcaption>
+        <p class="marco">Década de 1950</p>
+        <h2>As primeiras aulas</h2>
+        <p>Uma escola para as famílias da Fazenda São José.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="cartao patrono">
+      <img src="assets/illustrations/sabbag-escola.svg" alt="" width="560" height="360">
+      <figcaption>
+        <p class="marco">1960</p>
+        <h2>O nome José Sabbag</h2>
+        <p>O segundo grupo escolar de Duartina recebe seu patrono.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="cartao comunidade">
+      <img src="assets/illustrations/sabbag-comunidade.svg" alt="" width="560" height="360">
+      <figcaption>
+        <p class="marco">Escola e cidade</p>
+        <h2>Aprender em comunidade</h2>
+        <p>Famílias e estudantes participam de ações dentro e fora da escola.</p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section #trajetoria class="trajetoria" aria-labelledby="titulo-trajetoria" tabindex="-1">
+    <header>
+      <p class="sobretitulo">Linha do tempo</p>
+      <h2 id="titulo-trajetoria">Da fazenda à rede municipal</h2>
+    </header>
+    <ol class="marcos">
+      <li>
+        <span>Década de 1950</span>
+        <h3>Uma escola na Fazenda São José</h3>
+        <p>Salomão Sabbag tomou a iniciativa de instalar a escola para os filhos dos trabalhadores da fazenda. Em 1953, ela passou a ser chamada de 2º Grupo Escolar de Duartina.</p>
+      </li>
+      <li>
+        <time datetime="1960-08-03">1960</time>
+        <h3>A homenagem ao patrono</h3>
+        <p>A Lei Estadual nº 5.786 deu ao grupo escolar o nome José Sabbag, pai de Salomão.</p>
+      </li>
+      <li>
+        <time datetime="1999">1999</time>
+        <h3>Uma escola municipal</h3>
+        <p>Depois de funcionar como escola estadual de primeiro grau, tornou-se a Escola Municipal de Ensino Fundamental José Sabbag.</p>
+      </li>
+      <li>
+        <span>2007 a 2009</span>
+        <h3>Mais tempo para aprender</h3>
+        <p>A escola implantou a jornada integral optativa em 2007 e adotou o ensino fundamental de nove anos em 2009.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="impacto" aria-labelledby="titulo-impacto">
+    <div>
+      <p class="sobretitulo">Presença em Duartina</p>
+      <h2 id="titulo-impacto">O aprendizado chega à cidade</h2>
+      <p>O encontro <em>Sabbag de Portas Abertas</em> aproxima as famílias da rotina escolar. Já o projeto <em>Coletar para Transformar</em> leva o cuidado com o meio ambiente para casa ao mobilizar a comunidade para o descarte correto de óleo de cozinha.</p>
+    </div>
+    <div class="dado">
+      <strong #contador aria-hidden="true">{{ litrosExibidos() }} L</strong>
+      <span class="somente-leitor">{{ totalLitros }} litros</span>
+      <p>de óleo vegetal usado recolhidos pela José Sabbag em 2025, o maior volume entre as escolas da rede municipal.</p>
+    </div>
+  </section>
+
+  <footer class="fontes" aria-label="Fontes históricas">
+    <a href="https://www.blogger.com/profile/16687559194226832384">Memória da escola</a>
+    <a href="https://www.al.sp.gov.br/norma/40715">Lei Estadual nº 5.786</a>
+    <a href="https://duartina.sp.gov.br/noticia/2640/2-sabbag-de-portas-abertas-reune-familias-e-alunos-na-escola/">Sabbag de Portas Abertas</a>
+    <a href="https://www.duartina.sp.gov.br/noticia/2465/duartina-recebe-certificacao-pelo-projeto-coletar-para-transformar/">Coletar para Transformar</a>
+  </footer>
+</div>

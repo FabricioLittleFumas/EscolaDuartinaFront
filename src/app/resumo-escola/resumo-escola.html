@@ -3,17 +3,25 @@
     <span class="sobretitulo"><i class="pi pi-sparkles" aria-hidden="true"></i> Escola Sabbag - Duartina <span class="ponto"></span> Gestão com propósito</span>
     <h1 id="titulo-boas-vindas">Cada aluno tem uma história.<br><em>Acompanhe cada capítulo.</em></h1>
     <p>Uma visão mais clara da rotina escolar para cuidar do que realmente importa: o desenvolvimento de cada estudante.</p>
-    <div class="indicador-alunos" aria-live="polite">
-      <span class="icone-indicador"><i class="pi pi-users" aria-hidden="true"></i></span>
-      <span class="valor-indicador">
-        <strong>{{ carregando ? '—' : totalAlunos }}</strong>
-        <small>{{ totalAlunos === 1 ? 'aluno cadastrado' : 'alunos cadastrados' }}</small>
+    <div #contador class="indicador-alunos">
+      <span class="icone-indicador" aria-hidden="true"><i class="pi pi-users"></i></span>
+      <span class="valor-indicador" aria-hidden="true">
+        <strong>{{ alunosExibidos() ?? '—' }}</strong>
+        <small>{{ totalAlunos() === 1 ? 'aluno cadastrado' : 'alunos cadastrados' }}</small>
+      </span>
+      <span class="somente-leitor" aria-live="polite">
+        @if (totalAlunos() === null) {
+          Carregando total de alunos
+        } @else {
+          {{ totalAlunos() }} {{ totalAlunos() === 1 ? 'aluno cadastrado' : 'alunos cadastrados' }}
+        }
       </span>
     </div>
     <a class="acao-principal" routerLink="/home" fragment="lista-alunos">Explorar alunos <i class="pi pi-arrow-up-right" aria-hidden="true"></i></a>
+    <a class="acao-historia" routerLink="/home" fragment="historia-escola">Conheça a escola <i class="pi pi-arrow-down" aria-hidden="true"></i></a>
   </div>
   <div class="imagem-destaque">
-    <img class="ilustracao-escola" src="assets/illustrations/school-hero.svg" alt="Estudantes aprendendo juntos em sala de aula" />
+    <app-ilustracao-escola class="ilustracao-escola"></app-ilustracao-escola>
     <span class="legenda-imagem"><i class="pi pi-heart-fill" aria-hidden="true"></i> Aprender transforma futuros</span>
     <span class="selo-imagem"><i class="pi pi-sparkles" aria-hidden="true"></i> Educação que aproxima</span>
   </div>

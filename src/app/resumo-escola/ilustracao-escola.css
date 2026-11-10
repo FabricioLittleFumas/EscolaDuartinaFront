@@ -1,0 +1,41 @@
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+}
+
+.lapis { transform-origin: 416px 379px; }
+.estrela { transform-box: fill-box; transform-origin: center; }
+
+.traco-caderno {
+  opacity: 0;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :host-context(.boas-vindas:hover) .lapis { animation: escrever-no-caderno 1.45s ease-in-out; }
+  :host-context(.boas-vindas:hover) .traco-caderno { animation: revelar-traco 1.45s ease-in-out both; }
+  :host-context(.boas-vindas:hover) .estrela { animation: destacar-estrela 1.45s ease-in-out; }
+}
+
+@keyframes escrever-no-caderno {
+  0%, 100% { transform: none; }
+  20% { transform: translate(-56px, -15px) rotate(-9deg); }
+  30% { transform: translate(-83px, -2px) rotate(-6deg); }
+  45% { transform: translate(-69px, -3px) rotate(-1deg); }
+  60% { transform: translate(-57px, -1px) rotate(3deg); }
+  76% { transform: translate(-30px, -12px) rotate(-5deg); }
+}
+
+@keyframes revelar-traco {
+  0%, 30% { opacity: 0; stroke-dashoffset: 1; }
+  33% { opacity: 1; stroke-dashoffset: 1; }
+  60%, 100% { opacity: 1; stroke-dashoffset: 0; }
+}
+
+@keyframes destacar-estrela {
+  0%, 55%, 100% { transform: none; fill: #d7b4d8; }
+  72% { transform: scale(1.16) rotate(8deg); fill: #f6c875; }
+}

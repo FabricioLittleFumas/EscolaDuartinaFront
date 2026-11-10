@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { PrimeNG } from 'primeng/config';
@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
         }
       })
     ),
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled' })),
     provideAnimations(),
     provideBrowserGlobalErrorListeners(),
     providePrimeNG({ 

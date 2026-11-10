@@ -65,7 +65,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
 
  onLoginConfirm(loginData: { email: string, password: string }) {
   this.usuarioService
-    .loginUsuario(new LoginUsuario(loginData.email, loginData.password))
+    .loginPeloModal(new LoginUsuario(loginData.email, loginData.password))
     .subscribe((response: any) => {
       this.mostrarToast("success","Sucesso ao efetuar login.", "Sucesso");
       this.tokenService.setTokens({
@@ -75,6 +75,9 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.authService.notificarLogin();  // ✅ avisa todos os inscritos
+      if (this.authService.temAuthority('ADMIN')) {
+        this.usuarioService.atualizarQuantidadePendentes(true);
+      }
       this.carregaMenu();
       this.cdr.detectChanges();
     }
@@ -176,12 +179,13 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
     });
     this.authSubscription = this.authService.authState$.subscribe(() => {
       this.carregaMenu();
-      if (this.authService.temAuthority('ADMIN')) {
-        this.usuarioService.atualizarQuantidadePendentes();
-      } else {
+      if (!this.authService.temAuthority('ADMIN')) {
         this.usuarioService.definirQuantidadePendentes(0);
       }
     });
+    if (this.authService.temAuthority('ADMIN')) {
+      this.usuarioService.atualizarQuantidadePendentes();
+    }
     interval(3000).pipe(takeUntil(this.destroy$)).subscribe(() => {
       if (this.authService.temAuthority('ADMIN')) {
         this.usuarioService.atualizarQuantidadePendentes();

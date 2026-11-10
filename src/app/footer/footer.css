@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.rodape {
+  padding: 1rem;
+  border-top: 1px solid #49354c;
+  background-color: #211a27;
+  text-align: center;
+}
+
+.rodape p {
+  color: #fffaf2;
+  font: 600 1rem/1.5 'Dosis', sans-serif;
+  letter-spacing: .04em;
+}

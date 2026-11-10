@@ -39,16 +39,22 @@ private apiUrl = `${API_BASE_URL}/usuario/saveUser`;
   );
 }
 
+loginPeloModal(login: LoginUsuario) {
+  return this.http.post<any>(`${API_BASE_URL}/autentica/authenticate/modal-entrar`, login);
+}
+
 listarUsuarios() {
   return this.http.get<UsuarioAdmin[]>(`${API_BASE_URL}/usuario`);
 }
 
-listarUsuariosPendentes() {
-  return this.http.get<UsuarioAdmin[]>(`${API_BASE_URL}/usuario/pendentes`);
+listarUsuariosPendentes(aposLogin = false) {
+  return this.http.get<UsuarioAdmin[]>(`${API_BASE_URL}/usuario/pendentes`, {
+    params: aposLogin ? { aposLogin: true } : {},
+  });
 }
 
-atualizarQuantidadePendentes(): void {
-  this.listarUsuariosPendentes().subscribe({
+atualizarQuantidadePendentes(aposLogin = false): void {
+  this.listarUsuariosPendentes(aposLogin).subscribe({
     next: usuarios => this.definirQuantidadePendentes(usuarios.length),
     error: () => undefined
   });

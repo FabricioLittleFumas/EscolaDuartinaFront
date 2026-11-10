@@ -1,8 +1,9 @@
-<main class="pagina-inicial">
+<div class="pagina-inicial">
   <app-resumo-escola></app-resumo-escola>
-  <app-atalhos-rapidos></app-atalhos-rapidos>
+  <app-landing-page id="historia-escola" [incorporada]="true"></app-landing-page>
 
   <section id="lista-alunos" class="secao-alunos" aria-label="Consulta de alunos">
     <app-lista-alunos></app-lista-alunos>
   </section>
-</main>
+  <app-atalhos-rapidos></app-atalhos-rapidos>
+</div>

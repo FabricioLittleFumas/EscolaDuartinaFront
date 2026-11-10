@@ -1,31 +1,22 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { map } from 'rxjs';
+import { criarContagemAnimada } from '../contagem-animada';
 import { AlunoService } from '../service/aluno-service';
+import { IlustracaoEscola } from './ilustracao-escola';
 
 @Component({
   selector: 'app-resumo-escola',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, IlustracaoEscola],
   templateUrl: './resumo-escola.html',
   styleUrl: './resumo-escola.css'
 })
-export class ResumoEscola implements OnInit, OnDestroy {
-  totalAlunos = 0;
-  carregando = true;
-  private paginaSubscription?: Subscription;
-
-  constructor(private alunoService: AlunoService, private cdr: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
-    this.paginaSubscription = this.alunoService.paginaAlunos$.subscribe(pagina => {
-      this.totalAlunos = pagina.totalElements;
-      this.carregando = false;
-      this.cdr.markForCheck();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.paginaSubscription?.unsubscribe();
-  }
+export class ResumoEscola {
+  private readonly contador = viewChild.required<ElementRef<HTMLElement>>('contador');
+  readonly totalAlunos = toSignal(inject(AlunoService).paginaAlunos$.pipe(map(pagina => pagina.totalElements)), {
+    initialValue: null,
+  });
+  readonly alunosExibidos = criarContagemAnimada(this.contador, this.totalAlunos);
 }
