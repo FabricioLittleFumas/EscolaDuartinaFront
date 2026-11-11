@@ -114,6 +114,7 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
     const isAdmin = this.authService.temAuthority('ADMIN');
     const isAuthenticated = this.authService.isLoggedIn();
     this.items = [
+      { label: 'Ouvir PDF', icon: 'pi pi-headphones', routerLink: ['/leitura-pdf'], visible: this.authService.isLoggedIn() },
       {
         label: 'Início',
         routerLink: ['/home'],
