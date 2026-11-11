@@ -1,0 +1,87 @@
+<section class="leitor">
+  <header>
+    <div><p class="eyebrow">Biblioteca em áudio</p><h1>Uma nova forma de ler.</h1>
+    <p>Envie seu PDF, escolha uma voz em português e acompanhe a leitura no seu ritmo.</p></div>
+    <span class="book" aria-hidden="true">♫</span>
+  </header>
+
+  @if (!auth.isLoggedIn()) {
+    <div class="card acesso"><h2>Entre para começar</h2>
+    <p>Use o acesso à conta no menu superior. Após entrar, você poderá enviar seu documento.</p></div>
+  } @else {
+    @if (erro()) { <p class="erro" role="alert">{{ erro() }}</p> }
+    <div class="grid">
+      <aside>
+        <section class="card">
+          <h2>Seu documento</h2>
+          <label class="upload" [class.busy]="carregando()">
+            <span aria-hidden="true">↑</span>
+            <strong>{{ carregando() ? 'Extraindo texto…' : 'Selecionar PDF' }}</strong>
+            <small>Até 25 MB · 1.000 páginas</small>
+            <input type="file" accept=".pdf,application/pdf" aria-label="Selecionar PDF" [disabled]="carregando()" (change)="enviar($event)">
+          </label>
+          <p class="hint">O arquivo precisa conter texto selecionável. Documentos digitalizados precisam de OCR.</p>
+          @if (documento(); as doc) {
+            <div class="documento"><strong>{{ doc.nome }}</strong><small>{{ doc.totalPaginas }} páginas</small></div>
+          }
+          <p role="status" aria-live="polite">{{ carregando() ? 'Aguarde enquanto o servidor lê o documento.' : '' }}</p>
+        </section>
+
+        @if (documento()) {
+          <section class="card">
+            <h2>Como você quer ouvir?</h2>
+            @if (!disponivel) {
+              <p role="alert">Seu navegador não oferece reprodução de áudio.</p>
+            } @else {
+              <label for="voz">Voz e sotaque</label>
+              <select id="voz" [(ngModel)]="voz" (ngModelChange)="parar(false)">
+                @for (item of vozes(); track item.voiceURI) {
+                  <option [value]="item.voiceURI">{{ item.name }} · {{ item.lang }}</option>
+                }
+              </select>
+              @if (!vozes().length) {
+                <p role="status">Nenhuma voz em português disponível. Instale uma voz pt-BR ou pt-PT nas configurações de fala do sistema e reabra o navegador.</p>
+              }
+              <button type="button" [disabled]="!voz || gerandoAudio()" (click)="testarVoz()">Ouvir amostra da voz</button>
+              <label for="velocidade">Velocidade <strong>{{ velocidade }}×</strong></label>
+              <input id="velocidade" type="range" min="0.6" max="1.5" step="0.05" [(ngModel)]="velocidade">
+              <label for="pausa">Pausa entre parágrafos</label>
+              <select id="pausa" [(ngModel)]="pausa">
+                <option [ngValue]="200">Breve</option><option [ngValue]="450">Natural</option><option [ngValue]="800">Contemplativa</option>
+              </select>
+              <p class="hint">Vozes Kokoro com pronúncia em português brasileiro, processadas no servidor local.</p>
+            }
+          </section>
+        }
+      </aside>
+
+      <section class="card leitura">
+        @if (documento(); as doc) {
+          <div class="pagina-bar"><h2>Texto do documento</h2>
+            <label for="pagina">Página
+              <select id="pagina" [ngModel]="pagina()" (ngModelChange)="irPagina($event)">
+                @for (item of doc.paginas; track item.numero) { <option [ngValue]="item.numero">{{ item.numero }}</option> }
+              </select>
+            </label>
+          </div>
+          <div class="texto" tabindex="0" aria-label="Texto da página atual">{{ textoPagina || 'Esta página não contém texto selecionável.' }}</div>
+          <div class="player">
+            <progress max="100" [value]="progresso" aria-label="Progresso da leitura"></progress>
+            <div class="player-info"><span>Página {{ pagina() }} de {{ doc.totalPaginas }}</span><span>{{ progresso }}%</span></div>
+            <div class="controles">
+              @if (estado() === 'lendo') {
+                <button type="button" class="primary" (click)="pausar()">Pausar leitura</button>
+              } @else {
+                <button type="button" class="primary" [disabled]="!voz || !disponivel || !trechos().length" (click)="reproduzir()">{{ estado() === 'pausado' ? 'Continuar leitura' : 'Ouvir documento' }}</button>
+              }
+              <button type="button" (click)="parar()">Voltar ao início</button>
+            </div>
+            <p class="hint" role="status" aria-live="polite">{{ gerandoAudio() ? 'Preparando voz neural…' : estado() === 'concluido' ? 'Leitura concluída.' : estado() === 'pausado' ? 'Leitura pausada.' : estado() === 'lendo' ? 'Lendo em voz alta.' : 'Pronto para ouvir.' }}</p>
+          </div>
+        } @else {
+          <div class="vazio"><span aria-hidden="true">▤</span><h2>Sua leitura começa aqui</h2><p>O texto do seu PDF aparecerá neste espaço após o envio.</p></div>
+        }
+      </section>
+    </div>
+  }
+</section>
