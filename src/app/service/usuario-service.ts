@@ -10,6 +10,7 @@ export interface UsuarioAdmin {
   name: string;
   email: string;
   approved: boolean;
+  roles?: string[];
 }
 
 @Injectable({
@@ -47,6 +48,10 @@ listarUsuarios() {
   return this.http.get<UsuarioAdmin[]>(`${API_BASE_URL}/usuario`);
 }
 
+atualizarAprovacao(id: number, aprovado: boolean) {
+  return this.http.patch<UsuarioAdmin>(`${API_BASE_URL}/usuario/${id}/aprovacao`, { aprovado });
+}
+
 listarUsuariosPendentes(aposLogin = false) {
   return this.http.get<UsuarioAdmin[]>(`${API_BASE_URL}/usuario/pendentes`, {
     params: aposLogin ? { aposLogin: true } : {},
@@ -67,8 +72,5 @@ definirQuantidadePendentes(quantidade: number): void {
   }
 }
 
-atualizarAprovacao(id: number, aprovado: boolean) {
-  return this.http.patch<UsuarioAdmin>(`${API_BASE_URL}/usuario/${id}/aprovacao`, { aprovado });
-}
 }
 

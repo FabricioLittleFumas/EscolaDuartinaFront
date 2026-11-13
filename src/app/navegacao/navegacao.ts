@@ -130,8 +130,6 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
         label: 'Alunos',
         visible: isAuthenticated,
         icon: 'pi pi-users',
-        routerLink: ['/home'],
-        fragment: 'lista-alunos',
         items: [
           { label: 'Cadastrar aluno',
             command: () => {
@@ -162,6 +160,12 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
         visible: isAdmin,
         badge: isAdmin && this.quantidadePendentes > 0 ? String(this.quantidadePendentes) : undefined,
         badgeStyleClass: 'badge-autorizacao'
+      },
+      {
+        label: 'Usuários',
+        icon: 'pi pi-users',
+        routerLink: ['/usuarios'],
+        visible: isAdmin
       },
       {
         label: 'Logs do sistema',
@@ -208,7 +212,12 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       debounceTime(250),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
-    ).subscribe(termo => this.alunoService.definirTermoBusca(termo));
+    ).subscribe(termo => {
+      this.alunoService.definirTermoBusca(termo);
+      if (termo.trim() && this.router.url.split(/[?#]/)[0] !== '/home') {
+        this.router.navigate(['/home'], { fragment: 'lista-alunos' });
+      }
+    });
   }
 
   onBuscar(valor: string) {

@@ -35,7 +35,7 @@
             <ng-template #body let-aluno>
                 <tr>
                     <td>{{ aluno.rm ?? '—' }}</td>
-                    <td>{{ aluno.nome }}</td>
+                    <td>{{ aluno.nome | capitalize }}</td>
                     <td>{{ aluno.data_nascimento | date:'dd/MM/yyyy'}}</td>
                      <td>{{ aluno.unidade }}</td>
                      <td *ngIf="hasAutority">

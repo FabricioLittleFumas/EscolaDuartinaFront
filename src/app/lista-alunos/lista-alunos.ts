@@ -16,11 +16,12 @@ import { AuthService } from '../auth-service';
 import { Subscription } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ButtonModule } from 'primeng/button';
+import { CapitalizePipe } from '../pipes/capitalize.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-lista-alunos',
-  imports: [ToastModule, TableModule, SortIcon, ButtonModule, CommonModule, NgxLoadingModule, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
+  imports: [ToastModule, TableModule, SortIcon, ButtonModule, CommonModule, NgxLoadingModule, CapitalizePipe, ModalViewAluno, ModalEditAluno,ModalExcludeAluno,ModalInsertAluno],
 templateUrl: './lista-alunos.html',
   providers: [MessageService],
   styleUrl: './lista-alunos.css',

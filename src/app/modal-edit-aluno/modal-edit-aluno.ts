@@ -41,7 +41,7 @@ export class ModalEditAluno implements OnInit{
       id: alunos.id,
       rm: alunos.rm ?? null,
       nome: alunos.nome,
-      data_nascimento: new Date(alunos.data_nascimento),
+      data_nascimento: alunos.data_nascimento ? new Date(alunos.data_nascimento) : null,
       unidade: alunos.unidade
     });
     // FORÇAR DETECÇÃO DE MUDANÇAS

@@ -1,0 +1,56 @@
+<main class="usuarios-container">
+  <h1 class="titulo">Lista de usuários</h1>
+
+  <p *ngIf="!hasAutority" class="aviso" role="status">Entre com uma conta de administrador para consultar os usuários.</p>
+  <p *ngIf="carregando" class="aviso" role="status">Carregando usuários...</p>
+  <p *ngIf="erro" class="erro" role="alert">{{ erro }}</p>
+
+  <div class="tabela-wrapper">
+  <p-table *ngIf="hasAutority" [value]="usuarios" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 20, 50]" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuários"
+    [tableStyle]="{ 'min-width': '42rem' }" styleClass="p-datatable-striped">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="name">Nome</th>
+        <th pSortableColumn="email">E-mail</th>
+        <th pSortableColumn="approved">Acesso</th>
+        <th>Visualizar</th>
+        <th>Alterar acesso</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-usuario>
+      <tr>
+        <td>{{ usuario.name }}</td>
+        <td>{{ usuario.email }}</td>
+        <td><span class="status" [class.aprovado]="usuario.approved">{{ usuario.approved ? 'Aprovado' : 'Pendente' }}</span></td>
+        <td>
+          <button pButton type="button" severity="secondary" class="acao" (click)="verDetalhes(usuario)"
+            [attr.aria-label]="'Visualizar ' + usuario.name"><i class="pi pi-eye" aria-hidden="true"></i></button>
+        </td>
+        <td>
+          <button pButton type="button" [severity]="usuario.approved ? 'warn' : 'success'" class="acao"
+            (click)="alternarAprovacao(usuario)"
+            [attr.aria-label]="(usuario.approved ? 'Revogar acesso de ' : 'Aprovar ') + usuario.name">
+            <i [class]="usuario.approved ? 'pi pi-lock' : 'pi pi-check'" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr><td colspan="5">{{ carregando ? 'Carregando usuários...' : 'Nenhum usuário cadastrado.' }}</td></tr>
+    </ng-template>
+  </p-table>
+  </div>
+
+  <p-dialog header="Dados do usuário" [(visible)]="detalheVisivel" [modal]="true" [style]="{ width: 'min(92vw, 32rem)' }">
+    <ng-container *ngIf="usuarioSelecionado as usuario">
+      <dl class="detalhes">
+        <dt>Nome</dt><dd>{{ usuario.name }}</dd>
+        <dt>E-mail</dt><dd>{{ usuario.email }}</dd>
+        <dt>Status do acesso</dt><dd>{{ usuario.approved ? 'Aprovado' : 'Pendente' }}</dd>
+        <dt>Identificador</dt><dd>{{ usuario.id }}</dd>
+      </dl>
+    </ng-container>
+  </p-dialog>
+</main>
