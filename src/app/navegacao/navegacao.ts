@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
+import { HttpErrorResponse } from '@angular/common/http';
 import { BadgeModule } from 'primeng/badge';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -22,7 +23,8 @@ import { MessageService } from 'primeng/api';
 import { ModalInsertAluno } from '../modal-insert-aluno/modal-insert-aluno';
 import { AlunoService } from '../service/aluno-service';
 import { Aluno } from '../model/aluno';
-import { Subject, Subscription, debounceTime, distinctUntilChanged, interval, takeUntil } from 'rxjs';
+import { Subject, Subscription, TimeoutError, debounceTime, distinctUntilChanged, interval, takeUntil, timeout } from 'rxjs';
+import { mensagemErroApi } from '../utils/http-error-message';
 
 
 @Component({
@@ -65,10 +67,19 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
   }
 
  onLoginConfirm(loginData: { email: string, password: string }) {
+  this.modalEntrar.salvando = true;
+  this.modalEntrar.erro = '';
   this.usuarioService
     .loginPeloModal(new LoginUsuario(loginData.email, loginData.password))
+    .pipe(timeout({ first: 15_000 }))
     .subscribe((response: any) => {
-      this.mostrarToast("success","Sucesso ao efetuar login.", "Sucesso");
+      if (!response?.accessToken || !response?.refreshToken) {
+        this.modalEntrar.salvando = false;
+        this.modalEntrar.erro = 'O servidor não concluiu o login porque não retornou os dados de acesso. Tente novamente.';
+        this.cdr.detectChanges();
+        return;
+      }
+      this.modalEntrar.closeAfterSubmit();
       this.tokenService.setTokens({
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
@@ -81,27 +92,40 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
       }
       this.carregaMenu();
       this.cdr.detectChanges();
+      this.mostrarToast('success', `Acesso liberado para ${loginData.email}.`, 'Login realizado');
     }
-  , error =>{
-     const mensagem = error.status === 403
-       ? error.error?.message ?? 'Seu cadastro está aguardando a aprovação de um administrador.'
-       : 'Usuário ou senha inválida';
-     this.mostrarToast("error", mensagem, "Erro");
+  , (error: unknown) =>{
+     this.modalEntrar.salvando = false;
+     const mensagem = error instanceof TimeoutError
+       ? 'O servidor não respondeu em 15 segundos. Verifique sua conexão e tente entrar novamente.'
+       : error instanceof HttpErrorResponse && error.status === 403
+         ? error.error?.message ?? 'Seu cadastro ainda aguarda a aprovação de um administrador.'
+         : error instanceof HttpErrorResponse && error.status === 401
+           ? 'E-mail ou senha incorretos. Confira os dados e tente novamente.'
+           : error instanceof HttpErrorResponse
+             ? mensagemErroApi(error, 'Não foi possível entrar')
+             : 'Ocorreu um erro inesperado durante a validação. Tente novamente.';
+     this.modalEntrar.erro = mensagem;
+     this.cdr.detectChanges();
   });
 }
 
   onLoginConfirmCadastro(loginData: { name: string, email: string, password: string }) {
+    this.modalCadastro.salvando = true;
+    this.modalCadastro.erro = '';
     this.usuarioService
       .createUsuario(new Usuario(loginData.name, loginData.email, loginData.password, ['USER']))
       .subscribe((next) => {
-        this.mostrarToast("success","Sucesso ao efetuar cadastro.", "Sucesso");
+        this.modalCadastro.closeAfterSubmit();
         if (this.authService.temAuthority('ADMIN')) {
           this.usuarioService.atualizarQuantidadePendentes();
         }
-        console.log('Usuário criado:', next);
+        this.mostrarToast('success', `Cadastro de ${loginData.name} recebido. O acesso será liberado após aprovação do administrador.`, 'Cadastro enviado');
       },
     error =>{
-       this.mostrarToast("error",error.error.message, "Erro");
+       this.modalCadastro.salvando = false;
+       this.modalCadastro.erro = mensagemErroApi(error, `Não foi possível cadastrar ${loginData.email}`);
+       this.cdr.detectChanges();
     });
   }
 
@@ -241,18 +265,17 @@ export class Navegacao implements OnInit, AfterViewInit, OnDestroy {
   }
 
   insertAluno(aluno: any){
-    console.log("alunoo do inserir aluno");
-    console.log(aluno);
+    this.modalInsertAluno.salvando = true;
+    this.modalInsertAluno.erro = '';
     this.alunoService.createAluno(aluno).subscribe((next) =>{
-      this.cdr.detectChanges();
-      // this.getAllAlunos();
+      this.modalInsertAluno.salvando = false;
       this.modalInsertAluno.closeAfterSave();
-      this.mostrarToast("success","Sucesso ao inserir aluno.", "Sucesso");
+      this.mostrarToast('success', `O cadastro de ${aluno.nome} (RM ${aluno.rm}) foi concluído.`, 'Aluno cadastrado');
     },
     (error) => {
-      console.log("aconteceu um erro ao inserir aluno");
-      console.log(error);
-      this.mostrarToast("error",error.error.message, "Erro");
+      this.modalInsertAluno.salvando = false;
+      this.modalInsertAluno.erro = mensagemErroApi(error, `Não foi possível cadastrar ${aluno.nome}`);
+      this.cdr.detectChanges();
     }
   )
   }

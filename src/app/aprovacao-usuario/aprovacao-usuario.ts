@@ -18,12 +18,14 @@ export class AprovacaoUsuario {
   displayModal = false;
   salvando = false;
   erro = '';
+  feedback = '';
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   showDialog(usuario: UsuarioAdmin): void {
     this.usuario = usuario;
     this.erro = '';
+    this.feedback = '';
     this.salvando = false;
     this.displayModal = true;
     this.cdr.detectChanges();
@@ -34,8 +36,17 @@ export class AprovacaoUsuario {
     this.aceitar.emit(this.usuario);
   }
 
+  concluirComSucesso(mensagem: string): void {
+    this.salvando = false;
+    this.erro = '';
+    this.feedback = mensagem;
+    this.cdr.detectChanges();
+  }
+
   closeDialog(): void {
+    if (this.salvando) return;
     this.displayModal = false;
+    this.feedback = '';
     this.cdr.detectChanges();
   }
 }

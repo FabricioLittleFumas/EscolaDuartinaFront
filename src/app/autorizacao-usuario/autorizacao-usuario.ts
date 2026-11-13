@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { UsuarioAdmin, UsuarioService } from '../service/usuario-service';
 import { AprovacaoUsuario } from '../aprovacao-usuario/aprovacao-usuario';
+import { mensagemErroApi } from '../utils/http-error-message';
 
 @Component({
   selector: 'app-autorizacao-usuario',
@@ -59,15 +60,14 @@ export class AutorizacaoUsuario implements OnInit {
     this.modalAprovacao.erro = '';
     this.usuarioService.atualizarAprovacao(usuario.id, true).subscribe({
       next: () => {
-        this.modalAprovacao.salvando = false;
-        this.modalAprovacao.closeDialog();
+        this.modalAprovacao.concluirComSucesso(`O acesso de ${usuario.name} foi liberado. A pessoa já pode entrar no sistema.`);
         // Reconsulta a API para exibir somente os cadastros ainda pendentes.
         // A aprovação não altera a sessão do administrador nem navega para outra rota.
         this.carregarUsuarios();
       },
-      error: () => {
+      error: error => {
         this.modalAprovacao.salvando = false;
-        this.modalAprovacao.erro = 'Não foi possível liberar o acesso. Tente novamente.';
+        this.modalAprovacao.erro = mensagemErroApi(error, `Não foi possível liberar o acesso de ${usuario.name}`);
         this.cdr.detectChanges();
       }
     });

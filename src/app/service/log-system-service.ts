@@ -10,10 +10,11 @@ export class LogSystemService {
 
   constructor(private http: HttpClient) {}
 
-  listar(page = 0, size = 25): Observable<PaginaLogSystem> {
+  listar(page = 0, size = 25, acao = ''): Observable<PaginaLogSystem> {
     const params = new HttpParams()
       .set('page', page)
-      .set('size', size);
+      .set('size', size)
+      .set('acao', acao.trim());
     return this.http.get<PaginaLogSystem>(this.apiUrl, { params });
   }
 }

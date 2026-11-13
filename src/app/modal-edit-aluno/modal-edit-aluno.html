@@ -3,8 +3,8 @@
 header="Editar" 
 [(visible)]="displayModal" 
 [modal]="true"
-[dismissableMask]="true"
-[closable]="true"
+[dismissableMask]="!salvando"
+[closable]="!salvando"
 [style]="{ width: '450px' }"
 (onHide)="closeDialog()">
 
@@ -12,11 +12,13 @@ header="Editar"
         <div>
           <label for="rm" class="font-bold lbInfo">RM</label>
           <input id="rm" class="ipInfo" type="number" min="1" step="1" pInputText formControlName="rm" placeholder="Digite o RM do aluno" />
+          <small class="erro-campo" *ngIf="alunoForms.controls['rm'].touched && alunoForms.controls['rm'].invalid">Informe um RM maior que zero.</small>
         </div>
         <div>
           <label for="nome" class="font-bold lbInfo">Nome</label>
           <input id="nome" class="ipInfo" type="text" pInputText 
-          [(ngModel)]="aluno.nome" placeholder="Digite seu nome" formControlName="nome" />
+          placeholder="Digite o nome completo" formControlName="nome" />
+          <small class="erro-campo" *ngIf="alunoForms.controls['nome'].touched && alunoForms.controls['nome'].invalid">Informe um nome com pelo menos 3 caracteres.</small>
         </div>
         
         <div>
@@ -33,13 +35,15 @@ header="Editar"
         <div>
           <label for="unidade" class="font-bold lbInfo">Unidade</label>
           <input id="unidade" class="ipInfo" type="text" pInputText 
-          [(ngModel)]="aluno.unidade" placeholder="Digite sua unidade Escolar" formControlName="unidade" />
+          placeholder="Digite a unidade escolar" formControlName="unidade" />
+          <small class="erro-campo" *ngIf="alunoForms.controls['unidade'].touched && alunoForms.controls['unidade'].invalid">Informe a unidade escolar.</small>
          
         </div>
         <div class="flx">
-            <button pButton type="submit">Atualizar</button>
-            <button pButton severity="secondary" type="button" (click)="closeDialog()">Cancelar</button>
+            <button pButton type="submit" [disabled]="salvando">{{ salvando ? 'Salvando...' : 'Salvar alterações' }}</button>
+            <button pButton severity="secondary" type="button" (click)="closeDialog()" [disabled]="salvando">Cancelar</button>
         </div>
+        <p class="erro-formulario" *ngIf="erro" role="alert">{{ erro }}</p>
       </div>
     </p-dialog>
     </form>

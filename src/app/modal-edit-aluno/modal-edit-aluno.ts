@@ -3,11 +3,12 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from '../model/aluno';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
+import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
-  imports: [ButtonModule, DialogModule, DatePickerModule, FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, ButtonModule, DialogModule, DatePickerModule, ReactiveFormsModule],
   selector: 'app-modal-edit-aluno',
   styleUrl: './modal-edit-aluno.css',
   templateUrl: './modal-edit-aluno.html',
@@ -18,6 +19,8 @@ export class ModalEditAluno implements OnInit{
    @Input() aluno: Aluno;
   alunoForms!: FormGroup;
   displayModal: boolean = false;
+  erro = '';
+  salvando = false;
     nome: string = '';
 
   dtNascimento: string = '';
@@ -32,11 +35,10 @@ export class ModalEditAluno implements OnInit{
   }
 
   showDialog(alunos: any) {
-    console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
-    console.log(alunos);
     this.aluno = alunos;
+    this.erro = '';
+    this.salvando = false;
     this.displayModal = true;
-    console.log("displayModal definido como:", this.displayModal);
     this.alunoForms.patchValue({
       id: alunos.id,
       rm: alunos.rm ?? null,
@@ -44,25 +46,22 @@ export class ModalEditAluno implements OnInit{
       data_nascimento: alunos.data_nascimento ? new Date(alunos.data_nascimento) : null,
       unidade: alunos.unidade
     });
-    // FORÇAR DETECÇÃO DE MUDANÇAS
     this.cdr.detectChanges();
-    
-    // Verificar se o dialog está realmente aberto
-    setTimeout(() => {
-      console.log("displayModal após setTimeout:", this.displayModal);
-    }, 100);
   }
 
   closeDialog() {
-    console.log("=== FECHANDO DIALOG ===");
+    if (this.salvando) return;
     this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
-    // this.cdr.detectChanges();
+    this.erro = '';
+    this.alunoForms.reset();
     this.cancel.emit();
   }
 
   closeAfterSave(): void {
     this.displayModal = false;
+    this.erro = '';
+    this.salvando = false;
+    this.alunoForms.reset();
     this.cdr.detectChanges();
   }
 
@@ -71,15 +70,19 @@ export class ModalEditAluno implements OnInit{
       id: ['', Validators.required],
       rm: [null, [Validators.required, Validators.min(1)]],
       nome: ['', [Validators.required, Validators.minLength(3)]],
-      data_nascimento: [null, Validators.required],
+      data_nascimento: [null],
       unidade: ['', Validators.required],
     });
    
   }
    onSubmit(){
+    if (this.alunoForms.invalid || this.salvando) {
+      this.alunoForms.markAllAsTouched();
+      this.erro = 'Confira o RM, o nome e a unidade antes de salvar. A data de nascimento pode ficar em branco.';
+      return;
+    }
+    this.erro = '';
     const aluno: Aluno = this.alunoForms.value;
-      console.log("insert aluno modal");
-      console.log(aluno);
       aluno.id = this.aluno.id;
       this.emitAlunoAtt.emit(aluno);
   }

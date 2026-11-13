@@ -37,6 +37,8 @@
  }
 .acoes-formulario { display: flex; justify-content: center; gap: .75rem; margin-top: 1rem; }
 .acoes-formulario button { margin: 0; }
+.acoes-formulario button .pi { margin-right: .4rem; }
+.login-progresso { margin: .75rem auto; color: #624166; font-size: .9rem; text-align: center; }
 
      .lbInfo,.ipInfo{
         display: block;

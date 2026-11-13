@@ -3,28 +3,33 @@
       header="Cadastrar" 
       [(visible)]="displayModal" 
       [modal]="true" 
-      [closable]="true"
-      [dismissableMask]="true"
+      [closable]="!salvando"
+      [dismissableMask]="!salvando"
+      styleClass="modal-padrao"
       [style]="{ width: '450px' }"
       (onHide)="closeDialog()">
       
       <div class="p-fluid">
         <div class="field">
           <label for="name" class="font-bold lbInfo">Nome</label>
-          <input formControlName="name" id="name"  class="ipInfo"type="name" pInputText [(ngModel)]="name" placeholder="Digite seu nome" />
+          <input formControlName="name" id="name" class="ipInfo" type="text" pInputText placeholder="Digite seu nome completo" autocomplete="name" />
+          <small class="erro-campo" *ngIf="usuarioForm.controls['name'].touched && usuarioForm.controls['name'].invalid">Informe ao menos 3 caracteres para o nome.</small>
         </div>
         <div class="field">
           <label for="email" class="font-bold lbInfo">Email</label>
-          <input formControlName="email" id="email" class="ipInfo" type="email" pInputText [(ngModel)]="email" placeholder="Digite seu email" />
+          <input formControlName="email" id="email" class="ipInfo" type="email" pInputText placeholder="Digite seu e-mail" autocomplete="email" />
+          <small class="erro-campo" *ngIf="usuarioForm.controls['email'].touched && usuarioForm.controls['email'].invalid">Informe um e-mail válido.</small>
         </div>
         
         <div class="field">
           <label for="password" class="font-bold lbInfo">Senha</label>
-          <input formControlName="password" id="password" class="ipInfo" type="password" pInputText [(ngModel)]="password" placeholder="Digite sua senha" />
+          <input formControlName="password" id="password" class="ipInfo" type="password" pInputText placeholder="Crie uma senha" autocomplete="new-password" />
+          <small class="erro-campo" *ngIf="usuarioForm.controls['password'].touched && usuarioForm.controls['password'].invalid">Informe uma senha.</small>
         </div>
+        <p class="erro-formulario" *ngIf="erro" role="alert">{{ erro }}</p>
         <div class="acoes-formulario">
-          <button pButton type="submit">Cadastrar</button>
-          <button pButton type="button" severity="secondary" (click)="closeDialog()">Cancelar</button>
+          <button pButton type="submit" [disabled]="salvando">{{ salvando ? 'Enviando cadastro...' : 'Cadastrar' }}</button>
+          <button pButton type="button" severity="secondary" (click)="closeDialog()" [disabled]="salvando">Cancelar</button>
         </div>
       </div>
     </p-dialog>

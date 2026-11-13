@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluno } from '../model/aluno';
 import { DatePickerModule } from 'primeng/datepicker';
+import { CommonModule } from '@angular/common';
 
 import { Calendar } from '@primeicons/angular';
 @Component({
   standalone: true,
-  imports: [ButtonModule,DialogModule,FormsModule, 
-    ReactiveFormsModule, DatePickerModule],
+  imports: [CommonModule, ButtonModule, DialogModule, ReactiveFormsModule, DatePickerModule],
   selector: 'app-modal-insert-aluno',
   styleUrl: './modal-insert-aluno.css',
   templateUrl: './modal-insert-aluno.html',
@@ -24,6 +24,8 @@ export class ModalInsertAluno implements OnInit{
   data_nascimento: Date | undefined;
   date: Date | undefined;
   unidade: string = '';
+  erro = '';
+  salvando = false;
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
 
@@ -35,46 +37,41 @@ export class ModalInsertAluno implements OnInit{
     this.alunoForm = this.fb.group({
       rm: [null, [Validators.required, Validators.min(1)]],
       nome: ['', [Validators.required, Validators.minLength(3)]],
-      dates: new FormControl<Date | null>(null),
-      data_nascimento: [null, Validators.required],
+      data_nascimento: [null],
       unidade: ['', Validators.required]
     });
   }
 
-  showDialog(alunos: any) {
-    console.log("=== INICIANDO SHOW DIALOG === view aALUNO");
-    console.log(alunos);
+  showDialog(_aluno?: Aluno): void {
+    this.alunoForm.reset({ rm: null, nome: '', dates: null, data_nascimento: null, unidade: '' });
+    this.erro = '';
+    this.salvando = false;
     this.displayModal = true;
-    console.log("displayModal definido como:", this.displayModal);
-    
-    // FORÇAR DETECÇÃO DE MUDANÇAS
     this.cdr.detectChanges();
-    
-    // Verificar se o dialog está realmente aberto
-    setTimeout(() => {
-      console.log("displayModal após setTimeout:", this.displayModal);
-    }, 100);
   }
 
-  closeDialog(e : any) {
-    // e.preventDefault();
-    console.log("=== FECHANDO DIALOG ===");
+  closeDialog(): void {
+    if (this.salvando) return;
     this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
-    this.cdr.detectChanges();
+    this.erro = '';
     this.cancel.emit();
   }
 
   closeAfterSave(): void {
     this.displayModal = false;
-    this.alunoForm.reset();
+    this.alunoForm.reset({ rm: null, nome: '', dates: null, data_nascimento: null, unidade: '' });
+    this.erro = '';
+    this.salvando = false;
     this.cdr.detectChanges();
   }
 
-  onSubmit(){
- const aluno: Aluno = this.alunoForm.value;
-      console.log("insert aluno modal");
-      console.log(aluno);
-      this.emitAluno.emit(aluno);
+  onSubmit(): void {
+    if (this.alunoForm.invalid || this.salvando) {
+      this.alunoForm.markAllAsTouched();
+      this.erro = 'Confira o RM, o nome e a unidade. A data de nascimento pode ficar em branco.';
+      return;
+    }
+    this.erro = '';
+    this.emitAluno.emit(this.alunoForm.getRawValue() as Aluno);
   }
 }

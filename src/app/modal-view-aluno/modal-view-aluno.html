@@ -4,13 +4,16 @@ header="Aluno"
 [modal]="true"
 [dismissableMask]="true"
 [closable]="true"
+[styleClass]="'modal-padrao'"
 [style]="{ width: '450px' }"
 (onHide)="closeDialog()">
 <svg data-p-icon="user" [size]="80"></svg>
-<p>RM: {{aluno.rm ?? '—'}}</p>
-<p>Nome: {{aluno.nome}}</p>
-<p>Data de nascimento: {{aluno.data_nascimento | date:'dd/MM/yyyy'}}</p>
-<p>Unidade de ensino: {{aluno.unidade}}</p>
+<div class="modal-info">
+  <div class="modal-info-item"><strong>Nome</strong><span>{{aluno.nome}}</span></div>
+  <div class="modal-info-item"><strong>RM</strong><span>{{aluno.rm ?? '—'}}</span></div>
+  <div class="modal-info-item"><strong>Data de nascimento</strong><span>{{aluno.data_nascimento ? (aluno.data_nascimento | date:'dd/MM/yyyy') : 'Não informada'}}</span></div>
+  <div class="modal-info-item"><strong>Unidade</strong><span>{{aluno.unidade}}</span></div>
+</div>
 
   
     </p-dialog>

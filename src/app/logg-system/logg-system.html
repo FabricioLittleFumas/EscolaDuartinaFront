@@ -2,6 +2,18 @@
   <h1 class="titulo">Logs do sistema</h1>
   <p class="erro" *ngIf="erro" role="alert">{{ erro }}</p>
 
+  <div class="busca-logs">
+    <label for="buscar-acao">Pesquisar ação</label>
+    <input
+      id="buscar-acao"
+      pInputText
+      type="search"
+      [value]="termoAcao"
+      (input)="onBuscarAcao($any($event.target).value)"
+      placeholder="Ex.: cadastrou aluno, atualizou usuário"
+      autocomplete="off" />
+  </div>
+
   <div class="tabela-wrapper">
     <p-table
       styleClass="p-datatable-striped"
@@ -27,12 +39,19 @@
       <ng-template #body let-log>
         <tr>
           <td>{{ log.dataHora | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-          <td>{{ log.nomeUsuario }} ({{ log.usuarioId }})</td>
-          <td class="acao">{{ log.acao }}</td>
+          <td class="usuario">
+            <strong>{{ log.nomeUsuario }}</strong>
+            <small>ID {{ log.usuarioId }}</small>
+          </td>
+          <td class="acao"><span>{{ log.acao }}</span></td>
         </tr>
       </ng-template>
       <ng-template #emptymessage>
-        <tr><td colspan="3" class="vazio">Nenhuma ação autenticada registrada.</td></tr>
+        <tr>
+          <td colspan="3" class="vazio">
+            {{ termoAcao ? 'Nenhuma ação corresponde à pesquisa.' : 'Nenhuma ação autenticada registrada.' }}
+          </td>
+        </tr>
       </ng-template>
     </p-table>
   </div>

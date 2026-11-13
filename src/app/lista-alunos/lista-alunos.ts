@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ButtonModule } from 'primeng/button';
 import { CapitalizePipe } from '../pipes/capitalize.pipe';
+import { mensagemErroApi } from '../utils/http-error-message';
 
 @Component({
   standalone: true,
@@ -52,13 +53,21 @@ export class ListaAlunos implements OnInit, OnDestroy {
 
 
   excluir(event: any){
-    console.log("evento vindo do excluir aluno");
-    console.log(event.id);
-    this.alunoService.deleteAluno(event.id).subscribe((next) =>{
-      this.modalExcludeAluno.closeDialog();
-      this.getAllAlunos();
-      this.cdr.detectChanges();
-      this.mostrarToast("success","Sucesso ao excluir aluno.", "Sucesso");
+    this.modalExcludeAluno.salvando = true;
+    this.modalExcludeAluno.erro = '';
+    this.alunoService.deleteAluno(event.id).subscribe({
+      next: () => {
+        this.modalExcludeAluno.salvando = false;
+        this.modalExcludeAluno.closeAfterDelete();
+        this.getAllAlunos();
+        this.cdr.detectChanges();
+        this.mostrarToast('success', `O aluno ${event.nome} (RM ${event.rm ?? 'não informado'}) foi excluído.`, 'Aluno excluído');
+      },
+      error: (error) => {
+        this.modalExcludeAluno.salvando = false;
+        this.modalExcludeAluno.erro = mensagemErroApi(error, `Não foi possível excluir o aluno ${event.nome}`);
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -78,36 +87,38 @@ export class ListaAlunos implements OnInit, OnDestroy {
   }
 
 emitAlunoAtt(aluno: any){
-    console.log("alunoo do edit edit aluno");
-    console.log(aluno.id);
-    console.log(aluno);
-    
-    this.alunoService.updateAluno(aluno.id,aluno).subscribe((next) =>{
-      this.modalEdit.closeAfterSave();
-      this.getAllAlunos();
-      this.cdr.detectChanges();
-      this.mostrarToast("success","Sucesso ao atualizar aluno.", "Sucesso");
-    },
-    (error) =>{
-        this.mostrarToast("error",error.error.message, "Erro");
-    }
-  )
+    this.modalEdit.salvando = true;
+    this.modalEdit.erro = '';
+    this.alunoService.updateAluno(aluno.id,aluno).subscribe({
+      next: () => {
+        this.modalEdit.salvando = false;
+        this.modalEdit.closeAfterSave();
+        this.getAllAlunos();
+        this.mostrarToast('success', `Os dados de ${aluno.nome} (RM ${aluno.rm}) foram atualizados.`, 'Aluno atualizado');
+      },
+      error: error => {
+        this.modalEdit.salvando = false;
+        this.modalEdit.erro = mensagemErroApi(error, `Não foi possível atualizar ${aluno.nome}`);
+        this.cdr.detectChanges();
+      }
+    });
   }
   insertAluno(aluno: any){
-    console.log("alunoo do inserir aluno");
-    console.log(aluno);
-    this.alunoService.createAluno(aluno).subscribe((next) =>{
-      this.modalInsertAluno.closeAfterSave();
-      this.cdr.detectChanges();
-      this.getAllAlunos();
-      this.mostrarToast("success","Sucesso ao inserir aluno.", "Sucesso");
-    },
-    (error) => {
-      console.log("aconteceu um erro ao inserir aluno");
-      console.log(error);
-      this.mostrarToast("error",error.error.message, "Erro");
-    }
-  )
+    this.modalInsertAluno.salvando = true;
+    this.modalInsertAluno.erro = '';
+    this.alunoService.createAluno(aluno).subscribe({
+      next: () => {
+        this.modalInsertAluno.salvando = false;
+        this.modalInsertAluno.closeAfterSave();
+        this.getAllAlunos();
+        this.mostrarToast('success', `O cadastro de ${aluno.nome} (RM ${aluno.rm}) foi concluído.`, 'Aluno cadastrado');
+      },
+      error: error => {
+        this.modalInsertAluno.salvando = false;
+        this.modalInsertAluno.erro = mensagemErroApi(error, `Não foi possível cadastrar ${aluno.nome}`);
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   getAllAlunos(){

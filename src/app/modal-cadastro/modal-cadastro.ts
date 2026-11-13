@@ -1,19 +1,17 @@
 import { Component, Output, EventEmitter, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Usuario } from '../model/usuario';
 
 @Component({
   selector: 'app-modal-cadastro',
-  imports: [CommonModule,ReactiveFormsModule, FormsModule, DialogModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule],
   templateUrl: './modal-cadastro.html',
   styleUrl: './modal-cadastro.css',
 })
 export class ModalCadastro implements OnInit{
-  @Output('insertUsuario') emitUsuario = new EventEmitter<Usuario>();
   @Output() confirm = new EventEmitter<{name: string, email: string, password: string}>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -22,56 +20,46 @@ export class ModalCadastro implements OnInit{
   email: string = '';
   password: string = '';
   name: string = '';
+  erro = '';
+  salvando = false;
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
 
-  showDialogCadastro() {
-    console.log("=== INICIANDO SHOW DIALOG ===");
+  showDialogCadastro(): void {
     this.displayModal = true;
-    this.email = '';
-    this.password = '';
-    console.log("displayModal definido como:", this.displayModal);
-    
-    // FORÇAR DETECÇÃO DE MUDANÇAS
+    this.erro = '';
+    this.salvando = false;
+    this.usuarioForm.reset({ name: '', email: '', password: '' });
     this.cdr.detectChanges();
-    
-    // Verificar se o dialog está realmente aberto
-    setTimeout(() => {
-      console.log("displayModal após setTimeout:", this.displayModal);
-    }, 100);
   }
 
-  closeDialog() {
-    console.log("=== FECHANDO DIALOG ===");
+  closeDialog(): void {
+    if (this.salvando) return;
     this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
-    this.cdr.detectChanges();
+    this.erro = '';
     this.cancel.emit();
   }
 
-  confirmDialog() {
-    if (this.email && this.password) {
-      console.log("Confirmando login:", { email: this.email, password: this.password });
-      this.confirm.emit({name: this.name, email: this.email, password: this.password });
-      this.displayModal = false;
-      this.cdr.detectChanges();
-    } else {
-      alert('Por favor, preencha todos os campos');
+  confirmDialog(): void {
+    if (this.usuarioForm.invalid || this.salvando) {
+      this.usuarioForm.markAllAsTouched();
+      this.erro = 'Confira o nome, o e-mail e a senha antes de continuar.';
+      return;
     }
+    this.erro = '';
+    this.confirm.emit(this.usuarioForm.getRawValue());
   }
-   onSubmit(){
-   const usuario: Usuario = this.usuarioForm.value;
-        console.log("insert usuario modal");
-        console.log(usuario);
-        this.emitUsuario.emit(usuario);
-    }
-      ngOnInit(): void {
+
+  closeAfterSubmit(): void { this.displayModal = false; this.salvando = false; this.erro = ''; }
+
+  ngOnInit(): void {
     this.inicializarFormulario();
   }
-    inicializarFormulario(): void {
+
+  inicializarFormulario(): void {
     this.usuarioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }

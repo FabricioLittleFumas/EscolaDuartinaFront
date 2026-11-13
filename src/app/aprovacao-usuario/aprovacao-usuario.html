@@ -2,20 +2,30 @@
   header="Aprovação de acesso"
   [(visible)]="displayModal"
   [modal]="true"
-  [dismissableMask]="true"
-  [closable]="true"
+  [dismissableMask]="!salvando"
+  [closable]="!salvando"
+  styleClass="modal-padrao"
   [style]="{ width: '450px' }">
   <ng-container *ngIf="usuario">
-    <p>Confirma a liberação de acesso para este usuário?</p>
-    <p><strong>Nome:</strong> {{ usuario.name }}</p>
-    <p><strong>E-mail:</strong> {{ usuario.email }}</p>
-    <p class="erro" *ngIf="erro" role="alert">{{ erro }}</p>
+    <p *ngIf="!feedback" class="modal-pergunta">
+      {{ usuario.approved ? 'Confirma a revogação do acesso deste usuário?' : 'Confirma a liberação de acesso para este usuário?' }}
+    </p>
+    <div class="modal-info">
+      <div class="modal-info-item"><strong>Nome</strong><span>{{ usuario.name }}</span></div>
+      <div class="modal-info-item"><strong>E-mail</strong><span class="email">{{ usuario.email }}</span></div>
+      <div class="modal-info-item"><strong>Acesso atual</strong><span>{{ usuario.approved ? 'Aprovado' : 'Pendente' }}</span></div>
+    </div>
+    <p class="sucesso-formulario" *ngIf="feedback" role="status">{{ feedback }}</p>
+    <p class="erro-formulario" *ngIf="erro" role="alert">{{ erro }}</p>
     <div class="acoes">
-      <button pButton type="button" (click)="confirmarAprovacao()" [disabled]="salvando">
-        Aceitar
+      <button *ngIf="!feedback" pButton type="button" (click)="confirmarAprovacao()" [disabled]="salvando">
+        {{ salvando ? 'Atualizando acesso...' : usuario.approved ? 'Revogar acesso' : 'Liberar acesso' }}
       </button>
-      <button pButton severity="secondary" type="button" (click)="closeDialog()" [disabled]="salvando">
+      <button *ngIf="!feedback" pButton severity="secondary" type="button" (click)="closeDialog()" [disabled]="salvando">
         Cancelar
+      </button>
+      <button *ngIf="feedback" pButton type="button" (click)="closeDialog()">
+        Concluir
       </button>
     </div>
   </ng-container>

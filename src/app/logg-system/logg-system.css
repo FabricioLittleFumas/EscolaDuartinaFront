@@ -1,7 +1,14 @@
 .logs-container { max-width: 1100px; margin: 2rem auto; padding: 1.25rem; }
+.busca-logs { display: grid; gap: .4rem; max-width: 34rem; margin: 0 auto 1rem; font-family: 'Arimo', sans-serif; }
+.busca-logs label { font-weight: 600; color: #26272c; }
+.busca-logs input { width: 100%; }
 .tabela-wrapper { position: relative; min-height: 180px; overflow-x: auto; }
 .vazio { text-align: center; color: #666; }
-.acao { min-width: 28rem; white-space: pre-wrap; overflow-wrap: anywhere; text-align: left !important; }
+.usuario { min-width: 12rem; text-align: left !important; }
+.usuario strong, .usuario small { display: block; }
+.usuario small { margin-top: .2rem; color: #514b55; font-size: .78rem; }
+.acao { min-width: 32rem; white-space: pre-wrap; overflow-wrap: anywhere; text-align: left !important; }
+.acao span { display: block; padding: .65rem .8rem; border-left: 4px solid #7a5480; border-radius: 4px; background: rgba(255, 255, 255, .58); line-height: 1.5; }
 .erro { color: #b42318; text-align: center; }
 
 :host ::ng-deep .p-datatable-table {

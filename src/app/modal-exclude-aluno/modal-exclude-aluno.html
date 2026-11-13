@@ -2,18 +2,22 @@
 header="Excluir" 
 [(visible)]="displayModals" 
 [modal]="true"
-[dismissableMask]="true"
-[closable]="true"
+[dismissableMask]="!salvando"
+[closable]="!salvando"
+[styleClass]="'modal-padrao'"
 [style]="{ width: '450px' }"
 (onHide)="closeDialog()">
 <svg data-p-icon="user" [size]="80"></svg>
-<p>RM: {{aluno.rm ?? '—'}}</p>
-<p>Nome: {{aluno.nome}}</p>
-<p>Data de nascimento: {{aluno.data_nascimento| date:'dd/MM/yyyy'}}</p>
-<p>Unidade de ensino: {{aluno.unidade}}</p>
+<p class="confirmacao-texto">Esta ação removerá o cadastro do aluno da lista. Deseja continuar?</p>
+<div class="modal-info">
+  <div class="modal-info-item"><strong>Nome</strong><span>{{aluno.nome}}</span></div>
+  <div class="modal-info-item"><strong>RM</strong><span>{{aluno.rm ?? '—'}}</span></div>
+  <div class="modal-info-item"><strong>Unidade</strong><span>{{aluno.unidade}}</span></div>
+</div>
+<p class="erro-formulario" *ngIf="erro" role="alert">{{ erro }}</p>
 <div class="flx">
-    <button pButton type="button" (click)="confirmExclude()">Confirmar</button>
-    <button pButton severity="secondary" type="button" (click)="closeDialog()">Cancelar</button>
+    <button pButton type="button" (click)="confirmExclude()" [disabled]="salvando">{{ salvando ? 'Excluindo...' : 'Excluir aluno' }}</button>
+    <button pButton severity="secondary" type="button" (click)="closeDialog()" [disabled]="salvando">Cancelar</button>
 
 </div>
   

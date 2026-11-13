@@ -3,26 +3,27 @@
 header="Inserir Aluno" 
 [(visible)]="displayModal" 
 [modal]="true"
-[dismissableMask]="true"
-[closable]="true"
+[dismissableMask]="!salvando"
+[closable]="!salvando"
 [style]="{ width: '450px' }"
-(onHide)="closeDialog($event)">
+(onHide)="closeDialog()">
 
       <div class="p-fluid">
         <div>
           <label for="rm" class="font-bold lbInfo">RM</label>
           <input id="rm" class="ipInfo" type="number" min="1" step="1" pInputText formControlName="rm" placeholder="Digite o RM do aluno" />
+          <small class="erro-campo" *ngIf="alunoForm.controls['rm'].touched && alunoForm.controls['rm'].invalid">Informe um RM maior que zero.</small>
         </div>
         <div>
           <label for="nome" class="font-bold lbInfo">Nome</label>
-          <input id="nome" class="ipInfo" type="nome" pInputText 
-          [(ngModel)]="nome" placeholder="Digite seu nome" formControlName="nome" />
+          <input id="nome" class="ipInfo" type="text" pInputText placeholder="Digite o nome completo" formControlName="nome" />
+          <small class="erro-campo" *ngIf="alunoForm.controls['nome'].touched && alunoForm.controls['nome'].invalid">Informe um nome com pelo menos 3 caracteres.</small>
         </div>
         
         <div>
           <label for="data_nascimento" class="font-bold lbInfo">Data de nascimento</label>
          
-  <p-datepicker inputId="data_nascimento" placeholder="Digite a data de nascimento" panelStyleClass="calendario-compacto" [(ngModel)]="date" formControlName="data_nascimento" dateFormat="dd/mm/yy"></p-datepicker>
+  <p-datepicker inputId="data_nascimento" placeholder="Opcional" panelStyleClass="calendario-compacto" formControlName="data_nascimento" dateFormat="dd/mm/yy"></p-datepicker>
         </div>
 
         <div>
@@ -32,12 +33,14 @@ header="Inserir Aluno"
             <option value="MUNICIPAL">MUNICIPAL</option>
             <option value="ESTADUAL">ESTADUAL</option>
           </select>
+          <small class="erro-campo" *ngIf="alunoForm.controls['unidade'].touched && alunoForm.controls['unidade'].invalid">Selecione a unidade escolar.</small>
         </div>
         <div class="flx">
-            <button pButton type="submit">Inserir</button>
-            <button pButton type="button" severity="secondary" (click)="closeDialog($event)">Cancelar</button>
+            <button pButton type="submit" [disabled]="salvando">{{ salvando ? 'Salvando...' : 'Cadastrar aluno' }}</button>
+            <button pButton type="button" severity="secondary" (click)="closeDialog()" [disabled]="salvando">Cancelar</button>
 
         </div>
+        <p class="erro-formulario" *ngIf="erro" role="alert">{{ erro }}</p>
       </div>
     </p-dialog>
     </form>

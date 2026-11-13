@@ -3,19 +3,17 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Usuario } from '../model/usuario';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
 
 @Component({
   selector: 'app-modal-entrar',
-  imports: [CommonModule,ReactiveFormsModule, FormsModule, DialogModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, ReactiveFormsModule, DialogModule, ButtonModule, InputTextModule],
   templateUrl: './modal-entrar.html',
   styleUrl: './modal-entrar.css',
 })
 export class ModalEntrar implements OnInit{
-  @Output('loginUsuario') emitUsuario = new EventEmitter<Usuario>();
   @Output() confirm = new EventEmitter<{email: string, password: string}>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -23,53 +21,44 @@ export class ModalEntrar implements OnInit{
   displayModal: boolean = false;
   email: string = '';
   password: string = '';
+  erro = '';
+  salvando = false;
 
   constructor(private cdr: ChangeDetectorRef,private fb: FormBuilder) {}
   ngOnInit(): void {
     this.inicializarFormulario();
   }
 
-  showDialog() {
-    console.log("=== INICIANDO SHOW DIALOG ===");
+  showDialog(): void {
     this.displayModal = true;
-    this.email = '';
-    this.password = '';
-    console.log("displayModal definido como:", this.displayModal);
-    
-    // FORÇAR DETECÇÃO DE MUDANÇAS
+    this.erro = '';
+    this.salvando = false;
+    this.loginForm.reset({ email: '', password: '' });
     this.cdr.detectChanges();
-    
-    // Verificar se o dialog está realmente aberto
-    setTimeout(() => {
-      console.log("displayModal após setTimeout:", this.displayModal);
-    }, 100);
   }
 
-  closeDialog() {
-    console.log("=== FECHANDO DIALOG ===");
+  closeDialog(): void {
+    if (this.salvando) return;
     this.displayModal = false;
-    console.log("displayModal definido como:", this.displayModal);
-    this.cdr.detectChanges();
+    this.erro = '';
     this.cancel.emit();
   }
 
-     onSubmit(){
-     const usuario: Usuario = this.loginForm.value;
-          this.emitUsuario.emit(usuario);
-      }
-
-  confirmDialog() {
-    if (this.email && this.password) {
-      this.confirm.emit({ email: this.email, password: this.password });
-      this.displayModal = false;
-      this.cdr.detectChanges();
-    } else {
-      alert('Por favor, preencha todos os campos');
+  confirmDialog(): void {
+    if (this.loginForm.invalid || this.salvando) {
+      this.loginForm.markAllAsTouched();
+      this.erro = 'Informe seu e-mail e sua senha para entrar.';
+      return;
     }
+    this.erro = '';
+    this.confirm.emit(this.loginForm.getRawValue());
   }
+
+  closeAfterSubmit(): void { this.displayModal = false; this.salvando = false; this.erro = ''; }
+
    inicializarFormulario(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
